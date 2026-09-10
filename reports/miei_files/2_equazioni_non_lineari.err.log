@@ -1,0 +1,72 @@
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/libro/lib/python3.14/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+    ~~~~~~~~~^
+        nb,
+        ^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/envs/libro/lib/python3.14/site-packages/nbclient/client.py", line 1323, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/envs/libro/lib/python3.14/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/opt/anaconda3/envs/libro/lib/python3.14/asyncio/base_events.py", line 720, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/envs/libro/lib/python3.14/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+        cell, index, execution_count=self.code_cells_executed + 1
+    )
+  File "/opt/anaconda3/envs/libro/lib/python3.14/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/anaconda3/envs/libro/lib/python3.14/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Raffinamento numerico delle radici isolate usando la bisezione.
+
+def bisection_basic(f, a, b, tol=1e-12, max_iter=100):
+    fa = f(a)
+    fb = f(b)
+    if fa*fb > 0:
+        raise ValueError("La funzione non cambia segno nell'intervallo.")
+
+    for k in range(max_iter):
+        m = 0.5*(a+b)
+        fm = f(m)
+
+        if abs(b-a) <= tol or fm == 0:
+            return m, k+1
+
+        if fa*fm < 0:
+            b = m
+            fb = fm
+        else:
+            a = m
+            fa = fm
+
+    return 0.5*(a+b), max_iter
+
+for a, b in [(-1, 0), (1, 2)]:
+    r, it = bisection_basic(p, a, b)
+    print(f"Intervallo ({a},{b}) -> radice = {r:.15f}, p(r) = {p(r):.3e}, iterazioni = {it}")
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mNameError[39m                                 Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[40][39m[32m, line 26[39m
+[32m     22[39m 
+[32m     23[39m     [38;5;28;01mreturn[39;00m [32m0.5[39m*(a+b), max_iter
+[32m     24[39m 
+[32m     25[39m [38;5;28;01mfor[39;00m a, b [38;5;28;01min[39;00m [(-[32m1[39m, [32m0[39m), ([32m1[39m, [32m2[39m)]:
+[32m---> [39m[32m26[39m     r, it = bisection_basic(p, a, b)
+[32m     27[39m     print(f"Intervallo ({a},{b}) -> radice = {r:.15f}, p(r) = {p(r):.3e}, iterazioni = {it}")
+
+[31mNameError[39m: name 'p' is not defined
+
