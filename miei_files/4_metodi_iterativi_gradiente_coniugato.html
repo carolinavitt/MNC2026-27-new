@@ -1,0 +1,1709 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Metodi iterativi per sistemi lineari &#8212; MNC 2026/27</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'miei_files/4_metodi_iterativi_gradiente_coniugato';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Sistemi lineari, condizionamento e metodi diretti" href="3_sistemi_lineari_condizionamento.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="MNC 2026/27 - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="MNC 2026/27 - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="2_equazioni_non_lineari.html">Equazioni non lineari</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="3_sistemi_lineari_condizionamento.html">Sistemi lineari, condizionamento e metodi diretti</a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Metodi iterativi per sistemi lineari</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/carolinavitt/MNC2026-27" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/carolinavitt/MNC2026-27/issues/new?title=Issue%20on%20page%20%2Fmiei_files/4_metodi_iterativi_gradiente_coniugato.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/miei_files/4_metodi_iterativi_gradiente_coniugato.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Metodi iterativi per sistemi lineari</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-introdurre-metodi-iterativi">1. Perché introdurre metodi iterativi?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#idea-generale">Idea generale</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#un-esempio-vicino-alle-applicazioni-gestionali">Un esempio vicino alle applicazioni gestionali</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#residuo-ed-errore">2. Residuo ed errore</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrici-simmetriche-definite-positive">3. Matrici simmetriche definite positive</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#da-sistema-lineare-a-problema-di-minimizzazione">4. Da sistema lineare a problema di minimizzazione</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-serve-che-a-sia-simmetrica-definita-positiva">Perché serve che <span class="math notranslate nohighlight">\(A\)</span> sia simmetrica definita positiva?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodi-di-discesa-del-gradiente">5. Metodi di discesa del gradiente</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-di-massima-discesa-steepest-descent">6. Metodo di massima discesa (<em>steepest descent</em>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nota-sul-denominatore">Nota sul denominatore</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#realizzazione-efficiente-del-metodo-di-massima-discesa">7. Realizzazione efficiente del metodo di massima discesa</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudocodice-efficiente-massima-discesa">Pseudocodice efficiente: massima discesa</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#costo-computazionale-per-iterazione">Costo computazionale per iterazione</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limite-del-metodo-di-massima-discesa">8. Limite del metodo di massima discesa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-del-gradiente-coniugato">9. Metodo del gradiente coniugato</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direzioni-coniugate">10. Direzioni coniugate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norma-dell-energia">11. Norma dell’energia</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-per-il-metodo-cg">Interpretazione per il metodo CG</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sottospazi-di-krylov">12. Sottospazi di Krylov</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-del-gradiente-coniugato">13. Algoritmo del gradiente coniugato</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commento-riga-per-riga">Commento riga per riga</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-numerico-piccolo">14. Esempio numerico piccolo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergenza-del-metodo-cg">15. Convergenza del metodo CG</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-della-stima">Interpretazione della stima</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#confronto-tra-massima-discesa-e-gradiente-coniugato">16. Confronto tra massima discesa e gradiente coniugato</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#precondizionamento">17. Precondizionamento</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-del-gradiente-coniugato-precondizionato">Metodo del gradiente coniugato precondizionato</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-il-precondizionamento-puo-accelerare-il-cg">Perché il precondizionamento può accelerare il CG?</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sistema-precondizionato">Sistema precondizionato</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#il-residuo-precondizionato">Il residuo precondizionato</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confronto-tra-cg-e-pcg">Confronto tra CG e PCG</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#costo-di-una-iterazione-del-pcg">Costo di una iterazione del PCG</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempi-di-precondizionatori">Esempi di precondizionatori</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#riassunto">18. Riassunto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizi-proposti">19. Esercizi proposti</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="metodi-iterativi-per-sistemi-lineari">
+<h1>Metodi iterativi per sistemi lineari<a class="headerlink" href="#metodi-iterativi-per-sistemi-lineari" title="Link to this heading">#</a></h1>
+<p>Questo notebook contiene una breve descrizione di alcuni metodi iterativi per la risoluzione di sistemi lineari ed integra quanto visto sui metodi diretti.</p>
+<p>Argomenti:</p>
+<ol class="arabic simple">
+<li><p>perché introdurre metodi iterativi;</p></li>
+<li><p>sistemi grandi e matrici sparse;</p></li>
+<li><p>sistemi simmetrici definiti positivi;</p></li>
+<li><p>metodi di discesa del gradiente;</p></li>
+<li><p>metodo di massima discesa (<em>steepest descent</em>);</p></li>
+<li><p>realizzazione efficiente del metodo di massima discesa;</p></li>
+<li><p>metodo del gradiente coniugato;</p></li>
+<li><p>norma dell’energia;</p></li>
+<li><p>sottospazi di Krylov;</p></li>
+<li><p>convergenza del metodo del gradiente coniugato;</p></li>
+<li><p>precondizionamento.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="perche-introdurre-metodi-iterativi">
+<h2>1. Perché introdurre metodi iterativi?<a class="headerlink" href="#perche-introdurre-metodi-iterativi" title="Link to this heading">#</a></h2>
+<p>Nei capitoli precedenti abbiamo studiato metodi <strong>diretti</strong> per risolvere un sistema lineare</p>
+<div class="math notranslate nohighlight">
+\[
+Ax=b.
+\]</div>
+<p>Un metodo diretto, come l’eliminazione di Gauss, la fattorizzazione LU o la fattorizzazione di Cholesky, cerca di arrivare alla soluzione esatta, a meno degli errori di arrotondamento, in un numero finito di operazioni.</p>
+<p>Questi metodi sono fondamentali e restano spesso la scelta migliore. Tuttavia, in alcuni contesti diventano troppo costosi o poco flessibili. In particolare, può accadere che:</p>
+<ul class="simple">
+<li><p>la matrice <span class="math notranslate nohighlight">\(A\)</span> sia molto grande;</p></li>
+<li><p>la matrice <span class="math notranslate nohighlight">\(A\)</span> sia sparsa, cioè contenga moltissimi zeri;</p></li>
+<li><p>non serva una soluzione estremamente accurata;</p></li>
+<li><p>sia già disponibile una buona approssimazione iniziale;</p></li>
+<li><p>la matrice <span class="math notranslate nohighlight">\(A\)</span> non sia disponibile esplicitamente, ma sia possibile calcolare rapidamente il prodotto <span class="math notranslate nohighlight">\(Av\)</span> per un vettore <span class="math notranslate nohighlight">\(v\)</span>.</p></li>
+</ul>
+<p>In questi casi può essere conveniente usare un <strong>metodo iterativo</strong>.</p>
+<section id="idea-generale">
+<h3>Idea generale<a class="headerlink" href="#idea-generale" title="Link to this heading">#</a></h3>
+<p>Un metodo iterativo costruisce una successione di approssimazioni</p>
+<div class="math notranslate nohighlight">
+\[
+x_0, x_1, x_2, \ldots
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(x_0\)</span> è una stima iniziale e <span class="math notranslate nohighlight">\(x_k\)</span> dovrebbe avvicinarsi alla soluzione esatta <span class="math notranslate nohighlight">\(x\)</span> del sistema.</p>
+<p>L’idea è quindi:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{parto da una soluzione approssimata} \quad \longrightarrow \quad
+\text{la miglioro passo dopo passo}.
+\]</div>
+<p>A differenza di un metodo diretto, un metodo iterativo può essere interrotto quando l’approssimazione è considerata sufficientemente buona.</p>
+</section>
+<section id="un-esempio-vicino-alle-applicazioni-gestionali">
+<h3>Un esempio vicino alle applicazioni gestionali<a class="headerlink" href="#un-esempio-vicino-alle-applicazioni-gestionali" title="Link to this heading">#</a></h3>
+<p>Per comprendere perché possa essere utile risolvere un sistema lineare molto grande, consideriamo un esempio ispirato ad applicazioni di <strong>analisi delle reti</strong> e <strong>supporto alle decisioni aziendali</strong>.</p>
+<p>Supponiamo di voler assegnare un <strong>punteggio di affidabilità</strong> a un insieme di aziende appartenenti alla stessa filiera produttiva. Per ogni azienda vogliamo determinare un valore che tenga conto sia delle sue caratteristiche intrinseche sia delle relazioni che essa ha con le altre aziende.</p>
+<p>Indichiamo con</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+x=\begin{pmatrix}
+x_1\\
+x_2\\
+\vdots\\
+x_n
+\end{pmatrix}
+\end{split}\]</div>
+<p>il vettore dei punteggi finali delle aziende e con</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+c=\begin{pmatrix}
+c_1\\
+c_2\\
+\vdots\\
+c_n
+\end{pmatrix}
+\end{split}\]</div>
+<p>un vettore di <strong>punteggi iniziali</strong>, ottenuti ad esempio da indicatori economici o finanziari (fatturato, solidità patrimoniale, puntualità nei pagamenti, ecc.).</p>
+<p>Naturalmente, il punteggio finale di un’azienda non dipende soltanto dalle sue caratteristiche, ma anche dalle aziende con cui essa intrattiene rapporti commerciali. Se un’azienda collabora prevalentemente con partner molto affidabili, è ragionevole che anche il suo punteggio aumenti.</p>
+<p>Per descrivere queste relazioni introduciamo una matrice (B), i cui elementi misurano l’influenza esercitata dalle diverse aziende. Un possibile modello matematico è</p>
+<div class="math notranslate nohighlight">
+\[
+x = c + \alpha Bx,
+\]</div>
+<p>dove il parametro <span class="math notranslate nohighlight">\(0&lt;\alpha&lt;1\)</span> stabilisce quanto peso attribuire alle relazioni rispetto alle caratteristiche individuali.</p>
+<p>Questa equazione esprime il fatto che <strong>il punteggio finale è ottenuto sommando il punteggio iniziale al contributo proveniente dalle aziende collegate</strong>. Il vettore <span class="math notranslate nohighlight">\(Bx\)</span> rappresenta infatti l’effetto complessivo esercitato dalla rete di relazioni.</p>
+<p>Poiché il vettore incognito <span class="math notranslate nohighlight">\(x\)</span> compare in entrambi i membri dell’equazione, per determinarlo dobbiamo risolvere un sistema lineare. Portando tutti i termini contenenti <span class="math notranslate nohighlight">\(x\)</span> al primo membro otteniamo</p>
+<div class="math notranslate nohighlight">
+\[
+(I-\alpha B)x=c,
+\]</div>
+<p>che è un sistema della forma</p>
+<div class="math notranslate nohighlight">
+\[
+Ax=b,
+\]</div>
+<p>con</p>
+<div class="math notranslate nohighlight">
+\[
+A=I-\alpha B,
+\qquad
+b=c.
+\]</div>
+<p>La soluzione del sistema fornisce quindi i <strong>punteggi finali</strong> di tutte le aziende, ottenuti considerando contemporaneamente le caratteristiche di ciascuna e le influenze provenienti dall’intera rete.</p>
+<p>Nelle applicazioni reali il numero di aziende può essere molto elevato (anche centinaia di migliaia). Tuttavia ogni azienda è normalmente collegata soltanto a un numero limitato di altre aziende. Di conseguenza la matrice <span class="math notranslate nohighlight">\(B\)</span>, e quindi anche la matrice <span class="math notranslate nohighlight">\(A\)</span>, contiene prevalentemente elementi nulli ed è detta <strong>matrice sparsa</strong>.</p>
+<p>In questo contesto i metodi diretti, come l’eliminazione di Gauss, possono diventare troppo costosi in termini di memoria e tempo di calcolo. I <strong>metodi iterativi</strong>, invece, sfruttano la struttura sparsa della matrice e consentono di ottenere una buona approssimazione della soluzione con un costo computazionale molto più contenuto.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Esempio semplice: modello di punteggio con poche connessioni</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]])</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">B</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A =&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Soluzione x =&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Residuo ||b - Ax|| =&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A =
+[[ 1.   -0.35  0.    0.  ]
+ [-0.35  1.   -0.35  0.  ]
+ [ 0.   -0.35  1.   -0.35]
+ [ 0.    0.   -0.35  1.  ]]
+Soluzione x = [1.447631 1.278945 0.777927 0.372274]
+Residuo ||b - Ax|| = 3.925231146709438e-17
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="residuo-ed-errore">
+<h2>2. Residuo ed errore<a class="headerlink" href="#residuo-ed-errore" title="Link to this heading">#</a></h2>
+<p>Dato un vettore approssimato <span class="math notranslate nohighlight">\(x_k\)</span>, definiamo il <strong>residuo</strong> come</p>
+<div class="math notranslate nohighlight">
+\[
+r_k = b - Ax_k.
+\]</div>
+<p>Il residuo misura quanto <span class="math notranslate nohighlight">\(x_k\)</span> non soddisfa il sistema. Infatti:</p>
+<ul class="simple">
+<li><p>se <span class="math notranslate nohighlight">\(x_k\)</span> è la soluzione esatta, allora <span class="math notranslate nohighlight">\(Ax_k=b\)</span> e quindi <span class="math notranslate nohighlight">\(r_k=0\)</span>;</p></li>
+<li><p>se <span class="math notranslate nohighlight">\(r_k\)</span> è piccolo, allora <span class="math notranslate nohighlight">\(x_k\)</span> soddisfa quasi il sistema.</p></li>
+</ul>
+<p>L’<strong>errore</strong> è invece</p>
+<div class="math notranslate nohighlight">
+\[
+e_k = x - x_k,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(x\)</span> è la soluzione esatta. Il problema è che <span class="math notranslate nohighlight">\(e_k\)</span> non è direttamente calcolabile, perché non conosciamo <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>Per questo motivo nei metodi iterativi si usa spesso il residuo come criterio di arresto. Un criterio comune è</p>
+<div class="math notranslate nohighlight">
+\[
+\|r_k\| \leq \text{tol}\,\|b\|.
+\]</div>
+</section>
+<section id="matrici-simmetriche-definite-positive">
+<h2>3. Matrici simmetriche definite positive<a class="headerlink" href="#matrici-simmetriche-definite-positive" title="Link to this heading">#</a></h2>
+<p>Il metodo principale che studieremo è il <strong>metodo del gradiente coniugato</strong>, indicato spesso con la sigla CG, dall’inglese <em>Conjugate Gradient</em>.</p>
+<p>Il metodo CG si applica nella sua forma classica a sistemi</p>
+<div class="math notranslate nohighlight">
+\[
+Ax=b
+\]</div>
+<p>in cui <span class="math notranslate nohighlight">\(A\)</span> è <strong>simmetrica definita positiva</strong>.</p>
+<p>Ricordiamo che una matrice reale quadrata <span class="math notranslate nohighlight">\(A\)</span> è:</p>
+<ul class="simple">
+<li><p><strong>simmetrica</strong> se <span class="math notranslate nohighlight">\(A^T=A\)</span>;</p></li>
+<li><p><strong>definita positiva</strong> se</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+z^T A z &gt; 0 \qquad \text{per ogni } z\neq 0.
+\]</div>
+<p>Queste ipotesi non sono un dettaglio tecnico: sono ciò che permette di interpretare il sistema lineare come un problema di minimizzazione.</p>
+</section>
+<section id="da-sistema-lineare-a-problema-di-minimizzazione">
+<h2>4. Da sistema lineare a problema di minimizzazione<a class="headerlink" href="#da-sistema-lineare-a-problema-di-minimizzazione" title="Link to this heading">#</a></h2>
+<p>Supponiamo che <span class="math notranslate nohighlight">\(A\)</span> sia simmetrica definita positiva. Consideriamo la funzione quadratica</p>
+<div class="math notranslate nohighlight">
+\[
+\varphi(x)=\frac{1}{2}x^TAx-b^Tx.
+\]</div>
+<p>Il gradiente di questa funzione è</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla \varphi(x)=Ax-b.
+\]</div>
+<p>Quindi i punti critici soddisfano</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla \varphi(x)=0
+\quad \Longleftrightarrow \quad
+Ax-b=0
+\quad \Longleftrightarrow \quad
+Ax=b.
+\]</div>
+<p>Risolvere il sistema lineare equivale dunque a trovare il minimo della funzione quadratica <span class="math notranslate nohighlight">\(\varphi\)</span>.</p>
+<p>Il fatto che <span class="math notranslate nohighlight">\(A\)</span> sia definita positiva garantisce che questo minimo sia unico.</p>
+<section id="perche-serve-che-a-sia-simmetrica-definita-positiva">
+<h3>Perché serve che <span class="math notranslate nohighlight">\(A\)</span> sia simmetrica definita positiva?<a class="headerlink" href="#perche-serve-che-a-sia-simmetrica-definita-positiva" title="Link to this heading">#</a></h3>
+<p>La simmetria e la definitezza positiva hanno ruoli distinti.</p>
+<p>La <strong>simmetria</strong> della matrice è necessaria perché permette di interpretare la risoluzione del sistema lineare come un problema di minimizzazione.</p>
+<p>Infatti consideriamo la funzione</p>
+<div class="math notranslate nohighlight">
+\[
+\phi(x)=\frac12 x^TAx-b^Tx.
+\]</div>
+<p>In generale, per una qualunque matrice <span class="math notranslate nohighlight">\(A\)</span>, il gradiente della forma quadratica è</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla\!\left(\frac12 x^TAx\right)=\frac12(A+A^T)x.
+\]</div>
+<p>Di conseguenza,</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla\phi(x)=\frac12(A+A^T)x-b.
+\]</div>
+<p>Solo quando <span class="math notranslate nohighlight">\(A\)</span> è <strong>simmetrica</strong>, cioè <span class="math notranslate nohighlight">\(A=A^T\)</span>, questa espressione si semplifica in</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla\phi(x)=Ax-b.
+\]</div>
+<p>Pertanto i punti in cui il gradiente si annulla soddisfano</p>
+<div class="math notranslate nohighlight">
+\[
+Ax=b,
+\]</div>
+<p>cioè coincidono esattamente con le soluzioni del sistema lineare.</p>
+<p>Se invece <span class="math notranslate nohighlight">\(A\)</span> non è simmetrica, annullare il gradiente significa risolvere</p>
+<div class="math notranslate nohighlight">
+\[
+\frac12(A+A^T)x=b,
+\]</div>
+<p>che, in generale, è un sistema diverso da quello originale. Per questo motivo la funzione quadratica non rappresenta più il problema <span class="math notranslate nohighlight">\(Ax=b\)</span> in modo diretto e non può essere utilizzata come base per il metodo del gradiente coniugato.</p>
+<p>La <strong>definita positività</strong> della matrice garantisce invece che il punto stazionario trovato sia effettivamente un <strong>minimo</strong> della funzione.</p>
+<p>Infatti, se <span class="math notranslate nohighlight">\(A\)</span> è definita positiva, per ogni vettore non nullo <span class="math notranslate nohighlight">\(x\)</span> vale</p>
+<div class="math notranslate nohighlight">
+\[
+x^TAx&gt;0.
+\]</div>
+<p>Questa proprietà implica che la funzione</p>
+<div class="math notranslate nohighlight">
+\[
+\varphi(x)=\frac12x^TAx-b^Tx
+\]</div>
+<p>è <strong>strettamente convessa</strong>.</p>
+<p>Geometricamente, nel caso di una sola variabile, una funzione convessa è rappresentata da una parabola con la concavità rivolta verso l’alto, come ad esempio <span class="math notranslate nohighlight">\(y=x^2\)</span>. Essa possiede un unico punto di minimo.</p>
+<p>Nel caso di due o più variabili la parabola viene sostituita da una superficie tridimensionale (o, più in generale, da un’ipersuperficie) che ha la forma di una <strong>scodella</strong>: qualunque sia il punto da cui si parte, spostandosi verso il basso si raggiunge sempre lo stesso punto più basso, che rappresenta il minimo della funzione.</p>
+<p>Di conseguenza, il problema di minimizzare <span class="math notranslate nohighlight">\(\varphi(x)\)</span> ha un’unica soluzione, e tale soluzione coincide con la soluzione del sistema lineare <span class="math notranslate nohighlight">\(Ax=b\)</span>.</p>
+<p>Se invece la matrice non fosse definita positiva, la superficie potrebbe assumere forme molto diverse: potrebbe avere direzioni in cui scende indefinitamente, oppure presentare punti di sella (simili a una sella da cavallo), nei quali il gradiente è nullo ma che non sono punti di minimo. In queste situazioni non è più possibile interpretare la soluzione del sistema come il minimo di una funzione convessa, e il metodo del gradiente coniugato perde il fondamento teorico su cui si basa.</p>
+<p><img alt="Superfici quadratiche: caso definito positivo, indefinito e semidefinito positivo" src="../_images/convessa_nonconvessa.png" /></p>
+</section>
+</section>
+<section id="metodi-di-discesa-del-gradiente">
+<h2>5. Metodi di discesa del gradiente<a class="headerlink" href="#metodi-di-discesa-del-gradiente" title="Link to this heading">#</a></h2>
+<p>Poiché vogliamo minimizzare <span class="math notranslate nohighlight">\(\varphi(x)\)</span>, una strategia naturale è muoversi lungo una direzione di discesa.</p>
+<p>Il gradiente indica la direzione di massima crescita della funzione. Quindi l’opposto del gradiente indica una direzione di discesa.</p>
+<p>Poiché</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla \varphi(x_k)=Ax_k-b=-r_k,
+\]</div>
+<p>l’opposto del gradiente è proprio il residuo:</p>
+<div class="math notranslate nohighlight">
+\[
+-\nabla \varphi(x_k)=r_k.
+\]</div>
+<p>La forma generale di un metodo di discesa del gradiente è quindi</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=x_k+\alpha_k r_k,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\alpha_k\)</span> è un numero reale positivo, detto <strong>passo</strong>.</p>
+</section>
+<section id="metodo-di-massima-discesa-steepest-descent">
+<h2>6. Metodo di massima discesa (<em>steepest descent</em>)<a class="headerlink" href="#metodo-di-massima-discesa-steepest-descent" title="Link to this heading">#</a></h2>
+<p>Nel metodo di massima discesa scegliamo <span class="math notranslate nohighlight">\(\alpha_k\)</span> in modo ottimale lungo la direzione <span class="math notranslate nohighlight">\(r_k\)</span>.</p>
+<p>Più precisamente, vogliamo minimizzare la funzione di una variabile</p>
+<div class="math notranslate nohighlight">
+\[
+\psi(\alpha)=\varphi(x_k+\alpha r_k).
+\]</div>
+<p>Sostituendo nella funzione quadratica:</p>
+<div class="math notranslate nohighlight">
+\[
+\psi(\alpha)
+=
+\frac{1}{2}(x_k+\alpha r_k)^T A (x_k+\alpha r_k)
+-b^T(x_k+\alpha r_k).
+\]</div>
+<p>Derivando rispetto ad <span class="math notranslate nohighlight">\(\alpha\)</span> e imponendo che la derivata sia nulla si ottiene</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha_k
+=
+\frac{r_k^T r_k}{r_k^T A r_k}.
+\]</div>
+<p>Quindi il metodo diventa</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=x_k+
+\frac{r_k^T r_k}{r_k^T A r_k}r_k.
+\]</div>
+<section id="nota-sul-denominatore">
+<h3>Nota sul denominatore<a class="headerlink" href="#nota-sul-denominatore" title="Link to this heading">#</a></h3>
+<p>Il denominatore</p>
+<div class="math notranslate nohighlight">
+\[
+r_k^T A r_k
+\]</div>
+<p>è positivo se <span class="math notranslate nohighlight">\(r_k\neq 0\)</span>, perché <span class="math notranslate nohighlight">\(A\)</span> è definita positiva.<br />
+Quindi il passo <span class="math notranslate nohighlight">\(\alpha_k\)</span> è ben definito finché non abbiamo già raggiunto la soluzione.</p>
+</section>
+</section>
+<section id="realizzazione-efficiente-del-metodo-di-massima-discesa">
+<h2>7. Realizzazione efficiente del metodo di massima discesa<a class="headerlink" href="#realizzazione-efficiente-del-metodo-di-massima-discesa" title="Link to this heading">#</a></h2>
+<p>Una scrittura diretta del metodo potrebbe far pensare di dover calcolare molte volte prodotti del tipo <span class="math notranslate nohighlight">\(Av\)</span>. In realtà, è importante organizzare i calcoli per riutilizzare ciò che è già stato calcolato.</p>
+<p>Supponiamo di conoscere <span class="math notranslate nohighlight">\(x_k\)</span> e <span class="math notranslate nohighlight">\(r_k\)</span>. Per calcolare il passo serve</p>
+<div class="math notranslate nohighlight">
+\[
+A r_k.
+\]</div>
+<p>Definiamo allora</p>
+<div class="math notranslate nohighlight">
+\[
+s_k = A r_k.
+\]</div>
+<p>A questo punto:</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha_k = \frac{r_k^T r_k}{r_k^T s_k}.
+\]</div>
+<p>Dopo aver aggiornato</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=x_k+\alpha_k r_k,
+\]</div>
+<p>possiamo aggiornare il residuo senza ricalcolare da zero <span class="math notranslate nohighlight">\(b-Ax_{k+1}\)</span>.</p>
+<p>Infatti:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+r_{k+1}
+&amp;= b-Ax_{k+1} \\
+&amp;= b-A(x_k+\alpha_k r_k) \\
+&amp;= b-Ax_k-\alpha_k A r_k \\
+&amp;= r_k-\alpha_k s_k.
+\end{aligned}
+\end{split}\]</div>
+<p>Questa formula è molto importante dal punto di vista computazionale.</p>
+<section id="pseudocodice-efficiente-massima-discesa">
+<h3>Pseudocodice efficiente: massima discesa<a class="headerlink" href="#pseudocodice-efficiente-massima-discesa" title="Link to this heading">#</a></h3>
+<p><strong>Input:</strong> matrice o funzione per il prodotto <span class="math notranslate nohighlight">\(Av\)</span>, termine noto <span class="math notranslate nohighlight">\(b\)</span>, stima iniziale <span class="math notranslate nohighlight">\(x_0\)</span>, tolleranza <code class="docutils literal notranslate"><span class="pre">tol</span></code>.</p>
+<ol class="arabic simple">
+<li><p>Calcola</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+r_0=b-Ax_0.
+\]</div>
+<ol class="arabic" start="2">
+<li><p>Per <span class="math notranslate nohighlight">\(k=0,1,2,\ldots\)</span> finché <span class="math notranslate nohighlight">\(\|r_k\|&gt;\text{tol}\,\|b\|\)</span>:</p>
+<ol class="arabic simple">
+<li><p>calcola un solo prodotto matrice-vettore</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+   s_k=A r_k;
+   \]</div>
+<ol class="arabic simple" start="2">
+<li><p>calcola</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+   \alpha_k=\frac{r_k^T r_k}{r_k^T s_k};
+   \]</div>
+<ol class="arabic simple" start="3">
+<li><p>aggiorna la soluzione</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+   x_{k+1}=x_k+\alpha_k r_k;
+   \]</div>
+<ol class="arabic simple" start="4">
+<li><p>aggiorna il residuo usando il vettore <span class="math notranslate nohighlight">\(s_k\)</span> già disponibile</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+   r_{k+1}=r_k-\alpha_k s_k.
+   \]</div>
+</li>
+</ol>
+<p><strong>Osservazione:</strong> il residuo non viene ricalcolato come <span class="math notranslate nohighlight">\(b-Ax_{k+1}\)</span>, perché questo richiederebbe un ulteriore prodotto matrice-vettore.</p>
+</section>
+<section id="costo-computazionale-per-iterazione">
+<h3>Costo computazionale per iterazione<a class="headerlink" href="#costo-computazionale-per-iterazione" title="Link to this heading">#</a></h3>
+<p>Per una matrice densa <span class="math notranslate nohighlight">\(A\in\mathbb{R}^{n\times n}\)</span>:</p>
+<ul class="simple">
+<li><p>un prodotto matrice-vettore <span class="math notranslate nohighlight">\(Av\)</span> costa circa <span class="math notranslate nohighlight">\(O(n^2)\)</span> operazioni;</p></li>
+<li><p>un prodotto scalare <span class="math notranslate nohighlight">\(u^Tv\)</span> costa <span class="math notranslate nohighlight">\(O(n)\)</span> operazioni;</p></li>
+<li><p>una somma di vettori costa <span class="math notranslate nohighlight">\(O(n)\)</span> operazioni.</p></li>
+</ul>
+<p>Per una matrice sparsa, il costo di <span class="math notranslate nohighlight">\(Av\)</span> è circa</p>
+<div class="math notranslate nohighlight">
+\[
+O(\operatorname{nnz}(A)),
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\operatorname{nnz}(A)\)</span> è il numero di elementi non nulli di <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>Quindi, se <span class="math notranslate nohighlight">\(A\)</span> è grande, il prodotto matrice-vettore è quasi sempre l’operazione dominante.<br />
+Per questo motivo è essenziale organizzare il metodo in modo che ogni iterazione richieda <strong>un solo prodotto matrice-vettore</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">steepest_descent</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x</span>
+    <span class="n">b_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="n">b_norm</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxit</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">tol</span> <span class="o">*</span> <span class="n">b_norm</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">r</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span> <span class="o">@</span> <span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">r</span> <span class="o">@</span> <span class="n">s</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">r</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">r</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">s</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="n">b_norm</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">history</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="limite-del-metodo-di-massima-discesa">
+<h2>8. Limite del metodo di massima discesa<a class="headerlink" href="#limite-del-metodo-di-massima-discesa" title="Link to this heading">#</a></h2>
+<p>Il metodo di massima discesa è semplice e intuitivo, ma può essere lento.</p>
+<p>Il problema è che, quando le curve di livello della funzione quadratica sono molto allungate, il metodo tende a procedere a zig-zag.<br />
+In termini matriciali, questo accade quando il numero di condizionamento</p>
+<div class="math notranslate nohighlight">
+\[
+\kappa(A)
+\]</div>
+<p>è grande.</p>
+<p>In questi casi servono molte iterazioni per ridurre l’errore di un fattore fissato.<br />
+Il metodo del gradiente coniugato nasce proprio per superare questo limite.</p>
+</section>
+<section id="metodo-del-gradiente-coniugato">
+<h2>9. Metodo del gradiente coniugato<a class="headerlink" href="#metodo-del-gradiente-coniugato" title="Link to this heading">#</a></h2>
+<p>Il metodo del gradiente coniugato ha la forma generale</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=x_k+\alpha_k p_k,
+\]</div>
+<p>dove:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(p_k\)</span> è la <strong>direzione di ricerca</strong>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha_k\)</span> è il passo lungo quella direzione.</p></li>
+</ul>
+<p>Nel metodo di massima discesa si usa sempre</p>
+<div class="math notranslate nohighlight">
+\[
+p_k=r_k.
+\]</div>
+<p>Nel metodo del gradiente coniugato, invece, la direzione <span class="math notranslate nohighlight">\(p_k\)</span> non coincide sempre con il residuo. Solo all’inizio si pone</p>
+<div class="math notranslate nohighlight">
+\[
+p_0=r_0.
+\]</div>
+<p>Poi le direzioni vengono costruite in modo da essere <strong>coniugate rispetto ad <span class="math notranslate nohighlight">\(A\)</span></strong>.</p>
+</section>
+<section id="direzioni-coniugate">
+<h2>10. Direzioni coniugate<a class="headerlink" href="#direzioni-coniugate" title="Link to this heading">#</a></h2>
+<p>Due vettori <span class="math notranslate nohighlight">\(p_i\)</span> e <span class="math notranslate nohighlight">\(p_j\)</span> si dicono <strong>coniugati rispetto ad <span class="math notranslate nohighlight">\(A\)</span></strong> se</p>
+<div class="math notranslate nohighlight">
+\[
+p_i^T A p_j=0
+\qquad \text{per } i\neq j.
+\]</div>
+<p>Questa condizione assomiglia all’ortogonalità classica, ma il prodotto scalare standard <span class="math notranslate nohighlight">\(p_i^Tp_j\)</span> viene sostituito da un prodotto pesato dalla matrice <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>L’idea del metodo CG è costruire direzioni di ricerca che non “rovinino” il lavoro fatto nelle iterazioni precedenti.<br />
+Ogni nuova direzione aggiunge informazione nuova rispetto alle precedenti.</p>
+</section>
+<section id="norma-dell-energia">
+<h2>11. Norma dell’energia<a class="headerlink" href="#norma-dell-energia" title="Link to this heading">#</a></h2>
+<p>Data una matrice simmetrica definita positiva <span class="math notranslate nohighlight">\(B\)</span>, si definisce la <strong>norma dell’energia</strong> associata a <span class="math notranslate nohighlight">\(B\)</span> come</p>
+<div class="math notranslate nohighlight">
+\[
+\|x\|_B = \sqrt{x^T Bx}.
+\]</div>
+<p>Questa è davvero una norma perché <span class="math notranslate nohighlight">\(B\)</span> è simmetrica definita positiva.</p>
+<p>Vediamo perché.</p>
+<ol class="arabic simple">
+<li><p><strong>Positività:</strong> se <span class="math notranslate nohighlight">\(x\neq 0\)</span>, allora <span class="math notranslate nohighlight">\(x^TBx&gt;0\)</span>, quindi <span class="math notranslate nohighlight">\(\|x\|_B&gt;0\)</span>.</p></li>
+<li><p><strong>Nullità solo nel vettore nullo:</strong> se <span class="math notranslate nohighlight">\(x=0\)</span>, allora <span class="math notranslate nohighlight">\(\|x\|_B=0\)</span>.</p></li>
+<li><p><strong>Omogeneità:</strong> per ogni scalare <span class="math notranslate nohighlight">\(\alpha\)</span>,</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\|\alpha x\|_B
+=
+\sqrt{(\alpha x)^TB(\alpha x)}
+=|\alpha|\sqrt{x^TBx}
+=|\alpha|\|x\|_B.
+\]</div>
+<ol class="arabic simple" start="4">
+<li><p><strong>Disuguaglianza triangolare:</strong> deriva dal fatto che <span class="math notranslate nohighlight">\(x^TBy\)</span> definisce un prodotto scalare quando <span class="math notranslate nohighlight">\(B\)</span> è simmetrica definita positiva.</p></li>
+</ol>
+<p>Se <span class="math notranslate nohighlight">\(B\)</span> non fosse definita positiva, potrebbe esistere un vettore non nullo con <span class="math notranslate nohighlight">\(x^TBx\leq 0\)</span>, e quindi la radice quadrata non definirebbe una lunghezza.<br />
+Se <span class="math notranslate nohighlight">\(B\)</span> non fosse simmetrica, l’espressione <span class="math notranslate nohighlight">\(x^TBy\)</span> non avrebbe le proprietà di un prodotto scalare.</p>
+<section id="interpretazione-per-il-metodo-cg">
+<h3>Interpretazione per il metodo CG<a class="headerlink" href="#interpretazione-per-il-metodo-cg" title="Link to this heading">#</a></h3>
+<p>Nel metodo del gradiente coniugato non si minimizza semplicemente la norma euclidea dell’errore</p>
+<div class="math notranslate nohighlight">
+\[
+\|e_k\|_2.
+\]</div>
+<p>Si minimizza invece la norma dell’energia</p>
+<div class="math notranslate nohighlight">
+\[
+\|e_k\|_A = \sqrt{e_k^T A e_k},
+\]</div>
+<p>dove</p>
+<div class="math notranslate nohighlight">
+\[
+e_k=x-x_k.
+\]</div>
+<p>Questa norma è naturale perché è legata alla funzione quadratica</p>
+<div class="math notranslate nohighlight">
+\[
+\varphi(x)=\frac{1}{2}x^TAx-b^Tx.
+\]</div>
+</section>
+</section>
+<section id="sottospazi-di-krylov">
+<h2>12. Sottospazi di Krylov<a class="headerlink" href="#sottospazi-di-krylov" title="Link to this heading">#</a></h2>
+<p>Dato un vettore iniziale <span class="math notranslate nohighlight">\(r_0\)</span> e una matrice <span class="math notranslate nohighlight">\(A\)</span>, il sottospazio di Krylov di ordine <span class="math notranslate nohighlight">\(k\)</span> è</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{K}_k(A;r_0)
+=
+\operatorname{span}\{r_0, Ar_0, A^2r_0,\ldots,A^{k-1}r_0\}.
+\]</div>
+<p>Il metodo CG cerca la soluzione approssimata nello spazio</p>
+<div class="math notranslate nohighlight">
+\[
+x_0+\mathcal{K}_k(A;r_0).
+\]</div>
+<p>Questo significa che, dopo <span class="math notranslate nohighlight">\(k\)</span> iterazioni, la correzione applicata a <span class="math notranslate nohighlight">\(x_0\)</span> è una combinazione lineare dei vettori</p>
+<div class="math notranslate nohighlight">
+\[
+r_0, Ar_0, A^2r_0,\ldots,A^{k-1}r_0.
+\]</div>
+<p>L’idea intuitiva è che ogni nuovo prodotto con <span class="math notranslate nohighlight">\(A\)</span> porta nuova informazione sul sistema.</p>
+</section>
+<section id="algoritmo-del-gradiente-coniugato">
+<h2>13. Algoritmo del gradiente coniugato<a class="headerlink" href="#algoritmo-del-gradiente-coniugato" title="Link to this heading">#</a></h2>
+<p><strong>Input:</strong> matrice o funzione per il prodotto <span class="math notranslate nohighlight">\(Av\)</span>, termine noto <span class="math notranslate nohighlight">\(b\)</span>, stima iniziale <span class="math notranslate nohighlight">\(x_0\)</span>, tolleranza <code class="docutils literal notranslate"><span class="pre">tol</span></code>.</p>
+<p>Si inizializza:</p>
+<div class="math notranslate nohighlight">
+\[
+r_0=b-Ax_0,
+\qquad
+p_0=r_0,
+\qquad
+\delta_0=r_0^Tr_0,
+\qquad
+\delta_b=b^Tb.
+\]</div>
+<p>Poi, per <span class="math notranslate nohighlight">\(k=0,1,2,\ldots\)</span>, finché</p>
+<div class="math notranslate nohighlight">
+\[
+\delta_k &gt; \text{tol}^2\delta_b,
+\]</div>
+<p>si calcola:</p>
+<div class="math notranslate nohighlight">
+\[
+s_k=Ap_k,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\alpha_k=\frac{\delta_k}{p_k^Ts_k},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=x_k+\alpha_kp_k,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+r_{k+1}=r_k-\alpha_ks_k,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\delta_{k+1}=r_{k+1}^Tr_{k+1},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+p_{k+1}=r_{k+1}+\frac{\delta_{k+1}}{\delta_k}p_k.
+\]</div>
+<p>Anche qui ogni iterazione richiede un solo prodotto matrice-vettore, cioè il calcolo di <span class="math notranslate nohighlight">\(s_k=Ap_k\)</span>.</p>
+<section id="commento-riga-per-riga">
+<h3>Commento riga per riga<a class="headerlink" href="#commento-riga-per-riga" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(r_0=b-Ax_0\)</span>: misura quanto la stima iniziale non soddisfa il sistema.</p></li>
+<li><p><span class="math notranslate nohighlight">\(p_0=r_0\)</span>: la prima direzione coincide con quella di massima discesa.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\delta_k=r_k^Tr_k\)</span>: è il quadrato della norma euclidea del residuo.</p></li>
+<li><p><span class="math notranslate nohighlight">\(s_k=Ap_k\)</span>: è il prodotto matrice-vettore necessario per calcolare il passo.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha_k\)</span>: sceglie il passo ottimale lungo la direzione <span class="math notranslate nohighlight">\(p_k\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_{k+1}\)</span>: aggiorna la soluzione approssimata.</p></li>
+<li><p><span class="math notranslate nohighlight">\(r_{k+1}\)</span>: aggiorna il residuo senza ricalcolare <span class="math notranslate nohighlight">\(b-Ax_{k+1}\)</span> da zero.</p></li>
+<li><p><span class="math notranslate nohighlight">\(p_{k+1}\)</span>: costruisce una nuova direzione combinando il nuovo residuo con la direzione precedente.</p></li>
+</ul>
+<p>La formula per <span class="math notranslate nohighlight">\(p_{k+1}\)</span> è ciò che rende il metodo diverso dalla massima discesa: non si riparte ogni volta dalla direzione del residuo, ma si mantiene memoria della direzione precedente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">conjugate_gradient</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">maxit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">maxit</span> <span class="o">=</span> <span class="n">n</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">r</span> <span class="o">@</span> <span class="n">r</span>
+    <span class="n">delta_b</span> <span class="o">=</span> <span class="n">b</span> <span class="o">@</span> <span class="n">b</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="p">[</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">delta</span> <span class="o">/</span> <span class="n">delta_b</span><span class="p">)]</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxit</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">delta</span> <span class="o">&lt;=</span> <span class="n">tol</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">delta_b</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">p</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">/</span> <span class="p">(</span><span class="n">p</span> <span class="o">@</span> <span class="n">s</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">p</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">r</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">s</span>
+        <span class="n">delta_new</span> <span class="o">=</span> <span class="n">r</span> <span class="o">@</span> <span class="n">r</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">delta_new</span> <span class="o">/</span> <span class="n">delta</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">p</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">delta_new</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">delta</span> <span class="o">/</span> <span class="n">delta_b</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">history</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="esempio-numerico-piccolo">
+<h2>14. Esempio numerico piccolo<a class="headerlink" href="#esempio-numerico-piccolo" title="Link to this heading">#</a></h2>
+<p>Consideriamo il sistema</p>
+<div class="math notranslate nohighlight">
+\[
+Ax=b,
+\]</div>
+<p>con</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A=
+\begin{pmatrix}
+7 &amp; 3 &amp; 1\\
+3 &amp; 10 &amp; 2\\
+1 &amp; 2 &amp; 15
+\end{pmatrix},
+\qquad
+b=
+\begin{pmatrix}
+28\\31\\22
+\end{pmatrix}.
+\end{split}\]</div>
+<p>La matrice <span class="math notranslate nohighlight">\(A\)</span> è simmetrica definita positiva. La soluzione esatta è</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+x=\begin{pmatrix}3\\2\\1\end{pmatrix}.
+\end{split}\]</div>
+<p>Usiamo il metodo CG partendo da <span class="math notranslate nohighlight">\(x_0=0\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">7.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">15.</span><span class="p">]])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">28.</span><span class="p">,</span> <span class="mf">31.</span><span class="p">,</span> <span class="mf">22.</span><span class="p">])</span>
+
+<span class="n">x_cg</span><span class="p">,</span> <span class="n">it_cg</span><span class="p">,</span> <span class="n">hist_cg</span> <span class="o">=</span> <span class="n">conjugate_gradient</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Soluzione CG:&quot;</span><span class="p">,</span> <span class="n">x_cg</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iterazioni:&quot;</span><span class="p">,</span> <span class="n">it_cg</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Residuo relativo finale:&quot;</span><span class="p">,</span> <span class="n">hist_cg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Soluzione esatta:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Soluzione CG: [3. 2. 1.]
+Iterazioni: 4
+Residuo relativo finale: 5.798384159287766e-17
+Soluzione esatta: [3. 2. 1.]
+</pre></div>
+</div>
+</div>
+</div>
+<p>In aritmetica esatta, il metodo CG trova la soluzione di un sistema <span class="math notranslate nohighlight">\(n\times n\)</span> in al più <span class="math notranslate nohighlight">\(n\)</span> iterazioni.<br />
+Nell’esempio precedente <span class="math notranslate nohighlight">\(n=3\)</span>, quindi non sorprende che il metodo arrivi alla soluzione in pochissime iterazioni.</p>
+<p>Naturalmente, per sistemi così piccoli useremmo un metodo diretto. L’esempio serve solo a vedere il funzionamento dell’algoritmo.</p>
+</section>
+<section id="convergenza-del-metodo-cg">
+<h2>15. Convergenza del metodo CG<a class="headerlink" href="#convergenza-del-metodo-cg" title="Link to this heading">#</a></h2>
+<p>Per un sistema</p>
+<div class="math notranslate nohighlight">
+\[
+Ax=b
+\]</div>
+<p>con <span class="math notranslate nohighlight">\(A\)</span> simmetrica definita positiva, il metodo CG ha le seguenti proprietà fondamentali.</p>
+<ol class="arabic simple">
+<li><p>L’iterato <span class="math notranslate nohighlight">\(x_k\)</span> minimizza la norma dell’energia dell’errore nello spazio</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+x_0+\mathcal{K}_k(A;r_0).
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>In aritmetica esatta, la soluzione viene raggiunta in al più <span class="math notranslate nohighlight">\(n\)</span> iterazioni.</p></li>
+<li><p>Se <span class="math notranslate nohighlight">\(A\)</span> ha solo <span class="math notranslate nohighlight">\(m\)</span> autovalori distinti, la soluzione viene raggiunta in al più <span class="math notranslate nohighlight">\(m\)</span> iterazioni.</p></li>
+<li><p>Il numero di iterazioni necessario per ridurre l’errore dipende dal numero di condizionamento <span class="math notranslate nohighlight">\(\kappa(A)\)</span>.</p></li>
+</ol>
+<p>Una stima classica è</p>
+<div class="math notranslate nohighlight">
+\[
+\|e_k\|_A
+\leq
+2\left(
+\frac{\sqrt{\kappa(A)}-1}{\sqrt{\kappa(A)}+1}
+\right)^k
+\|e_0\|_A.
+\]</div>
+<p>Questa stima mostra che il comportamento del CG è legato a <span class="math notranslate nohighlight">\(\sqrt{\kappa(A)}\)</span>, mentre il metodo di massima discesa è più direttamente penalizzato da <span class="math notranslate nohighlight">\(\kappa(A)\)</span>.</p>
+<section id="interpretazione-della-stima">
+<h3>Interpretazione della stima<a class="headerlink" href="#interpretazione-della-stima" title="Link to this heading">#</a></h3>
+<p>Se <span class="math notranslate nohighlight">\(\kappa(A)\)</span> è piccolo, allora</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\sqrt{\kappa(A)}-1}{\sqrt{\kappa(A)}+1}
+\]</div>
+<p>è significativamente minore di <span class="math notranslate nohighlight">\(1\)</span>, quindi l’errore si riduce rapidamente.</p>
+<p>Se invece <span class="math notranslate nohighlight">\(\kappa(A)\)</span> è molto grande, il rapporto è vicino a <span class="math notranslate nohighlight">\(1\)</span> e la convergenza può diventare lenta.</p>
+<p>La stima è spesso pessimistica: nella pratica il metodo CG può convergere più velocemente, soprattutto quando gli autovalori di <span class="math notranslate nohighlight">\(A\)</span> sono raggruppati in pochi intervalli.</p>
+</section>
+</section>
+<section id="confronto-tra-massima-discesa-e-gradiente-coniugato">
+<h2>16. Confronto tra massima discesa e gradiente coniugato<a class="headerlink" href="#confronto-tra-massima-discesa-e-gradiente-coniugato" title="Link to this heading">#</a></h2>
+<p>Vediamo un confronto numerico su una matrice simmetrica definita positiva con condizionamento non troppo piccolo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Costruiamo una matrice simmetrica definita positiva con autovalori diversi</span>
+<span class="n">Q</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">)))</span>
+<span class="n">eigvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">Q</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">eigvals</span><span class="p">)</span> <span class="o">@</span> <span class="n">Q</span><span class="o">.</span><span class="n">T</span>
+
+<span class="n">x_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x_true</span>
+
+<span class="n">x_sd</span><span class="p">,</span> <span class="n">it_sd</span><span class="p">,</span> <span class="n">hist_sd</span> <span class="o">=</span> <span class="n">steepest_descent</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+<span class="n">x_cg</span><span class="p">,</span> <span class="n">it_cg</span><span class="p">,</span> <span class="n">hist_cg</span> <span class="o">=</span> <span class="n">conjugate_gradient</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iterazioni massima discesa:&quot;</span><span class="p">,</span> <span class="n">it_sd</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Residuo relativo finale massima discesa:&quot;</span><span class="p">,</span> <span class="n">hist_sd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iterazioni CG:&quot;</span><span class="p">,</span> <span class="n">it_cg</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Residuo relativo finale CG:&quot;</span><span class="p">,</span> <span class="n">hist_cg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iterazioni massima discesa: 596
+Residuo relativo finale massima discesa: 9.60459590352817e-09
+Iterazioni CG: 21
+Residuo relativo finale CG: 4.77802697250283e-16
+</pre></div>
+</div>
+</div>
+</div>
+<p>Il metodo CG tende a richiedere molte meno iterazioni perché le sue direzioni di ricerca sono costruite per non ripetere il lavoro già fatto.</p>
+<p>Invece, la massima discesa può continuare a oscillare tra direzioni simili, soprattutto quando il problema è mal condizionato.</p>
+</section>
+<section id="precondizionamento">
+<h2>17. Precondizionamento<a class="headerlink" href="#precondizionamento" title="Link to this heading">#</a></h2>
+<p>Quando <span class="math notranslate nohighlight">\(\kappa(A)\)</span> è grande, anche il metodo CG può diventare lento.</p>
+<p>L’idea del precondizionamento è trasformare il sistema originale in un altro sistema <strong>equivalente</strong>, ma più favorevole dal punto di vista numerico.</p>
+<blockquote>
+<div><p><strong>Osservazione.</strong><br />
+Il metodo del gradiente coniugato converge più rapidamente quando gli autovalori di (A) sono ben raggruppati. Intuitivamente, questo significa che il metodo riesce a ridurre l’errore in molte direzioni contemporaneamente. Il precondizionamento ha proprio questo obiettivo: trasformare il sistema in uno equivalente in cui gli autovalori siano più concentrati, idealmente vicini a (1).</p>
+</div></blockquote>
+<p>Per farlo si sceglie una matrice <span class="math notranslate nohighlight">\(P\)</span> che soddisfi due requisiti:</p>
+<ol class="arabic simple">
+<li><p><strong>deve essere simile ad <span class="math notranslate nohighlight">\(A\)</span></strong>, cioè deve approssimarne il comportamento;</p></li>
+<li><p><strong>deve essere molto più semplice da utilizzare</strong>, nel senso che risolvere sistemi del tipo</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+Py=z
+\]</div>
+<p>deve essere molto meno costoso che risolvere direttamente</p>
+<div class="math notranslate nohighlight">
+\[
+Ax=b.
+\]</div>
+<p>Perché vogliamo che <span class="math notranslate nohighlight">\(P\)</span> approssimi <span class="math notranslate nohighlight">\(A\)</span>?</p>
+<p>L’obiettivo non è sostituire il sistema con uno completamente diverso, ma correggere le caratteristiche della matrice che rallentano la convergenza del metodo iterativo. Se <span class="math notranslate nohighlight">\(P\)</span> è una buona approssimazione di <span class="math notranslate nohighlight">\(A\)</span>, allora il prodotto</p>
+<div class="math notranslate nohighlight">
+\[
+P^{-1}A
+\]</div>
+<p>risulta “più vicino” alla matrice identità (I). Di conseguenza i suoi autovalori tendono a concentrarsi attorno a <span class="math notranslate nohighlight">\(1\)</span> e il numero di condizionamento diminuisce.</p>
+<p>Poiché la velocità di convergenza del metodo del gradiente coniugato dipende dal numero di condizionamento della matrice, lavorare con il sistema precondizionato richiede in genere un numero molto inferiore di iterazioni.</p>
+<p>Naturalmente non conviene scegliere <span class="math notranslate nohighlight">\(P=A\)</span>: in questo caso il sistema sarebbe risolto in un solo passo, ma per applicare il precondizionatore bisognerebbe invertire proprio la matrice che si voleva evitare di trattare direttamente. Occorre quindi trovare un compromesso: <strong><span class="math notranslate nohighlight">\(P\)</span> deve essere sufficientemente simile ad <span class="math notranslate nohighlight">\(A\)</span> da migliorare il condizionamento, ma abbastanza semplice da rendere economica la risoluzione dei sistemi con <span class="math notranslate nohighlight">\(P\)</span></strong>.</p>
+<section id="metodo-del-gradiente-coniugato-precondizionato">
+<h3>Metodo del gradiente coniugato precondizionato<a class="headerlink" href="#metodo-del-gradiente-coniugato-precondizionato" title="Link to this heading">#</a></h3>
+<p>Nella sezione precedente abbiamo introdotto l’idea del <strong>precondizionamento</strong>: invece di risolvere direttamente</p>
+<div class="math notranslate nohighlight">
+\[
+Ax=b,
+\]</div>
+<p>si cerca di trasformare il problema in un sistema equivalente ma numericamente più favorevole.</p>
+<p>Ricordiamo che il precondizionatore (P) deve essere scelto in modo da soddisfare due requisiti:</p>
+<ol class="arabic simple">
+<li><p>deve approssimare (A), così da migliorare le proprietà numeriche del problema;</p></li>
+<li><p>deve essere facile da usare, cioè deve essere economico risolvere sistemi del tipo</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+Pz=r.
+\]</div>
+<p>Il metodo del gradiente coniugato precondizionato, o <strong>PCG</strong> (<em>Preconditioned Conjugate Gradient</em>), è la versione del CG che sfrutta questa idea.</p>
+<hr class="docutils" />
+<section id="perche-il-precondizionamento-puo-accelerare-il-cg">
+<h4>Perché il precondizionamento può accelerare il CG?<a class="headerlink" href="#perche-il-precondizionamento-puo-accelerare-il-cg" title="Link to this heading">#</a></h4>
+<p>Il metodo del gradiente coniugato converge più rapidamente quando la matrice del sistema è ben condizionata o, più in generale, quando i suoi autovalori sono ben raggruppati.</p>
+<blockquote>
+<div><p><strong>Osservazione.</strong><br />
+Il metodo del gradiente coniugato converge più rapidamente quando gli autovalori di <span class="math notranslate nohighlight">\(A\)</span> sono ben raggruppati. Intuitivamente, questo significa che il metodo riesce a ridurre l’errore in molte direzioni contemporaneamente. Il precondizionamento ha proprio questo obiettivo: trasformare il sistema in uno equivalente in cui gli autovalori siano più concentrati, idealmente vicini a (1).</p>
+</div></blockquote>
+<p>Infatti, se <span class="math notranslate nohighlight">\(P\)</span> approssima bene <span class="math notranslate nohighlight">\(A\)</span>, allora la matrice</p>
+<div class="math notranslate nohighlight">
+\[
+P^{-1}A
+\]</div>
+<p>è più vicina alla matrice identità <span class="math notranslate nohighlight">\(I\)</span>. Nel caso ideale <span class="math notranslate nohighlight">\(P=A\)</span>, avremmo</p>
+<div class="math notranslate nohighlight">
+\[
+P^{-1}A=A^{-1}A=I,
+\]</div>
+<p>e tutti gli autovalori sarebbero uguali a <span class="math notranslate nohighlight">\(1\)</span>. Questo rappresenta la situazione migliore possibile dal punto di vista della convergenza.</p>
+<p><span class="math notranslate nohighlight">\(A\)</span>, cioè proprio il problema originale. Per questo motivo si cerca un compromesso: <span class="math notranslate nohighlight">\(P\)</span> deve essere abbastanza simile ad <span class="math notranslate nohighlight">\(A\)</span> da migliorare la convergenza, ma abbastanza semplice da rendere economica la risoluzione di <span class="math notranslate nohighlight">\(Pz=r\)</span>.</p>
+</section>
+<hr class="docutils" />
+<section id="sistema-precondizionato">
+<h4>Sistema precondizionato<a class="headerlink" href="#sistema-precondizionato" title="Link to this heading">#</a></h4>
+<p>Formalmente, il sistema precondizionato può essere scritto come</p>
+<div class="math notranslate nohighlight">
+\[
+P^{-1}Ax=P^{-1}b.
+\]</div>
+<p>L’obiettivo è che la matrice precondizionata</p>
+<div class="math notranslate nohighlight">
+\[
+P^{-1}A
+\]</div>
+<p>sia meglio condizionata di <span class="math notranslate nohighlight">\(A\)</span>, oppure abbia autovalori più concentrati.</p>
+<p>C’è però un aspetto teorico importante. Anche se <span class="math notranslate nohighlight">\(A\)</span> e <span class="math notranslate nohighlight">\(P\)</span> sono simmetriche definite positive, la matrice <span class="math notranslate nohighlight">\(P^{-1}A\)</span>, in generale, <strong>non è simmetrica</strong>. Per mantenere il collegamento con la teoria del gradiente coniugato, si considera allora una forma equivalente del sistema:</p>
+<div class="math notranslate nohighlight">
+\[
+\left(P^{-1/2}AP^{-1/2}\right)\left(P^{1/2}x\right)=P^{-1/2}b.
+\]</div>
+<p>Questa forma è utile perché la matrice</p>
+<div class="math notranslate nohighlight">
+\[
+P^{-1/2}AP^{-1/2}
+\]</div>
+<p>è ancora simmetrica definita positiva.</p>
+<p>Nella pratica, però, non si calcolano mai esplicitamente né <span class="math notranslate nohighlight">\(P^{-1}\)</span> né <span class="math notranslate nohighlight">\(P^{-1/2}\)</span>. L’algoritmo viene scritto in modo da richiedere solo la soluzione di sistemi con matrice <span class="math notranslate nohighlight">\(P\)</span>.</p>
+</section>
+<hr class="docutils" />
+<section id="il-residuo-precondizionato">
+<h4>Il residuo precondizionato<a class="headerlink" href="#il-residuo-precondizionato" title="Link to this heading">#</a></h4>
+<p>Nel CG standard, le direzioni di ricerca vengono costruite a partire dal residuo</p>
+<div class="math notranslate nohighlight">
+\[
+r_k=b-Ax_k.
+\]</div>
+<p>Nel PCG, invece, prima si trasforma il residuo risolvendo</p>
+<div class="math notranslate nohighlight">
+\[
+Pz_k=r_k.
+\]</div>
+<p>Il vettore</p>
+<div class="math notranslate nohighlight">
+\[
+z_k=P^{-1}r_k
+\]</div>
+<p>si chiama <strong>residuo precondizionato</strong>.</p>
+<p>L’idea è che <span class="math notranslate nohighlight">\(z_k\)</span> contenga la stessa informazione di <span class="math notranslate nohighlight">\(r_k\)</span>, ma corretta usando il precondizionatore <span class="math notranslate nohighlight">\(P\)</span>. In questo modo il metodo costruisce direzioni di ricerca più adatte alla geometria del problema.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="confronto-tra-cg-e-pcg">
+<h3>Confronto tra CG e PCG<a class="headerlink" href="#confronto-tra-cg-e-pcg" title="Link to this heading">#</a></h3>
+<p>Il PCG non è un algoritmo completamente diverso dal CG. La struttura è quasi la stessa: cambiano solo alcuni punti, nei quali il residuo <span class="math notranslate nohighlight">\(r_k\)</span> viene sostituito dal residuo precondizionato <span class="math notranslate nohighlight">\(z_k\)</span>.</p>
+<p><img alt="Confronto tra algoritmo CG e algoritmo PCG" src="../_images/confronto_CG_PCG.png" /></p>
+</section>
+<hr class="docutils" />
+<section id="costo-di-una-iterazione-del-pcg">
+<h3>Costo di una iterazione del PCG<a class="headerlink" href="#costo-di-una-iterazione-del-pcg" title="Link to this heading">#</a></h3>
+<p>Una iterazione del CG richiede essenzialmente:</p>
+<ul class="simple">
+<li><p>un prodotto matrice-vettore (Ap_k);</p></li>
+<li><p>alcuni prodotti scalari;</p></li>
+<li><p>alcune somme di vettori.</p></li>
+</ul>
+<p>Nel PCG si aggiunge una nuova operazione:</p>
+<div class="math notranslate nohighlight">
+\[
+Pz_k=r_k.
+\]</div>
+<p>Quindi ogni iterazione del PCG è leggermente più costosa di una iterazione del CG.</p>
+<p>Il metodo è conveniente solo se questa spesa aggiuntiva viene compensata da una riduzione significativa del numero di iterazioni. In altre parole:</p>
+<ul class="simple">
+<li><p>se <span class="math notranslate nohighlight">\(P\)</span> è troppo semplice, costa poco ma migliora poco la convergenza;</p></li>
+<li><p>se <span class="math notranslate nohighlight">\(P\)</span> è troppo complessa, migliora molto la convergenza ma costa troppo applicarla;</p></li>
+<li><p>un buon precondizionatore deve stare nel mezzo.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="esempi-di-precondizionatori">
+<h3>Esempi di precondizionatori<a class="headerlink" href="#esempi-di-precondizionatori" title="Link to this heading">#</a></h3>
+<p>La scelta del precondizionatore dipende dal problema e dalla struttura della matrice.</p>
+<p>Un primo esempio è il <strong>precondizionatore di Jacobi</strong>, in cui <span class="math notranslate nohighlight">\(P\)</span> è la matrice diagonale ottenuta prendendo solo gli elementi diagonali di <span class="math notranslate nohighlight">\(A\)</span>. Questo precondizionatore è molto economico, perché risolvere</p>
+<div class="math notranslate nohighlight">
+\[
+Pz=r
+\]</div>
+<p>significa semplicemente dividere ogni componente di <span class="math notranslate nohighlight">\(r\)</span> per il corrispondente elemento diagonale.</p>
+<p>Esistono poi precondizionatori più sofisticati, basati su fattorizzazioni incomplete.</p>
+<p>Un esempio importante è la <strong>fattorizzazione di Cholesky incompleta</strong>. Se <span class="math notranslate nohighlight">\(A\)</span> è simmetrica definita positiva, la fattorizzazione di Cholesky completa scrive</p>
+<div class="math notranslate nohighlight">
+\[
+A=GG^T.
+\]</div>
+<p>Per matrici grandi e sparse, però, il fattore <span class="math notranslate nohighlight">\(G\)</span> può diventare molto più denso di <span class="math notranslate nohighlight">\(A\)</span>. Questo fenomeno è detto <strong>fill-in</strong> e può rendere il metodo costoso sia in memoria sia in tempo di calcolo.</p>
+<p>La Cholesky incompleta costruisce invece un fattore sparso <span class="math notranslate nohighlight">\(F\)</span>, più economico, e usa come precondizionatore</p>
+<div class="math notranslate nohighlight">
+\[
+P=FF^T.
+\]</div>
+<p>In questo modo <span class="math notranslate nohighlight">\(P\)</span> non coincide esattamente con <span class="math notranslate nohighlight">\(A\)</span>, ma ne approssima il comportamento mantenendo una struttura sparsa.</p>
+<p>Nelle applicazioni questo può ridurre notevolmente il numero di iterazioni, anche se ogni iterazione diventa leggermente più costosa.</p>
+<blockquote>
+<div><p><strong>Osservazione finale.</strong><br />
+Il precondizionamento non è un dettaglio tecnico secondario: per molti problemi di grandi dimensioni è una parte essenziale dei metodi iterativi. Non esiste però un precondizionatore migliore in assoluto. La scelta dipende dalla struttura della matrice e dal problema che ha generato il sistema lineare.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="riassunto">
+<h2>18. Riassunto<a class="headerlink" href="#riassunto" title="Link to this heading">#</a></h2>
+<p>I metodi iterativi sono utili quando i sistemi lineari sono grandi, sparsi o quando è sufficiente una soluzione approssimata.</p>
+<p>Il metodo di massima discesa nasce dall’interpretazione del sistema simmetrico definito positivo come problema di minimizzazione della funzione quadratica</p>
+<div class="math notranslate nohighlight">
+\[
+\varphi(x)=\frac{1}{2}x^TAx-b^Tx.
+\]</div>
+<p>Il metodo CG migliora la massima discesa costruendo direzioni di ricerca coniugate rispetto ad <span class="math notranslate nohighlight">\(A\)</span>.<br />
+Le sue proprietà principali sono:</p>
+<ul class="simple">
+<li><p>usa un solo prodotto matrice-vettore per iterazione;</p></li>
+<li><p>non richiede di memorizzare necessariamente tutta la matrice, se è disponibile una funzione che calcola <span class="math notranslate nohighlight">\(Av\)</span>;</p></li>
+<li><p>minimizza l’errore nella norma dell’energia su sottospazi di Krylov crescenti;</p></li>
+<li><p>in aritmetica esatta converge in al più <span class="math notranslate nohighlight">\(n\)</span> iterazioni;</p></li>
+<li><p>nella pratica spesso converge molto prima;</p></li>
+<li><p>può essere accelerato tramite precondizionamento.</p></li>
+</ul>
+</section>
+<section id="esercizi-proposti">
+<h2>19. Esercizi proposti<a class="headerlink" href="#esercizi-proposti" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Verificare che la matrice</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A=
+\begin{pmatrix}
+4 &amp; 1\\
+1 &amp; 3
+\end{pmatrix}
+\end{split}\]</div>
+<p>è simmetrica definita positiva.</p>
+<ol class="arabic simple" start="2">
+<li><p>Per il sistema</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+Ax=b,
+\qquad
+b=\begin{pmatrix}1\\2\end{pmatrix},
+\end{split}\]</div>
+<p>eseguire manualmente una iterazione del metodo di massima discesa partendo da <span class="math notranslate nohighlight">\(x_0=(0,0)^T\)</span>.</p>
+<ol class="arabic simple" start="3">
+<li><p>Implementare il metodo CG e confrontarlo con <code class="docutils literal notranslate"><span class="pre">np.linalg.solve</span></code> su una matrice simmetrica definita positiva generata casualmente.</p></li>
+<li><p>Provare a modificare gli autovalori della matrice dell’esempio numerico e osservare come cambia il numero di iterazioni del metodo CG.</p></li>
+<li><p>Spiegare perché, in un metodo iterativo per matrici sparse, il prodotto matrice-vettore è spesso più importante della fattorizzazione della matrice.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./miei_files"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="3_sistemi_lineari_condizionamento.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Sistemi lineari, condizionamento e metodi diretti</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-introdurre-metodi-iterativi">1. Perché introdurre metodi iterativi?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#idea-generale">Idea generale</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#un-esempio-vicino-alle-applicazioni-gestionali">Un esempio vicino alle applicazioni gestionali</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#residuo-ed-errore">2. Residuo ed errore</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrici-simmetriche-definite-positive">3. Matrici simmetriche definite positive</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#da-sistema-lineare-a-problema-di-minimizzazione">4. Da sistema lineare a problema di minimizzazione</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-serve-che-a-sia-simmetrica-definita-positiva">Perché serve che <span class="math notranslate nohighlight">\(A\)</span> sia simmetrica definita positiva?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodi-di-discesa-del-gradiente">5. Metodi di discesa del gradiente</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-di-massima-discesa-steepest-descent">6. Metodo di massima discesa (<em>steepest descent</em>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nota-sul-denominatore">Nota sul denominatore</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#realizzazione-efficiente-del-metodo-di-massima-discesa">7. Realizzazione efficiente del metodo di massima discesa</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudocodice-efficiente-massima-discesa">Pseudocodice efficiente: massima discesa</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#costo-computazionale-per-iterazione">Costo computazionale per iterazione</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limite-del-metodo-di-massima-discesa">8. Limite del metodo di massima discesa</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-del-gradiente-coniugato">9. Metodo del gradiente coniugato</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#direzioni-coniugate">10. Direzioni coniugate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norma-dell-energia">11. Norma dell’energia</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-per-il-metodo-cg">Interpretazione per il metodo CG</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sottospazi-di-krylov">12. Sottospazi di Krylov</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-del-gradiente-coniugato">13. Algoritmo del gradiente coniugato</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commento-riga-per-riga">Commento riga per riga</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-numerico-piccolo">14. Esempio numerico piccolo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergenza-del-metodo-cg">15. Convergenza del metodo CG</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-della-stima">Interpretazione della stima</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#confronto-tra-massima-discesa-e-gradiente-coniugato">16. Confronto tra massima discesa e gradiente coniugato</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#precondizionamento">17. Precondizionamento</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metodo-del-gradiente-coniugato-precondizionato">Metodo del gradiente coniugato precondizionato</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-il-precondizionamento-puo-accelerare-il-cg">Perché il precondizionamento può accelerare il CG?</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sistema-precondizionato">Sistema precondizionato</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#il-residuo-precondizionato">Il residuo precondizionato</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confronto-tra-cg-e-pcg">Confronto tra CG e PCG</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#costo-di-una-iterazione-del-pcg">Costo di una iterazione del PCG</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempi-di-precondizionatori">Esempi di precondizionatori</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#riassunto">18. Riassunto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esercizi-proposti">19. Esercizi proposti</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
