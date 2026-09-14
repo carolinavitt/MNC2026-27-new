@@ -1,0 +1,2400 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Algoritmi numerici, errori e aritmetica floating-point &#8212; MNC 2026/27</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'miei_files/0_algoritmi_numerici';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Equazioni non lineari" href="2_equazioni_non_lineari.html" />
+    <link rel="prev" title="Welcome to your Jupyter Book" href="../intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-metodi-numerici-jupyter-book-v2.png" class="logo__image only-light" alt="MNC 2026/27 - Home"/>
+    <img src="../_static/logo-metodi-numerici-jupyter-book-v2.png" class="logo__image only-dark pst-js-only" alt="MNC 2026/27 - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Algoritmi numerici, errori e aritmetica floating-point</a></li>
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="2_equazioni_non_lineari.html">Equazioni non lineari</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="3_sistemi_lineari_condizionamento.html">Sistemi lineari, condizionamento e metodi diretti</a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="4_metodi_iterativi_gradiente_coniugato.html">Metodi iterativi per sistemi lineari</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/carolinavitt/MNC2026-27" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/carolinavitt/MNC2026-27/issues/new?title=Issue%20on%20page%20%2Fmiei_files/0_algoritmi_numerici.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/miei_files/0_algoritmi_numerici.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Algoritmi numerici, errori e aritmetica floating-point</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Algoritmi numerici, errori e aritmetica floating-point</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-i-calcolo-scientifico-e-algoritmi-numerici">Parte I — Calcolo scientifico e algoritmi numerici</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#che-cos-e-il-calcolo-scientifico">1. Che cos’è il calcolo scientifico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calcolo-scientifico-e-analisi-numerica">2. Calcolo scientifico e analisi numerica</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-l-errore-e-inevitabile">3. Perché l’errore è inevitabile</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-ii-misurare-l-errore">Parte II — Misurare l’errore</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errore-assoluto">4. Errore assoluto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errore-relativo">5. Errore relativo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quando-l-errore-relativo-e-delicato">6. Quando l’errore relativo è delicato</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-iii-esempio-approssimazione-di-stirling">Parte III — Esempio: approssimazione di Stirling</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formula-di-stirling">7. Formula di Stirling</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-iv-tipi-di-errore">Parte IV — Tipi di errore</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errori-nel-problema">8. Errori nel problema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errori-di-approssimazione">9. Errori di approssimazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errori-di-arrotondamento">10. Errori di arrotondamento</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-gli-errori-di-arrotondamento-possono-crescere">Perché gli errori di arrotondamento possono crescere?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-v-taylor-e-differenziazione-numerica">Parte V — Taylor e differenziazione numerica</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-di-taylor">11. Teorema di Taylor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#differenza-in-avanti">12. Differenza in avanti</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-significato-della-notazione-o">13. Il significato della notazione <span class="math notranslate nohighlight">\(O\)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-caduta-libera">Esempio: caduta libera</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-evidenzia-le-variazioni-relative">Perché evidenzia le variazioni relative?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-vi-quando-h-diventa-troppo-piccolo">Parte VI — Quando <span class="math notranslate nohighlight">\(h\)</span> diventa troppo piccolo</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effetto-combinato-di-discretizzazione-e-arrotondamento">14. Effetto combinato di discretizzazione e arrotondamento</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lettura-del-grafico">15. Lettura del grafico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#differenza-centrata">16. Differenza centrata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-ulteriore-esempio">Un ulteriore esempio</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-vii-proprieta-degli-algoritmi">Parte VII — Proprietà degli algoritmi</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accuratezza">17. Accuratezza</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#efficienza">18. Efficienza</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#robustezza">19. Robustezza</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-viii-efficienza-la-regola-di-horner">Parte VIII — Efficienza: la regola di Horner</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#valutazione-di-un-polinomio">20. Valutazione di un polinomio</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-ix-condizionamento-e-stabilita">Parte IX — Condizionamento e stabilità</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizionamento-del-problema">21. Condizionamento del problema</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio">Esempio</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stabilita-dell-algoritmo">22. Stabilità dell’algoritmo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-ben-condizionato-sqrt-1-x-vicino-a-zero">23. Esempio ben condizionato: <span class="math notranslate nohighlight">\(\sqrt{1+x}\)</span> vicino a zero</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-mal-condizionato-tan-x-vicino-a-pi-2">24. Esempio mal condizionato: <span class="math notranslate nohighlight">\(\tan(x)\)</span> vicino a <span class="math notranslate nohighlight">\(\pi/2\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accumulo-degli-errori">25. Accumulo degli errori</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-instabile-ricorrenza-per-integrali">26. Esempio instabile: ricorrenza per integrali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spiegazione-dettagliata">Spiegazione dettagliata</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ricorrenza-stabile-all-indietro">27. Ricorrenza stabile all’indietro</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#riepilogo-finale">Riepilogo finale</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checklist-dei-concetti-principali">Checklist dei concetti principali</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glossario">Glossario</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="algoritmi-numerici-errori-e-aritmetica-floating-point">
+<h1>Algoritmi numerici, errori e aritmetica floating-point<a class="headerlink" href="#algoritmi-numerici-errori-e-aritmetica-floating-point" title="Link to this heading">#</a></h1>
+<p>Questo capitolo tratta:</p>
+<ul class="simple">
+<li><p>algoritmi numerici, errori e proprietà degli algoritmi;</p></li>
+<li><p>errori di arrotondamento e sistemi floating-point.</p></li>
+</ul>
+<p>L’obiettivo della lezione è costruire una comprensione operativa dei concetti fondamentali del calcolo scientifico:</p>
+<ol class="arabic simple">
+<li><p>perché i calcoli numerici sono inevitabilmente approssimati;</p></li>
+<li><p>come misurare errore assoluto ed errore relativo;</p></li>
+<li><p>quali errori derivano da modello, discretizzazione, convergenza e arrotondamento;</p></li>
+<li><p>come si comportano gli errori di discretizzazione nella differenziazione numerica;</p></li>
+<li><p>perché ridurre il passo <span class="math notranslate nohighlight">\(h\)</span> non migliora sempre il risultato;</p></li>
+<li><p>cosa sono accuratezza, efficienza e robustezza;</p></li>
+<li><p>differenza fra condizionamento del problema e stabilità dell’algoritmo;</p></li>
+<li><p>come funziona una rappresentazione floating-point;</p></li>
+<li><p>cosa sono unità di arrotondamento, overflow, underflow, NaN e cancellazione;</p></li>
+<li><p>come progettare formule numericamente più stabili.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">struct</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-i-calcolo-scientifico-e-algoritmi-numerici">
+<h1>Parte I — Calcolo scientifico e algoritmi numerici<a class="headerlink" href="#parte-i-calcolo-scientifico-e-algoritmi-numerici" title="Link to this heading">#</a></h1>
+<section id="che-cos-e-il-calcolo-scientifico">
+<h2>1. Che cos’è il calcolo scientifico<a class="headerlink" href="#che-cos-e-il-calcolo-scientifico" title="Link to this heading">#</a></h2>
+<p>Il calcolo scientifico studia lo sviluppo e l’analisi di algoritmi numerici per risolvere problemi matematici che nascono da modelli scientifici, ingegneristici e informatici.</p>
+<p>Uno schema concettuale tipico è:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{fenomeno osservato}
+\rightarrow
+\text{modello matematico}
+\rightarrow
+\text{discretizzazione}
+\rightarrow
+\text{algoritmo di soluzione}
+\rightarrow
+\text{implementazione}.
+\]</div>
+<p>Il punto centrale è che il problema matematico originario è spesso continuo, mentre il computer può manipolare solo oggetti finiti.</p>
+<p>Per esempio:</p>
+<ul class="simple">
+<li><p>una funzione continua viene sostituita da un array di valori;</p></li>
+<li><p>una derivata viene sostituita da una formula alle differenze finite;</p></li>
+<li><p>un integrale viene sostituito da una somma;</p></li>
+<li><p>un’equazione differenziale viene sostituita da un sistema algebrico.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Esempio: una funzione continua campionata su una griglia finita.</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f_continua</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">x_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+<span class="n">x_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_fine</span><span class="p">,</span> <span class="n">f_continua</span><span class="p">(</span><span class="n">x_fine</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;funzione continua&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">f_continua</span><span class="p">(</span><span class="n">x_grid</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;campioni discreti&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Da funzione continua a dati discreti&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;f(x)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c22f80a6dc2502b8d4dfc1682c328f494005f190ae9439f2b7365393a3fd6eb6.png" src="../_images/c22f80a6dc2502b8d4dfc1682c328f494005f190ae9439f2b7365393a3fd6eb6.png" />
+</div>
+</div>
+</section>
+<section id="calcolo-scientifico-e-analisi-numerica">
+<h2>2. Calcolo scientifico e analisi numerica<a class="headerlink" href="#calcolo-scientifico-e-analisi-numerica" title="Link to this heading">#</a></h2>
+<p>È utile distinguere due livelli.</p>
+<p><strong>Calcolo scientifico:</strong> comprende l’intero processo: modello, discretizzazione, algoritmo, implementazione, strutture dati, architettura di calcolo e interpretazione dei risultati.</p>
+<p><strong>Analisi numerica:</strong> studia la teoria degli algoritmi numerici: errore, convergenza, stabilità, condizionamento, accuratezza ed efficienza.</p>
+<p>In questo notebook lavoriamo soprattutto sugli strumenti di base dell’analisi numerica.</p>
+</section>
+<section id="perche-l-errore-e-inevitabile">
+<h2>3. Perché l’errore è inevitabile<a class="headerlink" href="#perche-l-errore-e-inevitabile" title="Link to this heading">#</a></h2>
+<p>Il risultato di un calcolo numerico interessante è quasi sempre approssimato.</p>
+<p>Le cause principali sono:</p>
+<ol class="arabic simple">
+<li><p><strong>errore nel modello o nei dati</strong>;</p></li>
+<li><p><strong>errore di discretizzazione</strong>;</p></li>
+<li><p><strong>errore di convergenza</strong>;</p></li>
+<li><p><strong>errore di arrotondamento</strong>.</p></li>
+</ol>
+<p>L’obiettivo non è eliminare completamente l’errore, ma controllarlo e mantenerlo entro una soglia accettabile.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-ii-misurare-l-errore">
+<h1>Parte II — Misurare l’errore<a class="headerlink" href="#parte-ii-misurare-l-errore" title="Link to this heading">#</a></h1>
+<section id="errore-assoluto">
+<h2>4. Errore assoluto<a class="headerlink" href="#errore-assoluto" title="Link to this heading">#</a></h2>
+<p>Sia <span class="math notranslate nohighlight">\(u\)</span> una quantità esatta e sia <span class="math notranslate nohighlight">\(v\)</span> una sua approssimazione.</p>
+<p>L’errore assoluto è</p>
+<div class="math notranslate nohighlight">
+\[
+|u-v|.
+\]</div>
+<p>Misura la distanza diretta fra valore esatto e valore approssimato.</p>
+<p>È utile quando la scala del problema è nota o quando il valore esatto può essere vicino a zero.</p>
+</section>
+<section id="errore-relativo">
+<h2>5. Errore relativo<a class="headerlink" href="#errore-relativo" title="Link to this heading">#</a></h2>
+<p>Se <span class="math notranslate nohighlight">\(u\neq 0\)</span>, l’errore relativo è</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{|u-v|}{|u|}.
+\]</div>
+<p>Misura l’errore rispetto alla scala del valore esatto.</p>
+<p>L’errore relativo è spesso più informativo dell’errore assoluto, soprattutto quando i valori possono avere grandezze molto diverse.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">examples</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.01</span><span class="p">),</span>
+    <span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">99.99</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">99.0</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">1e8</span><span class="p">,</span> <span class="mf">1e8</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mf">2e-8</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;u esatto&#39;</span><span class="si">:</span><span class="s2">&gt;14</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;v appross.&#39;</span><span class="si">:</span><span class="s2">&gt;14</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;err. assoluto&#39;</span><span class="si">:</span><span class="s2">&gt;16</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;err. relativo&#39;</span><span class="si">:</span><span class="s2">&gt;16</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">:</span>
+    <span class="n">abs_err</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span>
+    <span class="n">rel_err</span> <span class="o">=</span> <span class="n">abs_err</span> <span class="o">/</span> <span class="nb">abs</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="k">if</span> <span class="n">u</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">u</span><span class="si">:</span><span class="s2">14.6g</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">14.6g</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">abs_err</span><span class="si">:</span><span class="s2">16.6g</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">rel_err</span><span class="si">:</span><span class="s2">16.6g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      u esatto     v appross.    err. assoluto    err. relativo
+             1           0.99             0.01             0.01
+             1           1.01             0.01             0.01
+          -1.5           -1.2              0.3              0.2
+           100          99.99             0.01           0.0001
+           100             99                1             0.01
+         1e+08          1e+08                1            1e-08
+         1e-08          2e-08            1e-08                1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="quando-l-errore-relativo-e-delicato">
+<h2>6. Quando l’errore relativo è delicato<a class="headerlink" href="#quando-l-errore-relativo-e-delicato" title="Link to this heading">#</a></h2>
+<p>Se <span class="math notranslate nohighlight">\(|u|\)</span> è molto piccolo, l’errore relativo può diventare molto grande o poco significativo.</p>
+<p>Per questo motivo, in molti algoritmi si usano criteri misti, per esempio:</p>
+<div class="math notranslate nohighlight">
+\[
+|u-v|\le \mathrm{atol}+\mathrm{rtol}|u|.
+\]</div>
+<p>Qui:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">atol</span></code> è una tolleranza assoluta;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rtol</span></code> è una tolleranza relativa.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">errore_misto</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">atol</span> <span class="o">+</span> <span class="n">rtol</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+
+<span class="n">tests</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="mf">1e-13</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">1e8</span><span class="p">,</span> <span class="mf">1e8</span> <span class="o">+</span> <span class="mf">1e-3</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">1e-14</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;u =&quot;</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="s2">&quot;v =&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="s2">&quot;vicini?&quot;</span><span class="p">,</span> <span class="n">errore_misto</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>u = 1.0 v = 1.0000000000001 vicini? True
+u = 100000000.0 v = 100000000.001 vicini? False
+u = 1e-14 v = 0.0 vicini? True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-iii-esempio-approssimazione-di-stirling">
+<h1>Parte III — Esempio: approssimazione di Stirling<a class="headerlink" href="#parte-iii-esempio-approssimazione-di-stirling" title="Link to this heading">#</a></h1>
+<section id="formula-di-stirling">
+<h2>7. Formula di Stirling<a class="headerlink" href="#formula-di-stirling" title="Link to this heading">#</a></h2>
+<p>La formula di Stirling approssima il fattoriale:</p>
+<div class="math notranslate nohighlight">
+\[
+n! = 1\cdot 2\cdots n.
+\]</div>
+<p>L’approssimazione è</p>
+<div class="math notranslate nohighlight">
+\[
+S_n=\sqrt{2\pi n}\left(\frac{n}{e}\right)^n.
+\]</div>
+<p>Questa formula è molto utile perché il fattoriale cresce estremamente velocemente e, per valori grandi di <span class="math notranslate nohighlight">\(n\)</span>, il calcolo diretto di <span class="math notranslate nohighlight">\(n!\)</span> può diventare numericamente problematico.</p>
+<p>È un esempio utile perché:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n!\)</span> cresce molto velocemente;</p></li>
+<li><p>l’errore assoluto cresce;</p></li>
+<li><p>l’errore relativo diminuisce.</p></li>
+</ul>
+<p>Quindi l’errore relativo descrive meglio la qualità dell’approssimazione.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">stirling</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="p">)</span><span class="o">**</span><span class="n">n</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">fact_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">n</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">Sn</span> <span class="o">=</span> <span class="n">stirling</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="n">abs_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Sn</span> <span class="o">-</span> <span class="n">fact_n</span><span class="p">)</span>
+<span class="n">rel_err</span> <span class="o">=</span> <span class="n">abs_err</span> <span class="o">/</span> <span class="n">fact_n</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;n&#39;</span><span class="si">:</span><span class="s2">&gt;3</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;n!&#39;</span><span class="si">:</span><span class="s2">&gt;16</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;S_n&#39;</span><span class="si">:</span><span class="s2">&gt;16</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Eabs&#39;</span><span class="si">:</span><span class="s2">&gt;16</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Erel&#39;</span><span class="si">:</span><span class="s2">&gt;16</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">fact_n</span><span class="p">,</span> <span class="n">Sn</span><span class="p">,</span> <span class="n">abs_err</span><span class="p">,</span> <span class="n">rel_err</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">16.6g</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">16.6g</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">:</span><span class="s2">16.6g</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="si">:</span><span class="s2">16.6g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  n               n!              S_n             Eabs             Erel
+  1                1         0.922137         0.077863         0.077863
+  2                2            1.919        0.0809956        0.0404978
+  3                6          5.83621          0.16379        0.0272984
+  4               24          23.5062         0.493825         0.020576
+  5              120          118.019          1.98083        0.0165069
+  6              720          710.078          9.92182        0.0137803
+  7             5040           4980.4          59.6042        0.0118262
+  8            40320          39902.4          417.605        0.0103573
+  9           362880           359537          3343.13       0.00921276
+ 10       3.6288e+06       3.5987e+06          30104.4       0.00829596
+ 11      3.99168e+07      3.96156e+07           301175       0.00754507
+ 12      4.79002e+08      4.75687e+08      3.31411e+06       0.00691879
+ 13      6.22702e+09      6.18724e+09      3.97813e+07        0.0063885
+ 14      8.71783e+10       8.6661e+10      5.17289e+08        0.0059337
+ 15      1.30767e+12      1.30043e+12      7.24365e+09       0.00553933
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">abs_err</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;errore assoluto&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">rel_err</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;errore relativo&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Formula di Stirling: errore assoluto e relativo&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;errore&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/33efa292a8cae0365bf1a5f5c233b0edab179141ac8129411b02482233c4c1e0.png" src="../_images/33efa292a8cae0365bf1a5f5c233b0edab179141ac8129411b02482233c4c1e0.png" />
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-iv-tipi-di-errore">
+<h1>Parte IV — Tipi di errore<a class="headerlink" href="#parte-iv-tipi-di-errore" title="Link to this heading">#</a></h1>
+<section id="errori-nel-problema">
+<h2>8. Errori nel problema<a class="headerlink" href="#errori-nel-problema" title="Link to this heading">#</a></h2>
+<p>Gli errori nel problema derivano dal modello o dai dati. Non dipendono ancora dall’algoritmo numerico scelto: sono già presenti nella formulazione del problema.</p>
+<p>Esempi:</p>
+<ul>
+<li><p><strong>Misure sperimentali imprecise.</strong><br />
+Se vogliamo stimare la velocità media di un veicolo a partire da misure di spazio e tempo, piccoli errori nel cronometro o nel sensore di posizione producono dati iniziali non esatti. Anche un algoritmo perfetto lavorerebbe quindi su valori già affetti da errore.</p></li>
+<li><p><strong>Fenomeni fisici trascurati.</strong><br />
+Nel modellare o spazio percorso verticalmente da un corpo in caduta libera, partendo da fermo, possiamo usare la formula semplificata</p>
+<div class="math notranslate nohighlight">
+\[
+  s(t)=\frac12gt^2,
+  \]</div>
+<p>che trascura la resistenza dell’aria. Il modello è semplice e utile, ma non descrive esattamente il fenomeno reale.</p>
+</li>
+<li><p><strong>Semplificazioni geometriche.</strong><br />
+In un modello di traffico o logistica, una strada può essere rappresentata come un segmento rettilineo, anche se nella realtà è curva. Questa semplificazione rende il problema più facile da trattare, ma introduce una differenza tra il modello e la situazione reale.</p></li>
+<li><p><strong>Parametri incerti.</strong><br />
+In un modello economico, il tasso di crescita della domanda, il costo futuro di una materia prima o il tasso di interesse possono essere solo stimati. Se questi parametri non sono noti con precisione, anche la soluzione del modello sarà inevitabilmente incerta.</p></li>
+</ul>
+<p>Questi errori non possono essere eliminati da un algoritmo numerico.<br />
+Possono però influenzare la tolleranza ragionevole da richiedere alla soluzione numerica.</p>
+<p>Ad esempio, se i dati iniziali sono noti solo con due cifre significative, non ha senso pretendere una soluzione numerica con dieci cifre corrette: l’accuratezza sarebbe limitata già dagli errori presenti nel problema.</p>
+</section>
+<section id="errori-di-approssimazione">
+<h2>9. Errori di approssimazione<a class="headerlink" href="#errori-di-approssimazione" title="Link to this heading">#</a></h2>
+<p>Gli errori di approssimazione derivano dall’uso di una formula approssimata.</p>
+<p>Due casi frequenti:</p>
+<p><strong>Errori di discretizzazione:</strong> nascono quando un problema continuo viene sostituito da uno discreto.</p>
+<p><strong>Errori di convergenza:</strong> nascono quando un metodo iterativo viene fermato dopo un numero finito di passi.</p>
+<p>Esempio: il metodo di Newton converge a una radice solo al limite, ma in pratica ci si ferma quando il passo o il residuo sono abbastanza piccoli.</p>
+</section>
+<section id="errori-di-arrotondamento">
+<h2>10. Errori di arrotondamento<a class="headerlink" href="#errori-di-arrotondamento" title="Link to this heading">#</a></h2>
+<p>Gli errori di arrotondamento derivano dal fatto che il computer non rappresenta i numeri reali con infinite cifre (si parla di  rappresentazione finita dei numeri reali) e dall’aritmetica floating-point.</p>
+<p>In questo contesto si parla di <strong>aritmetica floating-point</strong> per indicare il modo in cui il computer rappresenta e manipola numeri reali mediante un numero finito di cifre.</p>
+<p>Il termine <strong>floating-point</strong> significa letteralmente <strong>virgola mobile</strong> e si riferisce al fatto che la posizione della virgola decimale non è fissa, ma può “spostarsi” in base alla grandezza del numero rappresentato.</p>
+<p>Ad esempio, un numero come</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{3}=0.333333333\ldots
+\]</div>
+<p>ha infinite cifre decimali. In un computer, però, può essere memorizzato solo con un numero finito di cifre. Quindi viene sostituito da un valore approssimato.</p>
+<p>Anche un’espressione matematicamente esatta può produrre risultati non esatti sul computer.</p>
+<p>Esempio classico:</p>
+<div class="math notranslate nohighlight">
+\[
+0.1+0.2\neq 0.3
+\]</div>
+<p>in aritmetica floating-point binaria.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;0.1 + 0.2 =&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s2">&quot;.18f&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;0.3       =&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;.18f&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;uguaglianza esatta?&quot;</span><span class="p">,</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">==</span> <span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.1 + 0.2 = 0.300000000000000044
+0.3       = 0.299999999999999989
+uguaglianza esatta? False
+</pre></div>
+</div>
+</div>
+</div>
+<p>In generale, quando il computer esegue un’operazione aritmetica, il risultato esatto viene approssimato con il numero rappresentabile più vicino. Questo introduce un piccolo errore.</p>
+<p>Indichiamo con</p>
+<div class="math notranslate nohighlight">
+\[
+\varepsilon_{\text{mach}}
+\]</div>
+<p>la <strong>precisione di macchina</strong>, cioè un numero che misura quanto possono essere piccoli gli errori relativi dovuti alla rappresentazione floating-point.</p>
+<p>In modo semplificato, possiamo pensare che ogni operazione aritmetica introduca un errore relativo dell’ordine di</p>
+<div class="math notranslate nohighlight">
+\[
+\varepsilon_{\text{mach}}.
+\]</div>
+<p>Quindi, se <span class="math notranslate nohighlight">\(a\)</span> e <span class="math notranslate nohighlight">\(b\)</span> sono due numeri floating-point e <span class="math notranslate nohighlight">\(\circ\)</span> indica una delle operazioni (+,-,\cdot,/), il computer non calcola esattamente</p>
+<div class="math notranslate nohighlight">
+\[
+a\circ b,
+\]</div>
+<p>ma un valore arrotondato, che possiamo schematizzare come</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{fl}(a\circ b)
+=
+(a\circ b)(1+\delta),
+\qquad |\delta|\lesssim \varepsilon_{\text{mach}}.
+\]</div>
+<p>Qui <span class="math notranslate nohighlight">\(\mathrm{fl}(\cdot)\)</span> indica il risultato calcolato in aritmetica floating-point.</p>
+<hr class="docutils" />
+<section id="perche-gli-errori-di-arrotondamento-possono-crescere">
+<h3>Perché gli errori di arrotondamento possono crescere?<a class="headerlink" href="#perche-gli-errori-di-arrotondamento-possono-crescere" title="Link to this heading">#</a></h3>
+<p>Un singolo errore di arrotondamento è normalmente molto piccolo. Tuttavia, in un algoritmo numerico si eseguono molte operazioni, e gli errori possono accumularsi.</p>
+<p>Inoltre, alcune operazioni possono amplificare gli errori.</p>
+<p>Un caso particolarmente importante è la <strong>sottrazione tra numeri quasi uguali</strong>. Ad esempio, se calcoliamo</p>
+<div class="math notranslate nohighlight">
+\[
+1.000001-1.000000,
+\]</div>
+<p>il risultato esatto è</p>
+<div class="math notranslate nohighlight">
+\[
+0.000001.
+\]</div>
+<p>Quando sottraiamo due numeri quasi uguali, le cifre iniziali sono uguali e quindi si cancellano. Il risultato dipende allora dalle poche cifre finali, che sono proprio quelle meno affidabili perché più influenzate dagli errori di arrotondamento. Per questo motivo la sottrazione può produrre un risultato con poche cifre significative corrette.</p>
+<p>Questo fenomeno si chiama <strong>cancellazione numerica</strong>.</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-v-taylor-e-differenziazione-numerica">
+<h1>Parte V — Taylor e differenziazione numerica<a class="headerlink" href="#parte-v-taylor-e-differenziazione-numerica" title="Link to this heading">#</a></h1>
+<section id="teorema-di-taylor">
+<h2>11. Teorema di Taylor<a class="headerlink" href="#teorema-di-taylor" title="Link to this heading">#</a></h2>
+<p>Il teorema di Taylor è uno degli strumenti più usati nell’analisi numerica.</p>
+<p>Se <span class="math notranslate nohighlight">\(f\)</span> ha derivate sufficientemente continue in un intervallo contenente <span class="math notranslate nohighlight">\(x_0\)</span> e <span class="math notranslate nohighlight">\(x_0+h\)</span>, allora</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_0+h)
+=
+f(x_0)
++
+h f'(x_0)
++
+\frac{h^2}{2}f''(x_0)
++
+\cdots
++
+\frac{h^k}{k!}f^{(k)}(x_0)
++
+\frac{h^{k+1}}{(k+1)!}f^{(k+1)}(\xi),
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\xi\)</span> è un punto fra <span class="math notranslate nohighlight">\(x_0\)</span> e <span class="math notranslate nohighlight">\(x_0+h\)</span>.</p>
+<p>Taylor permette di derivare formule numeriche e stimarne l’errore.</p>
+</section>
+<section id="differenza-in-avanti">
+<h2>12. Differenza in avanti<a class="headerlink" href="#differenza-in-avanti" title="Link to this heading">#</a></h2>
+<p>Vogliamo approssimare <span class="math notranslate nohighlight">\(f'(x_0)\)</span>.</p>
+<p>Da Taylor:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_0+h)=f(x_0)+h f'(x_0)+\frac{h^2}{2}f''(x_0)+O(h^3).
+\]</div>
+<p>Sottraendo <span class="math notranslate nohighlight">\(f(x_0)\)</span> da entrambi i membri otteniamo</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_0+h)-f(x_0)
+=
+h f'(x_0)+\frac{h^2}{2}f''(x_0)+O(h^3).
+\]</div>
+<p>Dividendo tutto per <span class="math notranslate nohighlight">\(h\)</span>, si ha</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{f(x_0+h)-f(x_0)}{h}
+=
+f'(x_0)
++
+\frac{h}{2}f''(x_0)
++
+O(h^2).
+\]</div>
+<p>La formula di <strong>differenza in avanti</strong> è quindi</p>
+<div class="math notranslate nohighlight">
+\[
+f'(x_0)\approx
+\frac{f(x_0+h)-f(x_0)}{h}.
+\]</div>
+<p>Per capire l’ordine dell’errore, sottraiamo <span class="math notranslate nohighlight">\(f'(x_0)\)</span> da entrambi i membri:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{f(x_0+h)-f(x_0)}{h}-f'(x_0)
+=
+\frac{h}{2}f''(x_0)+O(h^2).
+\]</div>
+<p>Il termine principale dell’errore è</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{h}{2}f''(x_0).
+\]</div>
+<p>Questo termine è proporzionale ad <span class="math notranslate nohighlight">\(h\)</span>: se dimezziamo <span class="math notranslate nohighlight">\(h\)</span>, anche questo contributo all’errore si dimezza circa. Il termine successivo, <span class="math notranslate nohighlight">\(O(h^2)\)</span>, è più piccolo per <span class="math notranslate nohighlight">\(h\)</span> piccolo.</p>
+<p>Per questo motivo l’errore di discretizzazione della formula è</p>
+<div class="math notranslate nohighlight">
+\[
+O(h).
+\]</div>
+<p>In altre parole, la differenza in avanti è un metodo del <strong>primo ordine</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">forward_difference</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">f</span><span class="p">(</span><span class="n">x0</span><span class="p">))</span> <span class="o">/</span> <span class="n">h</span>
+
+<span class="n">x0</span> <span class="o">=</span> <span class="mf">1.2</span>
+<span class="n">true_derivative</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+
+<span class="n">hs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1e-1</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="mf">1e-7</span><span class="p">])</span>
+<span class="n">errs</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;h&#39;</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;approssimazione&#39;</span><span class="si">:</span><span class="s2">&gt;20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;errore assoluto&#39;</span><span class="si">:</span><span class="s2">&gt;20</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">hs</span><span class="p">:</span>
+    <span class="n">approx</span> <span class="o">=</span> <span class="n">forward_difference</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">true_derivative</span> <span class="o">-</span> <span class="n">approx</span><span class="p">)</span>
+    <span class="n">errs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">h</span><span class="si">:</span><span class="s2">12.1e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">approx</span><span class="si">:</span><span class="s2">20.12f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">err</span><span class="si">:</span><span class="s2">20.8e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>           h      approssimazione      errore assoluto
+     1.0e-01       0.315190994500       4.71667600e-02
+     1.0e-02       0.357691558616       4.66619586e-03
+     1.0e-03       0.361891674580       4.66079897e-04
+     1.0e-04       0.362311151919       4.66025576e-05
+     1.0e-07       0.362357708283       4.61932619e-08
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interpretazione geometrica: tangente e corda.</span>
+
+<span class="n">x0</span> <span class="o">=</span> <span class="mf">1.2</span>
+<span class="n">h</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="n">f0</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+<span class="n">f1</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span>
+<span class="n">slope_chord</span> <span class="o">=</span> <span class="p">(</span><span class="n">f1</span> <span class="o">-</span> <span class="n">f0</span><span class="p">)</span> <span class="o">/</span> <span class="n">h</span>
+<span class="n">slope_tangent</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+<span class="n">tangent</span> <span class="o">=</span> <span class="n">f0</span> <span class="o">+</span> <span class="n">slope_tangent</span> <span class="o">*</span> <span class="p">(</span><span class="n">xs</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span>
+<span class="n">chord</span> <span class="o">=</span> <span class="n">f0</span> <span class="o">+</span> <span class="n">slope_chord</span> <span class="o">*</span> <span class="p">(</span><span class="n">xs</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;f(x)=sin(x)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">tangent</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;tangente&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">chord</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;corda&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="n">x0</span><span class="o">+</span><span class="n">h</span><span class="p">],</span> <span class="p">[</span><span class="n">f0</span><span class="p">,</span> <span class="n">f1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Derivata esatta e differenza in avanti&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/da5e69cd99c9cb92717684c3ad210168a13ce2a1f2e63209d06c35df47bc8dae.png" src="../_images/da5e69cd99c9cb92717684c3ad210168a13ce2a1f2e63209d06c35df47bc8dae.png" />
+</div>
+</div>
+</section>
+<section id="il-significato-della-notazione-o">
+<h2>13. Il significato della notazione <span class="math notranslate nohighlight">\(O\)</span><a class="headerlink" href="#il-significato-della-notazione-o" title="Link to this heading">#</a></h2>
+<p>Scrivere</p>
+<div class="math notranslate nohighlight">
+\[
+e(h)=O(h^q)
+\]</div>
+<p>significa che esiste una costante <span class="math notranslate nohighlight">\(C&gt;0\)</span> tale che, per <span class="math notranslate nohighlight">\(h\)</span> abbastanza piccolo,</p>
+<div class="math notranslate nohighlight">
+\[
+|e(h)|\le Ch^q.
+\]</div>
+<p>Per la differenza in avanti:</p>
+<div class="math notranslate nohighlight">
+\[
+e(h)=O(h).
+\]</div>
+<p>Per <span class="math notranslate nohighlight">\(f(x)=\sin(x)\)</span> e <span class="math notranslate nohighlight">\(x_0=1.2\)</span>, il termine principale è circa</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{h}{2}|f''(x_0)|
+=
+\frac{h}{2}|\sin(1.2)|.
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span> <span class="o">=</span> <span class="mf">1.2</span>
+<span class="n">f0</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+
+<span class="n">hs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">10.0</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)])</span>
+<span class="n">errs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fp</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">hs</span><span class="p">)</span> <span class="o">-</span> <span class="n">f0</span><span class="p">)</span><span class="o">/</span><span class="n">hs</span><span class="p">)</span>
+<span class="n">estimate</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x0</span><span class="p">))</span> <span class="o">*</span> <span class="n">hs</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;h&#39;</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;errore&#39;</span><span class="si">:</span><span class="s2">&gt;16</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;stima 0.5|sin(x0)|h&#39;</span><span class="si">:</span><span class="s2">&gt;24</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;errore/h&#39;</span><span class="si">:</span><span class="s2">&gt;16</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">h</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">est</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">errs</span><span class="p">,</span> <span class="n">estimate</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">h</span><span class="si">:</span><span class="s2">12.1e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="si">:</span><span class="s2">16.8e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">est</span><span class="si">:</span><span class="s2">24.8e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e</span><span class="o">/</span><span class="n">h</span><span class="si">:</span><span class="s2">16.8e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>           h           errore      stima 0.5|sin(x0)|h         errore/h
+     1.0e-01   4.71667600e-02           4.66019543e-02   4.71667600e-01
+     1.0e-02   4.66619586e-03           4.66019543e-03   4.66619586e-01
+     1.0e-03   4.66079897e-04           4.66019543e-04   4.66079897e-01
+     1.0e-04   4.66025576e-05           4.66019543e-05   4.66025576e-01
+     1.0e-05   4.66019133e-06           4.66019543e-06   4.66019133e-01
+     1.0e-06   4.65968587e-07           4.66019543e-07   4.65968587e-01
+     1.0e-07   4.61932619e-08           4.66019543e-08   4.61932619e-01
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">errs</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;errore osservato&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">estimate</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;stima proporzionale a h&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">invert_xaxis</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Errore della differenza in avanti&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;errore assoluto&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a7b421281af3a5dc41c005228c9e1d52756c2f85088b45c7a9cbdedec858e84c.png" src="../_images/a7b421281af3a5dc41c005228c9e1d52756c2f85088b45c7a9cbdedec858e84c.png" />
+</div>
+</div>
+<div style="
+    padding: 18px 22px;
+    margin: 16px 0;
+    border-left: 5px solid #4a90e2;
+    border-radius: 6px;
+    background-color: rgba(74, 144, 226, 0.10);
+">
+<h3 style="margin-top: 0;">📈 Nota — Plot in scala bilogaritmica</h3>
+<p>Un <strong>plot in scala bilogaritmica</strong> (log–log) usa una scala logaritmica su entrambi gli assi. È utile soprattutto per:</p>
+<ul class="simple">
+<li><p>rappresentare dati che coprono molti ordini di grandezza;</p></li>
+<li><p>riconoscere una <strong>legge di potenza</strong> <span class="math notranslate nohighlight">\(y=Cx^n\)</span>, che nel grafico appare come una retta;</p></li>
+<li><p>ricavare l’esponente <span class="math notranslate nohighlight">\(n\)</span>, che coincide con la pendenza della retta.</p></li>
+</ul>
+<section id="esempio-caduta-libera">
+<h3>Esempio: caduta libera<a class="headerlink" href="#esempio-caduta-libera" title="Link to this heading">#</a></h3>
+<p>Per la caduta libera:</p>
+<div class="math notranslate nohighlight">
+\[
+s=\frac{g}{2}t^2
+\]</div>
+<p>Prendendo i logaritmi:</p>
+<div class="math notranslate nohighlight">
+\[
+\log s=\log\left(\frac{g}{2}\right)+2\log t
+\]</div>
+<p>Plottando <span class="math notranslate nohighlight">\(s\)</span> rispetto a <span class="math notranslate nohighlight">\(t\)</span> in scala bilogaritmica, si ottiene quindi una retta con <strong>pendenza 2</strong>. Questo permette di verificare sperimentalmente che lo spazio è proporzionale al quadrato del tempo.</p>
+</section>
+<section id="perche-evidenzia-le-variazioni-relative">
+<h3>Perché evidenzia le variazioni relative?<a class="headerlink" href="#perche-evidenzia-le-variazioni-relative" title="Link to this heading">#</a></h3>
+<p>In una scala logaritmica, la distanza tra due valori dipende dal loro <strong>rapporto</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\log(x_2)-\log(x_1)
+=
+\log\left(\frac{x_2}{x_1}\right)
+\]</div>
+<p>Intervalli con lo stesso fattore moltiplicativo hanno quindi la stessa lunghezza sul grafico. Per esempio, gli intervalli da <span class="math notranslate nohighlight">\(1\)</span> a <span class="math notranslate nohighlight">\(10\)</span> e da <span class="math notranslate nohighlight">\(10\)</span> a <span class="math notranslate nohighlight">\(100\)</span> sono uguali perché entrambi corrispondono a una moltiplicazione per <span class="math notranslate nohighlight">\(10\)</span>.</p>
+<p>In breve:</p>
+<p>scala lineare → distanze uguali indicano incrementi uguali;</p>
+<p>scala logaritmica → distanze uguali indicano fattori moltiplicativi uguali.</p>
+<p>Per questo la scala logaritmica mette in evidenza variazioni percentuali o relative: passare da <span class="math notranslate nohighlight">\(1\)</span> a <span class="math notranslate nohighlight">\(2\)</span> equivale a un aumento del (100%), proprio come passare da <span class="math notranslate nohighlight">\(10\)</span> a <span class="math notranslate nohighlight">\(20\)</span>.</p>
+<hr style="border: 0; border-top: 1px solid rgba(74, 144, 226, 0.35);">
+<p><strong>⚠️ Attenzione:</strong> normalmente una scala logaritmica non può rappresentare valori nulli o negativi.</p>
+</div></section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-vi-quando-h-diventa-troppo-piccolo">
+<h1>Parte VI — Quando <span class="math notranslate nohighlight">\(h\)</span> diventa troppo piccolo<a class="headerlink" href="#parte-vi-quando-h-diventa-troppo-piccolo" title="Link to this heading">#</a></h1>
+<section id="effetto-combinato-di-discretizzazione-e-arrotondamento">
+<h2>14. Effetto combinato di discretizzazione e arrotondamento<a class="headerlink" href="#effetto-combinato-di-discretizzazione-e-arrotondamento" title="Link to this heading">#</a></h2>
+<p>Dalla teoria sembrerebbe che, diminuendo <span class="math notranslate nohighlight">\(h\)</span>, l’errore della differenza in avanti debba diminuire sempre.</p>
+<p>In realtà, per <span class="math notranslate nohighlight">\(h\)</span> molto piccolo, la formula</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{f(x_0+h)-f(x_0)}{h}
+\]</div>
+<p>sottrae due numeri quasi uguali.</p>
+<p>Questa sottrazione amplifica gli errori di arrotondamento.</p>
+<p>Inoltre, dopo aver calcolato questa differenza, dividiamo per <span class="math notranslate nohighlight">\(h\)</span>. Se <span class="math notranslate nohighlight">\(h\)</span> è molto piccolo, la divisione per h può amplificare l’errore di arrotondamento già presente al numeratore.</p>
+<p>Quindi l’errore totale ha due componenti:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{errore totale}
+=
+\text{errore di discretizzazione}
++
+\text{errore di arrotondamento}.
+\]</div>
+<p>Per <span class="math notranslate nohighlight">\(h\)</span> grande domina la discretizzazione.<br />
+Per <span class="math notranslate nohighlight">\(h\)</span> molto piccolo domina l’arrotondamento.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span> <span class="o">=</span> <span class="mf">1.2</span>
+<span class="n">f0</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+
+<span class="n">exponents</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="o">**</span> <span class="n">exponents</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fp</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">f0</span><span class="p">)</span><span class="o">/</span><span class="n">h</span><span class="p">)</span>
+<span class="n">d_err</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x0</span><span class="p">))</span> <span class="o">*</span> <span class="n">h</span>
+
+<span class="n">idx_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;errore totale&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">d_err</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;errore di discretizzazione atteso&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Differenza in avanti: discretizzazione + roundoff&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;errore assoluto&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;errore minimo osservato:&quot;</span><span class="p">,</span> <span class="n">err</span><span class="p">[</span><span class="n">idx_min</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;h del minimo osservato:&quot;</span><span class="p">,</span> <span class="n">h</span><span class="p">[</span><span class="n">idx_min</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/58574b7a118b568d7c92b66e450f596c426ec896663052427bb72f74f9f077c7.png" src="../_images/58574b7a118b568d7c92b66e450f596c426ec896663052427bb72f74f9f077c7.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>errore minimo osservato: 4.3610515199077327e-10
+h del minimo osservato: 1e-08
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="lettura-del-grafico">
+<h2>15. Lettura del grafico<a class="headerlink" href="#lettura-del-grafico" title="Link to this heading">#</a></h2>
+<p>Il grafico log-log mostra tre regioni:</p>
+<ol class="arabic simple">
+<li><p>per <span class="math notranslate nohighlight">\(h\)</span> non troppo piccolo, l’errore decresce quasi linearmente con <span class="math notranslate nohighlight">\(h\)</span>;</p></li>
+<li><p>intorno a un valore ottimale di <span class="math notranslate nohighlight">\(h\)</span>, l’errore raggiunge un minimo;</p></li>
+<li><p>per <span class="math notranslate nohighlight">\(h\)</span> molto piccolo, l’errore cresce o oscilla a causa dell’arrotondamento.</p></li>
+</ol>
+<p>Questa è una lezione fondamentale:</p>
+<blockquote>
+<div><p>scegliere un passo più piccolo non garantisce sempre un risultato più accurato.</p>
+</div></blockquote>
+</section>
+<section id="differenza-centrata">
+<h2>16. Differenza centrata<a class="headerlink" href="#differenza-centrata" title="Link to this heading">#</a></h2>
+<p>Una formula più accurata della differenza in avanti è la <strong>differenza centrata</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+f'(x_0)\approx
+\frac{f(x_0+h)-f(x_0-h)}{2h}.
+\]</div>
+<p>L’idea è usare due valori della funzione, uno a destra e uno a sinistra di <span class="math notranslate nohighlight">\(x_0\)</span>, in modo simmetrico.</p>
+<p>Scriviamo gli sviluppi di Taylor di <span class="math notranslate nohighlight">\(f(x_0+h)\)</span> e <span class="math notranslate nohighlight">\(f(x_0-h)\)</span> attorno a <span class="math notranslate nohighlight">\(x_0\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_0+h)
+=
+f(x_0)
++
+h f'(x_0)
++
+\frac{h^2}{2}f''(x_0)
++
+\frac{h^3}{6}f'''(x_0)
++
+O(h^4),
+\]</div>
+<p>mentre</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_0-h)
+=
+f(x_0)
+-
+h f'(x_0)
++
+\frac{h^2}{2}f''(x_0)
+-
+\frac{h^3}{6}f'''(x_0)
++
+O(h^4).
+\]</div>
+<p>Osserviamo che i termini con potenze pari di <span class="math notranslate nohighlight">\(h\)</span>, cioè <span class="math notranslate nohighlight">\(f(x_0)\)</span> e <span class="math notranslate nohighlight">\(\frac{h^2}{2}f''(x_0)\)</span>, hanno lo stesso segno nei due sviluppi. I termini con potenze dispari, invece, cambiano segno.</p>
+<p>Sottraendo il secondo sviluppo dal primo otteniamo</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_0+h)-f(x_0-h)
+=
+2h f'(x_0)
++
+\frac{2h^3}{6}f'''(x_0)
++
+O(h^5).
+\]</div>
+<p>I termini pari si cancellano proprio perché stiamo usando una formula simmetrica rispetto a <span class="math notranslate nohighlight">\(x_0\)</span>.</p>
+<p>Ora dividiamo per <span class="math notranslate nohighlight">\(2h\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{f(x_0+h)-f(x_0-h)}{2h}
+=
+f'(x_0)
++
+\frac{h^2}{6}f'''(x_0)
++
+O(h^4).
+\]</div>
+<p>Quindi</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{f(x_0+h)-f(x_0-h)}{2h}-f'(x_0)
+=
+\frac{h^2}{6}f'''(x_0)
++
+O(h^4).
+\]</div>
+<p>Il termine principale dell’errore è proporzionale a <span class="math notranslate nohighlight">\(h^2\)</span>. Per questo motivo l’errore di discretizzazione è</p>
+<div class="math notranslate nohighlight">
+\[
+O(h^2).
+\]</div>
+<p>In altre parole, la differenza centrata è un metodo del <strong>secondo ordine</strong>: se dimezziamo <span class="math notranslate nohighlight">\(h\)</span>, l’errore di discretizzazione si riduce circa di un fattore <span class="math notranslate nohighlight">\(4\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">centered_difference</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">f</span><span class="p">(</span><span class="n">x0</span> <span class="o">-</span> <span class="n">h</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">h</span><span class="p">)</span>
+
+<span class="n">x0</span> <span class="o">=</span> <span class="mf">1.2</span>
+<span class="n">true_derivative</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+
+<span class="n">hs</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">err_forward</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">true_derivative</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">forward_difference</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">hh</span><span class="p">)</span> <span class="k">for</span> <span class="n">hh</span> <span class="ow">in</span> <span class="n">hs</span><span class="p">]))</span>
+<span class="n">err_centered</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">true_derivative</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">centered_difference</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">hh</span><span class="p">)</span> <span class="k">for</span> <span class="n">hh</span> <span class="ow">in</span> <span class="n">hs</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;h&#39;</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;err forward&#39;</span><span class="si">:</span><span class="s2">&gt;18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;err centered&#39;</span><span class="si">:</span><span class="s2">&gt;18</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">hh</span><span class="p">,</span> <span class="n">ef</span><span class="p">,</span> <span class="n">ec</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">err_forward</span><span class="p">,</span> <span class="n">err_centered</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">hh</span><span class="si">:</span><span class="s2">12.1e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ef</span><span class="si">:</span><span class="s2">18.8e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ec</span><span class="si">:</span><span class="s2">18.8e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>           h        err forward       err centered
+     1.0e-01     4.71667600e-02     6.03627698e-04
+     1.0e-02     4.66619586e-03     6.03926571e-06
+     1.0e-03     4.66079897e-04     6.03930144e-08
+     1.0e-04     4.66025576e-05     6.03618711e-10
+     1.0e-05     4.66019133e-06     2.43299825e-12
+     1.0e-06     4.65968587e-07     7.98405786e-12
+     1.0e-07     4.61932619e-08     1.19006360e-10
+     1.0e-08     4.36105152e-10     4.36105152e-10
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">err_forward</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;differenza in avanti&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">err_centered</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;differenza centrata&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;riferimento h&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">hs</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;riferimento h^2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">invert_xaxis</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Differenza in avanti vs differenza centrata&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;errore assoluto&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2e493372c641e25e069b3b24b22d5cd5c850815f6714a9a481912e5bf07ee1ff.png" src="../_images/2e493372c641e25e069b3b24b22d5cd5c850815f6714a9a481912e5bf07ee1ff.png" />
+</div>
+</div>
+</section>
+<section id="un-ulteriore-esempio">
+<h2>Un ulteriore esempio<a class="headerlink" href="#un-ulteriore-esempio" title="Link to this heading">#</a></h2>
+<p>Ripetere l’esperimento precedente per</p>
+<div class="math notranslate nohighlight">
+\[
+f(x)=e^{-2x}
+\]</div>
+<p>nel punto</p>
+<div class="math notranslate nohighlight">
+\[
+x_0=0.5.
+\]</div>
+<p>Confrontare il grafico con quello ottenuto per <span class="math notranslate nohighlight">\(\sin(x)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Spazio per gli studenti</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f_exp</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">df_exp</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">x0</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">true_derivative</span> <span class="o">=</span> <span class="n">df_exp</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+
+<span class="n">h</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">true_derivative</span> <span class="o">-</span> <span class="p">(</span><span class="n">f_exp</span><span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">f_exp</span><span class="p">(</span><span class="n">x0</span><span class="p">))</span><span class="o">/</span><span class="n">h</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Differenza in avanti per exp(-2x)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;errore assoluto&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b183a4127b920c53cda0309113d7a220dbc90fe2a790e34c895d284fef4bdbf0.png" src="../_images/b183a4127b920c53cda0309113d7a220dbc90fe2a790e34c895d284fef4bdbf0.png" />
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-vii-proprieta-degli-algoritmi">
+<h1>Parte VII — Proprietà degli algoritmi<a class="headerlink" href="#parte-vii-proprieta-degli-algoritmi" title="Link to this heading">#</a></h1>
+<section id="accuratezza">
+<h2>17. Accuratezza<a class="headerlink" href="#accuratezza" title="Link to this heading">#</a></h2>
+<p>L’accuratezza misura quanto il risultato calcolato è vicino alla soluzione esatta.</p>
+<p>Può essere valutata con:</p>
+<ul class="simple">
+<li><p>errore assoluto;</p></li>
+<li><p>errore relativo;</p></li>
+<li><p>residuo;</p></li>
+<li><p>stime teoriche.</p></li>
+</ul>
+<hr class="docutils" />
+<p>Il <strong>residuo</strong> misura quanto bene il risultato calcolato soddisfa l’equazione o il problema di partenza.</p>
+<p>Ad esempio, se vogliamo risolvere un’equazione</p>
+<div class="math notranslate nohighlight">
+\[
+f(x)=0
+\]</div>
+<p>e il metodo numerico produce un’approssimazione <span class="math notranslate nohighlight">\(\tilde{x}\)</span>, il residuo è</p>
+<div class="math notranslate nohighlight">
+\[
+r=f(\tilde{x}).
+\]</div>
+<p>Se <span class="math notranslate nohighlight">\(r\)</span> è vicino a zero, significa che <span class="math notranslate nohighlight">\(\tilde{x}\)</span> soddisfa quasi l’equazione.</p>
+<p>Analogamente, per un sistema lineare</p>
+<div class="math notranslate nohighlight">
+\[
+Ax=b,
+\]</div>
+<p>se <span class="math notranslate nohighlight">\(\tilde{x}\)</span> è la soluzione numerica calcolata, il residuo è</p>
+<div class="math notranslate nohighlight">
+\[
+r=b-A\tilde{x}.
+\]</div>
+<p>Un residuo piccolo indica che <span class="math notranslate nohighlight">\(A\tilde{x}\)</span> è vicino a <span class="math notranslate nohighlight">\(b\)</span>, cioè che la soluzione calcolata soddisfa quasi il sistema.</p>
+<p>È importante però distinguere tra <strong>errore</strong> e <strong>residuo</strong>:</p>
+<ul class="simple">
+<li><p>l’errore misura quanto <span class="math notranslate nohighlight">\(\tilde{x}\)</span> è vicino alla soluzione esatta;</p></li>
+<li><p>il residuo misura quanto <span class="math notranslate nohighlight">\(\tilde{x}\)</span> soddisfa bene l’equazione.</p></li>
+</ul>
+<blockquote>
+<div><p>In molti casi il residuo è utile perché la soluzione esatta non è nota, mentre il residuo può essere calcolato direttamente.</p>
+</div></blockquote>
+<p>Un algoritmo numerico dovrebbe permettere di prevedere la grandezza dell’errore atteso.</p>
+</section>
+<section id="efficienza">
+<h2>18. Efficienza<a class="headerlink" href="#efficienza" title="Link to this heading">#</a></h2>
+<p>L’efficienza riguarda il <strong>costo computazionale</strong>.</p>
+<p>Si può misurare con:</p>
+<ul class="simple">
+<li><p>numero di operazioni aritmetiche;</p></li>
+<li><p>tempo CPU;</p></li>
+<li><p>memoria richiesta;</p></li>
+<li><p>accessi alla memoria;</p></li>
+<li><p>possibilità di vettorizzazione o parallelizzazione.</p></li>
+</ul>
+<p>Una stima classica conta le operazioni elementari, spesso chiamate <strong>flops</strong>.</p>
+</section>
+<section id="robustezza">
+<h2>19. Robustezza<a class="headerlink" href="#robustezza" title="Link to this heading">#</a></h2>
+<p>La robustezza misura la capacità di un algoritmo di funzionare bene in situazioni diverse.</p>
+<p>Un algoritmo robusto dovrebbe:</p>
+<ul class="simple">
+<li><p>produrre un risultato entro una tolleranza accettabile;</p></li>
+<li><p>oppure segnalare chiaramente il fallimento;</p></li>
+<li><p>evitare risultati apparentemente validi ma numericamente privi di senso.</p></li>
+</ul>
+<p>Molto software numerico è complesso perché deve gestire casi limite, non perché l’idea matematica di base sia difficile.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-viii-efficienza-la-regola-di-horner">
+<h1>Parte VIII — Efficienza: la regola di Horner<a class="headerlink" href="#parte-viii-efficienza-la-regola-di-horner" title="Link to this heading">#</a></h1>
+<section id="valutazione-di-un-polinomio">
+<h2>20. Valutazione di un polinomio<a class="headerlink" href="#valutazione-di-un-polinomio" title="Link to this heading">#</a></h2>
+<p>Consideriamo un polinomio di grado <span class="math notranslate nohighlight">\(n\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+p_n(x)=c_0+c_1x+\cdots+c_nx^n.
+\]</div>
+<p>Una valutazione ingenua può richiedere molte operazioni, soprattutto se ogni potenza <span class="math notranslate nohighlight">\(x^k\)</span> viene calcolata separatamente.</p>
+<p>Per ottenere la <strong>forma di Horner</strong>, raccogliamo progressivamente il fattore <span class="math notranslate nohighlight">\(x\)</span>. Iniziamo scrivendo:</p>
+<div class="math notranslate nohighlight">
+\[
+p_n(x)
+=
+c_0+x\left(c_1+c_2x+\cdots+c_nx^{n-1}\right).
+\]</div>
+<p>All’interno delle parentesi possiamo raccogliere nuovamente <span class="math notranslate nohighlight">\(x\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+p_n(x)
+=
+c_0+x\left[c_1+x\left(c_2+c_3x+\cdots+c_nx^{n-2}\right)\right].
+\]</div>
+<p>Ripetendo lo stesso procedimento si ottiene:</p>
+<div class="math notranslate nohighlight">
+\[
+p_n(x)
+=
+c_0+x\left(c_1+x\left(c_2+\cdots+x\left(c_{n-1}+xc_n\right)\right)\right).
+\]</div>
+<p>Scrivendo le operazioni nell’ordine in cui vengono eseguite, la stessa espressione assume la forma usuale della <strong>regola di Horner</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+p_n(x)
+=
+(\cdots((c_nx+c_{n-1})x+c_{n-2})x+\cdots)x+c_0.
+\]</div>
+<p>Per esempio, nel caso di un polinomio di terzo grado:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+p_3(x)
+&amp;=c_0+c_1x+c_2x^2+c_3x^3\\
+&amp;=c_0+x(c_1+c_2x+c_3x^2)\\
+&amp;=c_0+x\left[c_1+x(c_2+c_3x)\right]\\
+&amp;=((c_3x+c_2)x+c_1)x+c_0.
+\end{aligned}
+\end{split}\]</div>
+<p>L’algoritmo può essere descritto anche in forma ricorsiva:</p>
+<div class="math notranslate nohighlight">
+\[
+b_n=c_n,
+\qquad
+b_k=c_k+xb_{k+1},
+\quad k=n-1,n-2,\ldots,0,
+\]</div>
+<p>e alla fine:</p>
+<div class="math notranslate nohighlight">
+\[
+p_n(x)=b_0.
+\]</div>
+<p>A ogni passaggio vengono eseguite una moltiplicazione e un’addizione. In totale servono quindi solo <span class="math notranslate nohighlight">\(n\)</span> moltiplicazioni e <span class="math notranslate nohighlight">\(n\)</span> addizioni, con costo computazionale <span class="math notranslate nohighlight">\(O(n)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">poly_naive</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">ops</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">power</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+            <span class="n">power</span> <span class="o">*=</span> <span class="n">x</span>
+            <span class="n">ops</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">power</span>
+        <span class="n">ops</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ops</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">total</span><span class="p">,</span> <span class="n">ops</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">poly_horner</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ops</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">c</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">ops</span> <span class="o">+=</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="n">ops</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mf">1.7</span>
+
+<span class="n">p1</span><span class="p">,</span> <span class="n">o1</span> <span class="o">=</span> <span class="n">poly_naive</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">p2</span><span class="p">,</span> <span class="n">o2</span> <span class="o">=</span> <span class="n">poly_horner</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;valore ingenuo:&quot;</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="s2">&quot;operazioni stimate:&quot;</span><span class="p">,</span> <span class="n">o1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;valore Horner :&quot;</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="s2">&quot;operazioni stimate:&quot;</span><span class="p">,</span> <span class="n">o2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;differenza:&quot;</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">p1</span><span class="o">-</span><span class="n">p2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>valore ingenuo: 17.892899999999997 operazioni stimate: 19
+valore Horner : 17.892899999999997 operazioni stimate: 8
+differenza: 0.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">degrees</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+<span class="n">ops_naive</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">ops_horner</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">degrees</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="n">poly_naive</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">oh</span> <span class="o">=</span> <span class="n">poly_horner</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+    <span class="n">ops_naive</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">on</span><span class="p">)</span>
+    <span class="n">ops_horner</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">oh</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="n">ops_naive</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ingenuo&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="n">ops_horner</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Horner&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Costo stimato per valutare un polinomio&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;grado n&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;operazioni stimate&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/bf31d1e1ea363ebf95e89b4f2a1966e73a687b5c666f44e89215ba600806458d.png" src="../_images/bf31d1e1ea363ebf95e89b4f2a1966e73a687b5c666f44e89215ba600806458d.png" />
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parte-ix-condizionamento-e-stabilita">
+<h1>Parte IX — Condizionamento e stabilità<a class="headerlink" href="#parte-ix-condizionamento-e-stabilita" title="Link to this heading">#</a></h1>
+<section id="condizionamento-del-problema">
+<h2>21. Condizionamento del problema<a class="headerlink" href="#condizionamento-del-problema" title="Link to this heading">#</a></h2>
+<p>Il condizionamento è una proprietà del problema matematico.</p>
+<p>Un problema è <strong>ben condizionato</strong> se piccole perturbazioni nei dati producono piccole perturbazioni nel risultato.</p>
+<p>Un problema è <strong>mal condizionato</strong> se piccole perturbazioni nei dati possono produrre grandi variazioni nel risultato.</p>
+<p>In forma intuitiva, consideriamo un problema descritto da una funzione</p>
+<div class="math notranslate nohighlight">
+\[
+y=g(x),
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(x\)</span> rappresenta il dato in ingresso e <span class="math notranslate nohighlight">\(y\)</span> il risultato.</p>
+<p>Se perturbiamo leggermente il dato, passando da <span class="math notranslate nohighlight">\(x\)</span> a <span class="math notranslate nohighlight">\(x+\Delta x\)</span>, anche il risultato cambia:</p>
+<div class="math notranslate nohighlight">
+\[
+g(x+\Delta x)-g(x).
+\]</div>
+<p>Il problema è <strong>sensibile vicino a <span class="math notranslate nohighlight">\(x\)</span></strong> quando questa variazione del risultato è grande rispetto alla perturbazione introdotta nel dato.</p>
+<p>In altre parole, anche se</p>
+<div class="math notranslate nohighlight">
+\[
+|\Delta x|
+\]</div>
+<p>è piccolo, può succedere che</p>
+<div class="math notranslate nohighlight">
+\[
+|g(x+\Delta x)-g(x)|
+\]</div>
+<p>sia molto più grande.</p>
+<section id="esempio">
+<h3>Esempio<a class="headerlink" href="#esempio" title="Link to this heading">#</a></h3>
+<p>Consideriamo la funzione</p>
+<div class="math notranslate nohighlight">
+\[
+g(x)=\frac{1}{1-x}.
+\]</div>
+<p>In prossimità di <span class="math notranslate nohighlight">\(x=1\)</span>, il denominatore è molto piccolo e la funzione diventa particolarmente sensibile alle variazioni del dato.</p>
+<p>Partiamo da</p>
+<div class="math notranslate nohighlight">
+\[
+x=0.99,
+\]</div>
+<p>per il quale otteniamo</p>
+<div class="math notranslate nohighlight">
+\[
+g(0.99)=\frac{1}{1-0.99}=100.
+\]</div>
+<p>Introduciamo ora una piccola perturbazione:</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta x=0.0001.
+\]</div>
+<p>Il nuovo dato è <span class="math notranslate nohighlight">\(x+\Delta x=0.9901\)</span> e il risultato diventa</p>
+<div class="math notranslate nohighlight">
+\[
+g(0.9901)
+=
+\frac{1}{1-0.9901}
+\approx 101.01.
+\]</div>
+<p>Sebbene il dato sia cambiato soltanto di <span class="math notranslate nohighlight">\(0.0001\)</span>, il risultato è cambiato di circa</p>
+<div class="math notranslate nohighlight">
+\[
+|g(0.9901)-g(0.99)|\approx 1.01.
+\]</div>
+<p>La variazione assoluta del risultato è quindi circa diecimila volte più grande della perturbazione introdotta:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1.01}{0.0001}\approx 10\,100.
+\]</div>
+<p>Questo accade perché, quando <span class="math notranslate nohighlight">\(x\)</span> è vicino a <span class="math notranslate nohighlight">\(1\)</span>, una piccola variazione di <span class="math notranslate nohighlight">\(x\)</span> produce una variazione relativamente grande nel denominatore <span class="math notranslate nohighlight">\(1-x\)</span> e, di conseguenza, nel valore della funzione.</p>
+<p>Il problema amplifica quindi gli errori presenti nei dati iniziali. In una situazione di questo tipo non possiamo aspettarci un risultato molto accurato, anche usando un algoritmo numerico ben progettato.</p>
+</section>
+</section>
+<section id="stabilita-dell-algoritmo">
+<h2>22. Stabilità dell’algoritmo<a class="headerlink" href="#stabilita-dell-algoritmo" title="Link to this heading">#</a></h2>
+<p>La stabilità è una proprietà dell’algoritmo numerico.</p>
+<p>Mentre il <strong>condizionamento</strong> riguarda il problema matematico, la <strong>stabilità</strong> riguarda il modo in cui l’algoritmo esegue i calcoli.</p>
+<p>Un algoritmo è <strong>stabile</strong> se non amplifica troppo gli errori che si generano durante il calcolo, ad esempio gli errori di arrotondamento.</p>
+<p>Un algoritmo è <strong>instabile</strong> se piccoli errori introdotti nei passaggi intermedi possono crescere molto e compromettere il risultato finale.</p>
+<p>In forma intuitiva, immaginiamo che un algoritmo esegua una sequenza di operazioni:</p>
+<div class="math notranslate nohighlight">
+\[
+x_0 \longrightarrow x_1 \longrightarrow x_2 \longrightarrow \cdots \longrightarrow x_N.
+\]</div>
+<p>In aritmetica esatta, cioè senza errori di arrotondamento, otterremmo una certa sequenza di valori. In un computer, invece, ogni operazione può introdurre un piccolo errore. Quindi, invece di calcolare esattamente <span class="math notranslate nohighlight">\(x_1\)</span>, <span class="math notranslate nohighlight">\(x_2\)</span>, …, <span class="math notranslate nohighlight">\(x_N\)</span>, il computer calcola valori leggermente perturbati:</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{x}_1,\tilde{x}_2,\ldots,\tilde{x}_N.
+\]</div>
+<p>Il punto cruciale è capire che cosa succede a questi piccoli errori mentre l’algoritmo procede.</p>
+<p>Se gli errori restano piccoli, o comunque non vengono amplificati in modo significativo, l’algoritmo è stabile.</p>
+<p>Se invece gli errori crescono passo dopo passo, l’algoritmo è instabile.</p>
+<p>In altre parole, un algoritmo stabile si comporta bene anche quando i calcoli non sono esatti, mentre un algoritmo instabile può produrre risultati poco affidabili anche partendo da dati corretti.</p>
+<div style="
+    padding: 18px 22px;
+    margin: 16px 0;
+    border-left: 5px solid #e09f3e;
+    border-radius: 6px;
+    background-color: rgba(224, 159, 62, 0.10);
+">
+<h3 style="margin-top: 0;">💡 Nota — Differenza tra condizionamento e stabilità</h3>
+<p>È importante distinguere i due concetti:</p>
+<ul>
+    <li>
+        il <strong>condizionamento</strong> indica quanto il problema matematico è sensibile a piccole perturbazioni nei dati;
+    </li>
+    <li>
+        la <strong>stabilità</strong> indica quanto l’algoritmo è sensibile ai piccoli errori prodotti durante il calcolo.
+    </li>
+</ul>
+<p>Di conseguenza:</p>
+<ul>
+    <li>un problema mal condizionato è difficile per qualunque algoritmo;</li>
+    <li>un algoritmo instabile può dare cattivi risultati anche per un problema ben condizionato;</li>
+    <li>un buon algoritmo dovrebbe evitare di amplificare inutilmente gli errori di arrotondamento.</li>
+</ul>
+<hr style="border: 0; border-top: 1px solid rgba(224, 159, 62, 0.40);">
+<p style="margin-bottom: 0;">
+    <strong>In sintesi:</strong> il condizionamento riguarda il
+    <strong>problema</strong>, mentre la stabilità riguarda il
+    <strong>metodo usato per risolverlo</strong>.
+</p>
+</div></section>
+<section id="esempio-ben-condizionato-sqrt-1-x-vicino-a-zero">
+<h2>23. Esempio ben condizionato: <span class="math notranslate nohighlight">\(\sqrt{1+x}\)</span> vicino a zero<a class="headerlink" href="#esempio-ben-condizionato-sqrt-1-x-vicino-a-zero" title="Link to this heading">#</a></h2>
+<p>Consideriamo la funzione</p>
+<div class="math notranslate nohighlight">
+\[
+g(x)=\sqrt{1+x}.
+\]</div>
+<p>Per capire come una piccola perturbazione del dato si trasmette al risultato, sostituiamo <span class="math notranslate nohighlight">\(x\)</span> con <span class="math notranslate nohighlight">\(x+\Delta x\)</span>. La variazione dell’output è</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta y
+=
+g(x+\Delta x)-g(x).
+\]</div>
+<p>Se <span class="math notranslate nohighlight">\(g\)</span> è derivabile e <span class="math notranslate nohighlight">\(\Delta x\)</span> è piccolo, possiamo usare l’approssimazione lineare:</p>
+<div class="math notranslate nohighlight">
+\[
+g(x+\Delta x)
+\approx
+g(x)+g'(x)\Delta x.
+\]</div>
+<p>Sottraendo <span class="math notranslate nohighlight">\(g(x)\)</span> da entrambi i membri, otteniamo</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta y
+\approx
+g'(x)\Delta x.
+\]</div>
+<p>La derivata <span class="math notranslate nohighlight">\(g'(x)\)</span> descrive quindi il <strong>fattore di amplificazione locale</strong> delle piccole perturbazioni:</p>
+<ul class="simple">
+<li><p>se <span class="math notranslate nohighlight">\(|g'(x)|\)</span> è piccolo, la perturbazione viene attenuata;</p></li>
+<li><p>se <span class="math notranslate nohighlight">\(|g'(x)|\approx 1\)</span>, la perturbazione rimane dello stesso ordine;</p></li>
+<li><p>se <span class="math notranslate nohighlight">\(|g'(x)|\)</span> è grande, la perturbazione viene amplificata.</p></li>
+</ul>
+<p>Nel nostro caso,</p>
+<div class="math notranslate nohighlight">
+\[
+g'(x)=\frac{1}{2\sqrt{1+x}},
+\]</div>
+<p>e quindi</p>
+<div class="math notranslate nohighlight">
+\[
+g'(0)=\frac{1}{2}.
+\]</div>
+<p>Pertanto, vicino a <span class="math notranslate nohighlight">\(x=0\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta y
+\approx
+\frac{1}{2}\Delta x.
+\]</div>
+<p>Una piccola perturbazione del dato in ingresso viene quindi circa dimezzata nell’output. Per esempio, ponendo <span class="math notranslate nohighlight">\(x=0\)</span> e introducendo una piccola perturbazione <span class="math notranslate nohighlight">\(\Delta x\)</span>, si ha</p>
+<div class="math notranslate nohighlight">
+\[
+g(\Delta x)=\sqrt{1+\Delta x}
+\approx
+1+\frac{\Delta x}{2}.
+\]</div>
+<p>Poiché la funzione non amplifica le piccole perturbazioni vicino a zero, il problema è, in senso assoluto, <strong>ben condizionato</strong> in questa regione.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">1e-1</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">]:</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x=</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">, sqrt(1+x)-1=</span><span class="si">{</span><span class="n">dy</span><span class="si">:</span><span class="s2">.6e</span><span class="si">}</span><span class="s2">, rapporto=</span><span class="si">{</span><span class="n">dy</span><span class="o">/</span><span class="n">x</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x=1.0e-01, sqrt(1+x)-1=4.880885e-02, rapporto=0.488088
+x=1.0e-02, sqrt(1+x)-1=4.987562e-03, rapporto=0.498756
+x=1.0e-03, sqrt(1+x)-1=4.998751e-04, rapporto=0.499875
+x=1.0e-04, sqrt(1+x)-1=4.999875e-05, rapporto=0.499988
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="esempio-mal-condizionato-tan-x-vicino-a-pi-2">
+<h2>24. Esempio mal condizionato: <span class="math notranslate nohighlight">\(\tan(x)\)</span> vicino a <span class="math notranslate nohighlight">\(\pi/2\)</span><a class="headerlink" href="#esempio-mal-condizionato-tan-x-vicino-a-pi-2" title="Link to this heading">#</a></h2>
+<p>Consideriamo</p>
+<div class="math notranslate nohighlight">
+\[
+g(x)=\tan(x).
+\]</div>
+<p>La derivata è</p>
+<div class="math notranslate nohighlight">
+\[
+g'(x)=\frac{1}{\cos^2(x)}.
+\]</div>
+<p>Quando <span class="math notranslate nohighlight">\(x\)</span> è vicino a <span class="math notranslate nohighlight">\(\pi/2\)</span>, <span class="math notranslate nohighlight">\(\cos(x)\)</span> è vicino a zero e la derivata diventa molto grande.</p>
+<p>Quindi valutare <span class="math notranslate nohighlight">\(\tan(x)\)</span> vicino a <span class="math notranslate nohighlight">\(\pi/2\)</span> è un problema mal condizionato.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">0.001</span>
+<span class="n">xbar</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">0.002</span>
+
+<span class="n">input_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xbar</span><span class="p">)</span>
+<span class="n">output_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">xbar</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;|x - xbar| =&quot;</span><span class="p">,</span> <span class="n">input_diff</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;|tan(x) - tan(xbar)| =&quot;</span><span class="p">,</span> <span class="n">output_diff</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;fattore di amplificazione =&quot;</span><span class="p">,</span> <span class="n">output_diff</span> <span class="o">/</span> <span class="n">input_diff</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|x - xbar| = 0.001000000000000112
+|tan(x) - tan(xbar)| = 500.0003333335536
+fattore di amplificazione = 500000.33333349763
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="accumulo-degli-errori">
+<h2>25. Accumulo degli errori<a class="headerlink" href="#accumulo-degli-errori" title="Link to this heading">#</a></h2>
+<p>Gli errori di arrotondamento si accumulano durante un calcolo.</p>
+<p>Indichiamo con <span class="math notranslate nohighlight">\(E_0\)</span> l’errore iniziale, cioè l’errore presente all’inizio del processo di calcolo o introdotto in un singolo passo.</p>
+<p>Indichiamo invece con <span class="math notranslate nohighlight">\(E_n\)</span> l’errore dopo <span class="math notranslate nohighlight">\(n\)</span> passi dell’algoritmo.</p>
+<p>Una crescita lineare è spesso inevitabile e tollerabile:</p>
+<div class="math notranslate nohighlight">
+\[
+E_n\le c_0 n E_0.
+\]</div>
+<p>Una crescita esponenziale è invece inaccettabile:</p>
+<div class="math notranslate nohighlight">
+\[
+E_n\le c_1^n E_0,
+\qquad
+c_1&gt;1.
+\]</div>
+<p>Un algoritmo con crescita esponenziale dell’errore è instabile.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+<span class="n">E0</span> <span class="o">=</span> <span class="mf">1e-16</span>
+
+<span class="n">linear</span> <span class="o">=</span> <span class="n">E0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">exponential</span> <span class="o">=</span> <span class="n">E0</span> <span class="o">*</span> <span class="p">(</span><span class="mf">10.0</span> <span class="o">**</span> <span class="n">n</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">linear</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;crescita lineare&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">exponential</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;crescita esponenziale&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Accumulo degli errori&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;numero di operazioni&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;errore&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/476625949ac53548cadb0009ce6584442b0310fdbf49a49f44bc8f3f80687b65.png" src="../_images/476625949ac53548cadb0009ce6584442b0310fdbf49a49f44bc8f3f80687b65.png" />
+</div>
+</div>
+</section>
+<section id="esempio-instabile-ricorrenza-per-integrali">
+<h2>26. Esempio instabile: ricorrenza per integrali<a class="headerlink" href="#esempio-instabile-ricorrenza-per-integrali" title="Link to this heading">#</a></h2>
+<p>Consideriamo</p>
+<div class="math notranslate nohighlight">
+\[
+y_n=\int_0^1 \frac{x^n}{x+10}\,dx.
+\]</div>
+<p>Si verifica che</p>
+<div class="math notranslate nohighlight">
+\[
+y_n+10y_{n-1}=\frac{1}{n}.
+\]</div>
+<p>Quindi una ricorrenza naturale è</p>
+<div class="math notranslate nohighlight">
+\[
+y_n=\frac{1}{n}-10y_{n-1}.
+\]</div>
+<p>Il valore iniziale si calcola esplicitamente:</p>
+<div class="math notranslate nohighlight">
+\[
+y_0=\int_{10}^{11}\frac{1}{x}\,dx
+=
+\left[\ln x\right]_{10}^{11}
+=
+\ln(11)-\ln(10)
+=
+\ln\left(\frac{11}{10}\right).
+\]</div>
+<p>Questa ricorrenza è instabile: ogni errore viene moltiplicato circa per 10.</p>
+<hr class="docutils" />
+<section id="spiegazione-dettagliata">
+<h3>Spiegazione dettagliata<a class="headerlink" href="#spiegazione-dettagliata" title="Link to this heading">#</a></h3>
+<p>Consideriamo la ricorrenza</p>
+<div class="math notranslate nohighlight">
+\[
+y_n=\frac{1}{n}-10y_{n-1}.
+\]</div>
+<p>Supponiamo che il valore esatto al passo <span class="math notranslate nohighlight">\(n-1\)</span> sia <span class="math notranslate nohighlight">\(y_{n-1}\)</span>, ma che il computer abbia calcolato un valore leggermente perturbato</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{y}_{n-1}=y_{n-1}+e_{n-1},
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(e_{n-1}\)</span> è l’errore al passo <span class="math notranslate nohighlight">\(n-1\)</span>.</p>
+<p>Applicando la ricorrenza al valore calcolato, otteniamo</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{y}_n
+=
+\frac{1}{n}-10\tilde{y}_{n-1}.
+\]</div>
+<p>Sostituendo <span class="math notranslate nohighlight">\(\tilde{y}_{n-1}=y_{n-1}+e_{n-1}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{y}_n
+=
+\frac{1}{n}-10(y_{n-1}+e_{n-1})
+=
+\frac{1}{n}-10y_{n-1}-10e_{n-1}.
+\]</div>
+<p>Il valore esatto soddisfa invece</p>
+<div class="math notranslate nohighlight">
+\[
+y_n=\frac{1}{n}-10y_{n-1}.
+\]</div>
+<p>Quindi l’errore al passo <span class="math notranslate nohighlight">\(n\)</span> è</p>
+<div class="math notranslate nohighlight">
+\[
+e_n
+=
+\tilde{y}_n-y_n.
+\]</div>
+<p>Sostituendo le due espressioni:</p>
+<div class="math notranslate nohighlight">
+\[
+e_n
+=
+\left(\frac{1}{n}-10y_{n-1}-10e_{n-1}\right)
+-
+\left(\frac{1}{n}-10y_{n-1}\right)
+=
+-10e_{n-1}.
+\]</div>
+<p>Di conseguenza,</p>
+<div class="math notranslate nohighlight">
+\[
+|e_n|=10|e_{n-1}|.
+\]</div>
+<p>Questo significa che, a ogni passo, l’errore viene moltiplicato per circa <span class="math notranslate nohighlight">\(10\)</span>. Dopo pochi passi, anche un errore inizialmente molto piccolo può diventare grande.</p>
+<p>Per questo motivo la ricorrenza</p>
+<div class="math notranslate nohighlight">
+\[
+y_n=\frac{1}{n}-10y_{n-1}
+\]</div>
+<p>è <strong>instabile</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">unstable_integral_recursion</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">n</span> <span class="o">-</span> <span class="mi">10</span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">y</span>
+
+<span class="n">y_unstable</span> <span class="o">=</span> <span class="n">unstable_integral_recursion</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">31</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n=</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">, y_n=</span><span class="si">{</span><span class="n">y_unstable</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="si">:</span><span class="s2"> .6e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n= 0, y_n= 9.531018e-02
+n= 1, y_n= 4.689820e-02
+n= 2, y_n= 3.101798e-02
+n= 3, y_n= 2.315353e-02
+n= 4, y_n= 1.846471e-02
+n= 5, y_n= 1.535290e-02
+n= 6, y_n= 1.313766e-02
+n= 7, y_n= 1.148056e-02
+n= 8, y_n= 1.019438e-02
+n= 9, y_n= 9.167295e-03
+n=10, y_n= 8.327049e-03
+n=11, y_n= 7.638606e-03
+n=12, y_n= 6.947277e-03
+n=13, y_n= 7.450304e-03
+n=14, y_n=-3.074466e-03
+n=15, y_n= 9.741133e-02
+n=16, y_n=-9.116133e-01
+n=17, y_n= 9.174957e+00
+n=18, y_n=-9.169401e+01
+n=19, y_n= 9.169927e+02
+n=20, y_n=-9.169877e+03
+n=21, y_n= 9.169882e+04
+n=22, y_n=-9.169882e+05
+n=23, y_n= 9.169882e+06
+n=24, y_n=-9.169882e+07
+n=25, y_n= 9.169882e+08
+n=26, y_n=-9.169882e+09
+n=27, y_n= 9.169882e+10
+n=28, y_n=-9.169882e+11
+n=29, y_n= 9.169882e+12
+n=30, y_n=-9.169882e+13
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="ricorrenza-stabile-all-indietro">
+<h2>27. Ricorrenza stabile all’indietro<a class="headerlink" href="#ricorrenza-stabile-all-indietro" title="Link to this heading">#</a></h2>
+<p>Dalla stessa relazione</p>
+<div class="math notranslate nohighlight">
+\[
+y_n+10y_{n-1}=\frac{1}{n}
+\]</div>
+<p>otteniamo</p>
+<div class="math notranslate nohighlight">
+\[
+y_{n-1}=\frac{1}{10}\left(\frac{1}{n}-y_n\right).
+\]</div>
+<p>Usata all’indietro, questa formula divide l’errore per 10 a ogni passo.</p>
+<p>Se partiamo da un indice grande <span class="math notranslate nohighlight">\(N\)</span> ponendo approssimativamente <span class="math notranslate nohighlight">\(y_N=0\)</span>, possiamo calcolare valori accurati per indici più piccoli.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">stable_backward_integral</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">n</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">])</span> <span class="o">/</span> <span class="mi">10</span>
+    <span class="k">return</span> <span class="n">y</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="n">y_stable</span> <span class="o">=</span> <span class="n">stable_backward_integral</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;n&#39;</span><span class="si">:</span><span class="s2">&gt;3</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;instabile&#39;</span><span class="si">:</span><span class="s2">&gt;18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;stabile&#39;</span><span class="si">:</span><span class="s2">&gt;18</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">21</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">y_unstable</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="si">:</span><span class="s2">18.8e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">y_stable</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="si">:</span><span class="s2">18.8e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">y0 esatto =&quot;</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y0 stabile =&quot;</span><span class="p">,</span> <span class="n">y_stable</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  n          instabile            stabile
+  0     9.53101798e-02     9.53101798e-02
+  1     4.68982020e-02     4.68982020e-02
+  2     3.10179804e-02     3.10179804e-02
+  3     2.31535290e-02     2.31535290e-02
+  4     1.84647099e-02     1.84647099e-02
+  5     1.53529009e-02     1.53529008e-02
+  6     1.31376581e-02     1.31376582e-02
+  7     1.14805618e-02     1.14805609e-02
+  8     1.01943816e-02     1.01943908e-02
+  9     9.16729515e-03     9.16720345e-03
+ 10     8.32704853e-03     8.32796552e-03
+ 11     7.63860560e-03     7.62943572e-03
+ 12     6.94727731e-03     7.03897613e-03
+ 13     7.45030378e-03     6.53331561e-03
+ 14    -3.07446639e-03     6.09541530e-03
+ 15     9.74113306e-02     5.71251363e-03
+ 16    -9.11613306e-01     5.37486367e-03
+ 17     9.17495659e+00     5.07489273e-03
+ 18    -9.16940103e+01     4.80662825e-03
+ 19     9.16992735e+02     4.56529642e-03
+ 20    -9.16987735e+03     4.34703582e-03
+
+y0 esatto = 0.09531017980432477
+y0 stabile = 0.09531017980432485
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="riepilogo-finale">
+<h1>Riepilogo finale<a class="headerlink" href="#riepilogo-finale" title="Link to this heading">#</a></h1>
+<section id="checklist-dei-concetti-principali">
+<h2>Checklist dei concetti principali<a class="headerlink" href="#checklist-dei-concetti-principali" title="Link to this heading">#</a></h2>
+<p>Al termine della lezione dovreste saper spiegare:</p>
+<ol class="arabic simple">
+<li><p>la differenza fra calcolo scientifico e analisi numerica;</p></li>
+<li><p>errore assoluto e relativo;</p></li>
+<li><p>errori nel problema, di discretizzazione, di convergenza e di arrotondamento;</p></li>
+<li><p>perché la differenza in avanti ha errore <span class="math notranslate nohighlight">\(O(h)\)</span>;</p></li>
+<li><p>perché la differenza centrata ha errore <span class="math notranslate nohighlight">\(O(h^2)\)</span>;</p></li>
+<li><p>perché l’errore può aumentare quando <span class="math notranslate nohighlight">\(h\)</span> è troppo piccolo;</p></li>
+<li><p>accuratezza, efficienza e robustezza;</p></li>
+<li><p>differenza fra condizionamento e stabilità;</p></li>
+<li><p>cosa significa crescita lineare o esponenziale degli errori;</p></li>
+<li><p>come funziona una rappresentazione floating-point;</p></li>
+<li><p>cosa misura l’unità di arrotondamento;</p></li>
+<li><p>cosa sono overflow, underflow e NaN;</p></li>
+<li><p>perché la cancellazione è pericolosa;</p></li>
+<li><p>come riscrivere formule per renderle più stabili;</p></li>
+<li><p>perché i confronti floating-point devono usare tolleranze.</p></li>
+</ol>
+</section>
+<section id="glossario">
+<h2>Glossario<a class="headerlink" href="#glossario" title="Link to this heading">#</a></h2>
+<p><strong>Errore assoluto:</strong> <span class="math notranslate nohighlight">\(|u-v|\)</span>.</p>
+<p><strong>Errore relativo:</strong> <span class="math notranslate nohighlight">\(|u-v|/|u|\)</span>.</p>
+<p><strong>Errore di discretizzazione:</strong> errore dovuto alla sostituzione di un problema continuo con uno discreto.</p>
+<p><strong>Errore di convergenza:</strong> errore dovuto all’arresto di un metodo iterativo.</p>
+<p><strong>Errore di arrotondamento:</strong> errore dovuto alla rappresentazione finita dei numeri.</p>
+<p><strong>Accuratezza:</strong> vicinanza del risultato alla soluzione esatta.</p>
+<p><strong>Efficienza:</strong> costo computazionale di un algoritmo.</p>
+<p><strong>Robustezza:</strong> capacità di un algoritmo di funzionare in modo affidabile.</p>
+<p><strong>Condizionamento:</strong> sensibilità del problema alle perturbazioni dei dati.</p>
+<p><strong>Stabilità:</strong> capacità dell’algoritmo di non amplificare eccessivamente gli errori.</p>
+<p><strong>Floating-point:</strong> rappresentazione a virgola mobile.</p>
+<p><strong>Mantissa:</strong> parte significativa del numero floating-point.</p>
+<p><strong>Esponente:</strong> parte che determina l’ordine di grandezza.</p>
+<p><strong>Unità di arrotondamento:</strong> limite superiore tipico dell’errore relativo di rappresentazione.</p>
+<p><strong>Cancellazione:</strong> perdita di cifre significative nella sottrazione di numeri quasi uguali.</p>
+<p><strong>Overflow:</strong> risultato troppo grande per essere rappresentato.</p>
+<p><strong>Underflow:</strong> risultato troppo piccolo per essere rappresentato come normalizzato.</p>
+<p><strong>NaN:</strong> Not a Number.</p>
+<p><strong>Horner:</strong> metodo efficiente per valutare polinomi.</p>
+<p><strong>FMA:</strong> fused multiply-add, operazione <span class="math notranslate nohighlight">\(fl(xy+z)\)</span> con un solo arrotondamento.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./miei_files"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Welcome to your Jupyter Book</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="2_equazioni_non_lineari.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Equazioni non lineari</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Algoritmi numerici, errori e aritmetica floating-point</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-i-calcolo-scientifico-e-algoritmi-numerici">Parte I — Calcolo scientifico e algoritmi numerici</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#che-cos-e-il-calcolo-scientifico">1. Che cos’è il calcolo scientifico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calcolo-scientifico-e-analisi-numerica">2. Calcolo scientifico e analisi numerica</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-l-errore-e-inevitabile">3. Perché l’errore è inevitabile</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-ii-misurare-l-errore">Parte II — Misurare l’errore</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errore-assoluto">4. Errore assoluto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errore-relativo">5. Errore relativo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quando-l-errore-relativo-e-delicato">6. Quando l’errore relativo è delicato</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-iii-esempio-approssimazione-di-stirling">Parte III — Esempio: approssimazione di Stirling</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formula-di-stirling">7. Formula di Stirling</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-iv-tipi-di-errore">Parte IV — Tipi di errore</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errori-nel-problema">8. Errori nel problema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errori-di-approssimazione">9. Errori di approssimazione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#errori-di-arrotondamento">10. Errori di arrotondamento</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-gli-errori-di-arrotondamento-possono-crescere">Perché gli errori di arrotondamento possono crescere?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-v-taylor-e-differenziazione-numerica">Parte V — Taylor e differenziazione numerica</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-di-taylor">11. Teorema di Taylor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#differenza-in-avanti">12. Differenza in avanti</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#il-significato-della-notazione-o">13. Il significato della notazione <span class="math notranslate nohighlight">\(O\)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-caduta-libera">Esempio: caduta libera</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-evidenzia-le-variazioni-relative">Perché evidenzia le variazioni relative?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-vi-quando-h-diventa-troppo-piccolo">Parte VI — Quando <span class="math notranslate nohighlight">\(h\)</span> diventa troppo piccolo</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effetto-combinato-di-discretizzazione-e-arrotondamento">14. Effetto combinato di discretizzazione e arrotondamento</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lettura-del-grafico">15. Lettura del grafico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#differenza-centrata">16. Differenza centrata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-ulteriore-esempio">Un ulteriore esempio</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-vii-proprieta-degli-algoritmi">Parte VII — Proprietà degli algoritmi</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accuratezza">17. Accuratezza</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#efficienza">18. Efficienza</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#robustezza">19. Robustezza</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-viii-efficienza-la-regola-di-horner">Parte VIII — Efficienza: la regola di Horner</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#valutazione-di-un-polinomio">20. Valutazione di un polinomio</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-ix-condizionamento-e-stabilita">Parte IX — Condizionamento e stabilità</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizionamento-del-problema">21. Condizionamento del problema</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio">Esempio</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stabilita-dell-algoritmo">22. Stabilità dell’algoritmo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-ben-condizionato-sqrt-1-x-vicino-a-zero">23. Esempio ben condizionato: <span class="math notranslate nohighlight">\(\sqrt{1+x}\)</span> vicino a zero</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-mal-condizionato-tan-x-vicino-a-pi-2">24. Esempio mal condizionato: <span class="math notranslate nohighlight">\(\tan(x)\)</span> vicino a <span class="math notranslate nohighlight">\(\pi/2\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accumulo-degli-errori">25. Accumulo degli errori</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-instabile-ricorrenza-per-integrali">26. Esempio instabile: ricorrenza per integrali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spiegazione-dettagliata">Spiegazione dettagliata</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ricorrenza-stabile-all-indietro">27. Ricorrenza stabile all’indietro</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#riepilogo-finale">Riepilogo finale</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checklist-dei-concetti-principali">Checklist dei concetti principali</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glossario">Glossario</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
