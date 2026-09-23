@@ -1,0 +1,1979 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Errori di arrotondamento e aritmetica floating-point &#8212; MNC 2026/27</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'miei_files/1_Floating_point_roundoff_revisionato';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Equazioni non lineari" href="2_equazioni_non_lineari.html" />
+    <link rel="prev" title="Algoritmi numerici, errori e aritmetica floating-point" href="0_algoritmi_numerici.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo_mnpc.png" class="logo__image only-light" alt="MNC 2026/27 - Home"/>
+    <img src="../_static/logo_mnpc.png" class="logo__image only-dark pst-js-only" alt="MNC 2026/27 - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Metodi Numerici per il Calcolo AA. 2026/27 – Modulo 2
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="0_algoritmi_numerici.html">Algoritmi numerici, errori e aritmetica floating-point</a></li>
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Errori di arrotondamento e aritmetica floating-point</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2_equazioni_non_lineari.html">Equazioni non lineari</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="3_sistemi_lineari_condizionamento.html">Sistemi lineari, condizionamento e metodi diretti</a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="4_metodi_iterativi_gradiente_coniugato.html">Metodi iterativi per sistemi lineari</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/carolinavitt/MNC2026-27" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/carolinavitt/MNC2026-27/issues/new?title=Issue%20on%20page%20%2Fmiei_files/1_Floating_point_roundoff_revisionato.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/miei_files/1_Floating_point_roundoff_revisionato.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Errori di arrotondamento e aritmetica floating-point</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-i-rappresentazione-floating-point">Parte I — Rappresentazione floating-point</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#richiamo-preliminare-sistemi-di-numerazione-in-base-10-e-in-base-2">Richiamo preliminare: sistemi di numerazione in base 10 e in base 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rappresentazione-binaria-normalizzata">1. Rappresentazione binaria normalizzata</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sistemi-floating-point">2. Sistemi floating-point</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#troncamento-e-arrotondamento">3. Troncamento e arrotondamento</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unita-di-arrotondamento">4. Unità di arrotondamento</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#unita-di-arrotondamento-ed-eps">Unità di arrotondamento ed <code class="docutils literal notranslate"><span class="pre">eps</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#eps-e-unita-di-arrotondamento"><code class="docutils literal notranslate"><span class="pre">eps</span></code> e unità di arrotondamento</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-precision-e-double-precision">5. Single precision e double precision</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#numeri-subnormali">Numeri subnormali</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#come-leggere-finfo">Come leggere <code class="docutils literal notranslate"><span class="pre">finfo</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#errore-di-arrotondamento-apparentemente-casuale">6. Errore di arrotondamento apparentemente casuale</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#lettura-dell-errore-relativo">Lettura dell’errore relativo</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribuzione-dei-numeri-floating-point">7. Distribuzione dei numeri floating-point</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#distanza-assoluta-e-distanza-relativa">Distanza assoluta e distanza relativa</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sistema-floating-point-giocattolo">8. Sistema floating-point giocattolo</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geometria-del-sistema-giocattolo">Geometria del sistema giocattolo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-ii-lo-standard-ieee-754-e-i-valori-speciali">Parte II — Lo standard IEEE 754 e i valori speciali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#struttura-di-un-numero-in-double-precision">9. Struttura di un numero in double precision</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overflow-underflow-infinito-e-nan">10. Overflow, underflow, infinito e NaN</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-non-bisogna-ignorare-i-valori-speciali">Perché non bisogna ignorare i valori speciali</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-iii-cancellazione-e-formule-stabili">Parte III — Cancellazione e formule stabili</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cancellazione-numerica">11. Cancellazione numerica</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#come-leggere-l-esempio-python">Come leggere l’esempio Python</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#differenza-di-seni-in-forma-stabile">12. Differenza di seni in forma stabile</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#confronto-fra-forma-diretta-e-forma-stabile">Confronto fra forma diretta e forma stabile</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-sqrt-x-1-sqrt-x">13. Esempio: <span class="math notranslate nohighlight">\(\sqrt{x+1}-\sqrt{x}\)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#che-cosa-mostra-l-esperimento">Che cosa mostra l’esperimento</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-funzione-sinh-x-vicino-a-zero">14. La funzione <span class="math notranslate nohighlight">\(\sinh(x)\)</span> vicino a zero</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#scelta-della-formula-in-base-alla-scala">Scelta della formula in base alla scala</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-iv-calcolo-stabile-delle-radici-di-un-equazione-quadratica">Parte IV — Calcolo stabile delle radici di un’equazione quadratica</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formula-standard-e-problema-di-cancellazione">15. Formula standard e problema di cancellazione</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equazione-quadratica-generale">16. Equazione quadratica generale</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#verifica-delle-radici">Verifica delle radici</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-v-progettazione-di-funzioni-di-libreria-robuste">Parte V — Progettazione di funzioni di libreria robuste</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#norma-euclidea-e-overflow">17. Norma euclidea e overflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#risultato-della-norma-scalata">Risultato della norma scalata</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#varianza-e-cancellazione">18. Varianza e cancellazione</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#risultato-della-varianza">Risultato della varianza</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-vi-riepilogo-finale">Parte VI — Riepilogo finale</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checklist-dei-concetti-principali">Checklist dei concetti principali</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#glossario">Glossario</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="errori-di-arrotondamento-e-aritmetica-floating-point">
+<h1>Errori di arrotondamento e aritmetica floating-point<a class="headerlink" href="#errori-di-arrotondamento-e-aritmetica-floating-point" title="Link to this heading">#</a></h1>
+<p>Rappresentazione dei numeri reali, standard IEEE 754, propagazione degli errori e progettazione di formule numericamente stabili.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">struct</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="parte-i-rappresentazione-floating-point">
+<h2>Parte I — Rappresentazione floating-point<a class="headerlink" href="#parte-i-rappresentazione-floating-point" title="Link to this heading">#</a></h2>
+<section id="richiamo-preliminare-sistemi-di-numerazione-in-base-10-e-in-base-2">
+<h3>Richiamo preliminare: sistemi di numerazione in base 10 e in base 2<a class="headerlink" href="#richiamo-preliminare-sistemi-di-numerazione-in-base-10-e-in-base-2" title="Link to this heading">#</a></h3>
+<p>Un sistema di numerazione <strong>posizionale</strong> rappresenta un numero mediante cifre il cui valore dipende sia dalla cifra stessa sia dalla posizione occupata. Se la base è <span class="math notranslate nohighlight">\(\beta\)</span>, le posizioni a sinistra della virgola corrispondono alle potenze <span class="math notranslate nohighlight">\(\beta^0,\beta^1,\beta^2,\ldots\)</span>, mentre quelle a destra corrispondono a <span class="math notranslate nohighlight">\(\beta^{-1},\beta^{-2},\ldots\)</span>.</p>
+<p>Nel sistema decimale, cioè in base <span class="math notranslate nohighlight">\(10\)</span>, le cifre possibili sono <span class="math notranslate nohighlight">\(0,1,\ldots,9\)</span>. Per esempio,</p>
+<div class="math notranslate nohighlight">
+\[
+(325.47)_{10}
+=
+3\cdot10^2+2\cdot10^1+5\cdot10^0+4\cdot10^{-1}+7\cdot10^{-2}.
+\]</div>
+<p>Nel sistema binario, cioè in base <span class="math notranslate nohighlight">\(2\)</span>, le sole cifre disponibili sono <span class="math notranslate nohighlight">\(0\)</span> e <span class="math notranslate nohighlight">\(1\)</span>. Per esempio,</p>
+<div class="math notranslate nohighlight">
+\[
+(101.101)_2
+=
+1\cdot2^2+0\cdot2^1+1\cdot2^0
++1\cdot2^{-1}+0\cdot2^{-2}+1\cdot2^{-3}
+=5.625.
+\]</div>
+<p>Le regole sono quindi le stesse in entrambe le basi: cambia soltanto la base delle potenze e l’insieme delle cifre ammesse. I computer usano prevalentemente la base <span class="math notranslate nohighlight">\(2\)</span> perché i due valori <span class="math notranslate nohighlight">\(0\)</span> e <span class="math notranslate nohighlight">\(1\)</span> possono essere associati in modo naturale a due stati fisici distinti dei circuiti elettronici.</p>
+</section>
+<section id="rappresentazione-binaria-normalizzata">
+<h3>1. Rappresentazione binaria normalizzata<a class="headerlink" href="#rappresentazione-binaria-normalizzata" title="Link to this heading">#</a></h3>
+<p>Un numero reale non nullo può essere scritto idealmente come</p>
+<div class="math notranslate nohighlight">
+\[
+x=\pm(1.d_1d_2d_3\cdots)_2\times 2^e.
+\]</div>
+<p>In questa rappresentazione distinguiamo tre elementi:</p>
+<ul class="simple">
+<li><p><strong>Segno:</strong> il simbolo <span class="math notranslate nohighlight">\(\pm\)</span> indica se il numero è positivo o negativo.</p></li>
+<li><p><strong>Significando o mantissa:</strong> la sequenza <span class="math notranslate nohighlight">\((1.d_1d_2d_3\cdots)_2\)</span> contiene le cifre binarie significative.</p></li>
+<li><p><strong>Esponente:</strong> il valore <span class="math notranslate nohighlight">\(e\)</span> determina l’ordine di grandezza e quindi la posizione della virgola binaria.</p></li>
+</ul>
+<p><strong>Esempio:</strong></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+-(1.101)_2\times 2^1
+&amp;=-\left(1\cdot2^0+1\cdot2^{-1}+0\cdot2^{-2}+1\cdot2^{-3}\right)2^1\\
+&amp;=-\left(1+\frac{1}{2}+\frac{0}{4}+\frac{1}{8}\right)2\\
+&amp;=-\left(1+\frac{1}{2}+\frac{1}{8}\right)2\\
+&amp;=-(1.625)2\\
+&amp;=-3.25.
+\end{aligned}
+\end{split}\]</div>
+<p>La <strong>normalizzazione</strong> comporta che:</p>
+<ul class="simple">
+<li><p>la <strong>prima cifra significativa</strong> deve essere diversa da zero;</p></li>
+<li><p>in <strong>base <span class="math notranslate nohighlight">\(2\)</span></strong>, la prima cifra di un numero normalizzato è necessariamente <span class="math notranslate nohighlight">\(1\)</span>;</p></li>
+<li><p>questo primo <span class="math notranslate nohighlight">\(1\)</span> può essere lasciato <strong>implicito</strong>, cioè non deve essere memorizzato;</p></li>
+<li><p>il <strong>bit implicito</strong> così ottenuto permette di guadagnare un bit di precisione.</p></li>
+</ul>
+<p>Non tutti i numeri reali hanno una rappresentazione binaria finita:</p>
+<ul class="simple">
+<li><p>una <strong>frazione razionale</strong> ha un’espansione binaria finita soltanto se, ridotta ai minimi termini, il suo denominatore è una potenza di <span class="math notranslate nohighlight">\(2\)</span>;</p></li>
+<li><p>il numero <span class="math notranslate nohighlight">\(1/8=0.001_2\)</span> è quindi <strong>rappresentabile esattamente</strong>;</p></li>
+<li><p>il numero <span class="math notranslate nohighlight">\(1/10\)</span>, invece, richiede <strong>infinite cifre binarie</strong> e deve essere approssimato.</p></li>
+</ul>
+<p>Il termine <strong>floating-point</strong>, cioè <em>virgola mobile</em>, richiama la notazione scientifica:</p>
+<ul class="simple">
+<li><p>la <strong>posizione della virgola</strong> non è fissata una volta per tutte;</p></li>
+<li><p>l’<strong>esponente</strong> sposta la virgola binaria e consente di rappresentare ordini di grandezza differenti;</p></li>
+<li><p>un’espansione ideale può contenere <strong>infinite cifre</strong>, mentre la memoria di un computer è finita;</p></li>
+<li><p><mark>il computer deve quindi conservare un <strong>numero prefissato di cifre significative</strong> e limitare l’<strong>intervallo degli esponenti</strong>.</mark></p></li>
+</ul>
+<p>Il passaggio dal numero reale alla sua rappresentazione finita conduce ai <strong>sistemi floating-point</strong> introdotti nella sezione seguente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">value</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-3.25
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="sistemi-floating-point">
+<h3>2. Sistemi floating-point<a class="headerlink" href="#sistemi-floating-point" title="Link to this heading">#</a></h3>
+<p>Un sistema floating-point generale è descritto da quattro parametri:</p>
+<div class="math notranslate nohighlight">
+\[
+(\beta,t,L,U),
+\]</div>
+<p>dove:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\beta\)</span> è la base;</p></li>
+<li><p><span class="math notranslate nohighlight">\(t\)</span> è la precisione;</p></li>
+<li><p><span class="math notranslate nohighlight">\(L\)</span> è il minimo esponente;</p></li>
+<li><p><span class="math notranslate nohighlight">\(U\)</span> è il massimo esponente.</p></li>
+</ul>
+<p>Un numero normalizzato ha forma</p>
+<div class="math notranslate nohighlight">
+\[
+\pm
+(d_0.d_1d_2\cdots d_{t-1})_{\beta}
+\times \beta^e,
+\]</div>
+<p>con</p>
+<div class="math notranslate nohighlight">
+\[
+d_0\neq 0,
+\qquad
+L\le e\le U.
+\]</div>
+<p>I quattro parametri controllano aspetti diversi:</p>
+<ul class="simple">
+<li><p>la base <span class="math notranslate nohighlight">\(\beta\)</span> determina le cifre disponibili;</p></li>
+<li><p>la precisione <span class="math notranslate nohighlight">\(t\)</span> determina quanti dettagli relativi si conservano;</p></li>
+<li><p>l’intervallo <span class="math notranslate nohighlight">\([L,U]\)</span> determina quali ordini di grandezza sono rappresentabili.</p></li>
+</ul>
+<p>Se per il momento consideriamo soltanto i numeri normalizzati diversi da zero, <strong>il più piccolo numero positivo è</strong></p>
+<div class="math notranslate nohighlight">
+\[
+x_{\min}=\beta^L,
+\]</div>
+<p>mentre <strong>il più grande è</strong></p>
+<div class="math notranslate nohighlight">
+\[
+x_{\max}=(\beta-\beta^{1-t})\beta^U.
+\]</div>
+<p>Con la convenzione adottata, per ogni valore dell’esponente sono possibili <span class="math notranslate nohighlight">\((\beta-1)\beta^{t-1}\)</span> diverse sequenze di <span class="math notranslate nohighlight">\(t\)</span> cifre significative normalizzate e positive.</p>
+<p>Il sistema contiene quindi un insieme finito di valori, non una versione “compressa” dell’intera retta reale. Più avanti vedremo che lo standard IEEE 754 aggiunge anche valori speciali molto vicini a zero, i numeri subnormali.</p>
+</section>
+<section id="troncamento-e-arrotondamento">
+<h3>3. Troncamento e arrotondamento<a class="headerlink" href="#troncamento-e-arrotondamento" title="Link to this heading">#</a></h3>
+<p>Poiché un sistema floating-point conserva soltanto <span class="math notranslate nohighlight">\(t\)</span> cifre significative, un numero reale deve essere sostituito da uno dei valori effettivamente rappresentabili. Indichiamo con</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{fl}(x)
+\]</div>
+<p>il numero floating-point assegnato al valore reale <span class="math notranslate nohighlight">\(x\)</span>. La notazione <span class="math notranslate nohighlight">\(\mathrm{fl}\)</span>, che useremo anche in seguito, significa quindi “risultato rappresentato o calcolato in aritmetica floating-point”.</p>
+<p>Due strategie elementari sono:</p>
+<ul class="simple">
+<li><p><strong>troncamento:</strong> si eliminano tutte le cifre successive alle prime <span class="math notranslate nohighlight">\(t\)</span>;</p></li>
+<li><p><strong>arrotondamento:</strong> si sceglie il numero rappresentabile più vicino a <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+</ul>
+<p>Esempio in base 10 con <span class="math notranslate nohighlight">\(t=3\)</span>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>Numero</p></th>
+<th class="head text-right"><p>Troncato</p></th>
+<th class="head text-right"><p>Arrotondato</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>5.672</p></td>
+<td class="text-right"><p>5.67</p></td>
+<td class="text-right"><p>5.67</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>5.677</p></td>
+<td class="text-right"><p>5.67</p></td>
+<td class="text-right"><p>5.68</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>5.695</p></td>
+<td class="text-right"><p>5.69</p></td>
+<td class="text-right"><p>5.70</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>L’arrotondamento dimezza, nel caso peggiore, l’errore massimo rispetto al troncamento. Resta però da decidere che cosa fare quando <span class="math notranslate nohighlight">\(x\)</span> si trova <strong>esattamente a metà</strong> fra i due floating-point più vicini, come nella terza riga della tabella: entrambi hanno la stessa distanza da <span class="math notranslate nohighlight">\(x\)</span>. Lo standard IEEE 754 usa normalmente la regola <strong>round to nearest, ties to even</strong>, cioè “arrotonda al più vicino e, in caso di parità, scegli quello pari”.</p>
+<p>In un esempio decimale con una sola cifra dopo la virgola, <span class="math notranslate nohighlight">\(1.25\)</span> è equidistante da <span class="math notranslate nohighlight">\(1.2\)</span> e <span class="math notranslate nohighlight">\(1.3\)</span>: si sceglie <span class="math notranslate nohighlight">\(1.2\)</span> perché la sua ultima cifra conservata, <span class="math notranslate nohighlight">\(2\)</span>, è pari. Analogamente, <span class="math notranslate nohighlight">\(1.35\)</span> viene arrotondato a <span class="math notranslate nohighlight">\(1.4\)</span>, perché fra <span class="math notranslate nohighlight">\(3\)</span> e <span class="math notranslate nohighlight">\(4\)</span> la cifra pari è <span class="math notranslate nohighlight">\(4\)</span>. Nel sistema binario la stessa regola sceglie, fra i due candidati, quello il cui ultimo bit conservato è <span class="math notranslate nohighlight">\(0\)</span>. In questo modo i casi a metà non vengono arrotondati sistematicamente sempre verso l’alto o sempre verso il basso.</p>
+<div style="
+    padding: 18px 22px;
+    margin: 16px 0;
+    border-left: 5px solid #4a90e2;
+    border-radius: 6px;
+    background-color: rgba(74, 144, 226, 0.10);
+">
+<h3 style="margin-top: 0;">💡 Nota — Cifre di guardia</h3>
+<p>Le <strong>guard digits</strong>, o <strong>cifre di guardia</strong>, sono cifre aggiuntive conservate temporaneamente durante un calcolo floating-point.</p>
+<p>Non fanno parte del risultato finale, ma servono a stabilire come arrotondarlo correttamente.</p>
+<p>Supponiamo, per esempio, di poter memorizzare soltanto tre cifre significative e di ottenere temporaneamente</p>
+<div class="math notranslate nohighlight">
+\[
+1.2351.
+\]</div>
+<p>Per decidere se memorizzare <span class="math notranslate nohighlight">\(1.23\)</span> oppure <span class="math notranslate nohighlight">\(1.24\)</span>, è necessario conoscere almeno la cifra successiva, cioè <span class="math notranslate nohighlight">\(5\)</span>. Questa cifra aggiuntiva permette di scegliere l’arrotondamento corretto:</p>
+<div class="math notranslate nohighlight">
+\[
+1.2351 \longrightarrow 1.24.
+\]</div>
+<p>Nei sistemi conformi allo standard IEEE 754 si utilizzano generalmente tre informazioni aggiuntive:</p>
+<ul class="simple">
+<li><p><strong>guard bit:</strong> è il primo bit successivo a quelli che saranno memorizzati;</p></li>
+<li><p><strong>round bit:</strong> è il bit immediatamente successivo al guard bit;</p></li>
+<li><p><strong>sticky bit:</strong> indica se almeno uno degli altri bit eliminati è diverso da zero.</p></li>
+</ul>
+<p>Questi bit permettono di arrotondare il risultato come se l’operazione fosse stata eseguita esattamente e il risultato fosse stato arrotondato una sola volta alla precisione disponibile.</p>
+<p>In sintesi:</p>
+<ul class="simple">
+<li><p>le cifre di guardia aumentano temporaneamente la precisione dei calcoli intermedi;</p></li>
+</ul>
+</section>
+<section id="unita-di-arrotondamento">
+<h3>4. Unità di arrotondamento<a class="headerlink" href="#unita-di-arrotondamento" title="Link to this heading">#</a></h3>
+<p>L’<strong>unità di arrotondamento</strong>, indicata con <span class="math notranslate nohighlight">\(\eta\)</span>, misura il massimo errore relativo che può essere introdotto quando un numero reale viene sostituito dal floating-point più vicino. Essa descrive quindi la precisione intrinseca del sistema: più <span class="math notranslate nohighlight">\(\eta\)</span> è piccola, più accurata è la rappresentazione dei numeri.</p>
+<p>Ricordiamo che:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathrm{fl}(x)\)</span> indica il valore floating-point assegnato al numero reale <span class="math notranslate nohighlight">\(x\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta\)</span> è la <strong>base</strong> del sistema;</p></li>
+<li><p><span class="math notranslate nohighlight">\(t\)</span> è il numero di <strong>cifre significative</strong> disponibili.</p></li>
+</ul>
+<p>Per un sistema floating-point con arrotondamento al più vicino, l’unità di arrotondamento è</p>
+<div class="math notranslate nohighlight">
+\[
+\eta=\frac{1}{2}\beta^{1-t}.
+\]</div>
+<p>Per ogni numero normalizzato non nullo che appartiene all’intervallo delle grandezze rappresentabili vale</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{|x-\mathrm{fl}(x)|}{|x|}\le \eta.
+\]</div>
+<p>In questa formula:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(|x-\mathrm{fl}(x)|\)</span> è l’<strong>errore assoluto di rappresentazione</strong>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\frac{|x-\mathrm{fl}(x)|}{|x|}\)</span> è l’<strong>errore relativo di rappresentazione</strong>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(\eta\)</span> costituisce un limite superiore per tale errore relativo.</p></li>
+</ul>
+<p>La stessa proprietà può essere riscritta nella forma</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{fl}(x)=x(1+\delta),
+\qquad |\delta|\le\eta,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\delta\)</span> rappresenta la piccola <strong>perturbazione relativa</strong> introdotta dall’arrotondamento. Il valore memorizzato può quindi essere interpretato come il valore esatto <span class="math notranslate nohighlight">\(x\)</span> moltiplicato per un fattore molto vicino a <span class="math notranslate nohighlight">\(1\)</span>.</p>
+<p>Questa stima riguarda i <strong>numeri normalizzati</strong> compresi nell’intervallo rappresentabile. Il comportamento dei valori eccezionalmente grandi o piccoli verrà descritto più avanti, dopo avere introdotto la struttura dello standard IEEE 754.</p>
+<p>Nel formato <strong>double precision</strong> definito dallo standard IEEE 754:</p>
+<ul class="simple">
+<li><p>la base è <span class="math notranslate nohighlight">\(\beta=2\)</span>;</p></li>
+<li><p>la precisione effettiva è <span class="math notranslate nohighlight">\(t=53\)</span> bit significativi;</p></li>
+<li><p>l’unità di arrotondamento è</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\eta
+=
+\frac{1}{2}2^{1-53}
+=
+2^{-53}
+\approx 1.1\times10^{-16}.
+\]</div>
+<section id="unita-di-arrotondamento-ed-eps">
+<h4>Unità di arrotondamento ed <code class="docutils literal notranslate"><span class="pre">eps</span></code><a class="headerlink" href="#unita-di-arrotondamento-ed-eps" title="Link to this heading">#</a></h4>
+<p>La terminologia non è sempre uniforme. In NumPy, <code class="docutils literal notranslate"><span class="pre">eps</span></code> indica la distanza tra <span class="math notranslate nohighlight">\(1\)</span> e il floating-point immediatamente successivo. Per <code class="docutils literal notranslate"><span class="pre">float64</span></code> si ha</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{eps}=2^{-52}.
+\]</div>
+<p>L’unità di arrotondamento per l’arrotondamento al più vicino è invece</p>
+<div class="math notranslate nohighlight">
+\[
+\eta=\frac{\mathrm{eps}}{2}=2^{-53}.
+\]</div>
+<p>Espressioni come <strong>machine epsilon</strong>, <strong>precisione di macchina</strong> e <strong>unità di arrotondamento</strong> possono quindi essere utilizzate con convenzioni differenti. È sempre opportuno verificare la definizione adottata nel software o nel documento che si sta consultando.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+<span class="n">eta</span> <span class="o">=</span> <span class="n">eps</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;eps NumPy =&quot;</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;eta = eps/2 =&quot;</span><span class="p">,</span> <span class="n">eta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2^-53 =&quot;</span><span class="p">,</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">53</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1 + eta == 1 ?&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">eta</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1 + eps &gt; 1 ?&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">eps</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>eps NumPy = 2.220446049250313e-16
+eta = eps/2 = 1.1102230246251565e-16
+2^-53 = 1.1102230246251565e-16
+1 + eta == 1 ? True
+1 + eps &gt; 1 ? True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="eps-e-unita-di-arrotondamento">
+<h4><code class="docutils literal notranslate"><span class="pre">eps</span></code> e unità di arrotondamento<a class="headerlink" href="#eps-e-unita-di-arrotondamento" title="Link to this heading">#</a></h4>
+<p>Per <code class="docutils literal notranslate"><span class="pre">float64</span></code>, NumPy restituisce</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{eps}=2^{-52},
+\]</div>
+<p>che è la distanza fra <span class="math notranslate nohighlight">\(1\)</span> e il floating-point successivo. L’unità di arrotondamento definita è</p>
+<div class="math notranslate nohighlight">
+\[
+\eta=\frac{\mathrm{eps}}{2}=2^{-53}.
+\]</div>
+<p>Il numero <span class="math notranslate nohighlight">\(1+\eta\)</span> cade esattamente a metà fra due floating-point. Con la regola ties-to-even viene arrotondato a <span class="math notranslate nohighlight">\(1\)</span>, mentre <span class="math notranslate nohighlight">\(1+\mathrm{eps}\)</span> è il vicino successivo e risulta strettamente maggiore di <span class="math notranslate nohighlight">\(1\)</span>.</p>
+</section>
+</section>
+<section id="single-precision-e-double-precision">
+<h3>5. Single precision e double precision<a class="headerlink" href="#single-precision-e-double-precision" title="Link to this heading">#</a></h3>
+<p>Lo <strong>standard IEEE 754</strong> stabilisce come rappresentare i numeri floating-point e come eseguire le operazioni aritmetiche fondamentali. Grazie a uno standard comune, uno stesso formato ha significato coerente su processori e linguaggi diversi.</p>
+<p>La parola <strong>precisione</strong> indica quanti bit vengono riservati all’intera rappresentazione e, di conseguenza, quante cifre significative e quali ordini di grandezza sono disponibili. I due formati binari più comuni sono:</p>
+<ul class="simple">
+<li><p><strong>single precision</strong>, che occupa 32 bit ed è usata quando sono importanti il risparmio di memoria e la velocità;</p></li>
+<li><p><strong>double precision</strong>, che occupa 64 bit e offre una precisione e un intervallo di grandezze maggiori. È il formato normalmente usato dal tipo <code class="docutils literal notranslate"><span class="pre">float</span></code> di Python e da <code class="docutils literal notranslate"><span class="pre">numpy.float64</span></code>.</p></li>
+</ul>
+<p>La disposizione dei campi può essere rappresentata schematicamente nel modo seguente. Le larghezze grafiche non sono in scala.</p>
+<p><strong>Single precision, 32 bit</strong></p>
+<table style="border-collapse: collapse; width: 100%; text-align: center;">
+<tr>
+<td style="border: 2px solid #555; padding: 10px; width: 12%;"><b>segno</b><br>1 bit</td>
+<td style="border: 2px solid #555; padding: 10px; width: 28%;"><b>esponente</b><br>8 bit</td>
+<td style="border: 2px solid #555; padding: 10px; width: 60%;"><b>frazione</b><br>23 bit</td>
+</tr>
+</table>
+<p><strong>Double precision, 64 bit</strong></p>
+<table style="border-collapse: collapse; width: 100%; text-align: center;">
+<tr>
+<td style="border: 2px solid #555; padding: 10px; width: 8%;"><b>segno</b><br>1 bit</td>
+<td style="border: 2px solid #555; padding: 10px; width: 22%;"><b>esponente</b><br>11 bit</td>
+<td style="border: 2px solid #555; padding: 10px; width: 70%;"><b>frazione</b><br>52 bit</td>
+</tr>
+</table>
+<p>Per i numeri <strong>normalizzati</strong>, la prima cifra binaria significativa è sempre <span class="math notranslate nohighlight">\(1\)</span> e può essere lasciata implicita. Per questo 23 bit memorizzati nella frazione forniscono 24 bit significativi in single precision, mentre 52 bit memorizzati ne forniscono 53 in double precision. In termini decimali corrispondono a circa 7 e 16 cifre significative. Ciò non significa che ogni numero stampato con 16 cifre sia esatto: significa che l’errore relativo di una singola rappresentazione double normalizzata è controllato alla scala di <span class="math notranslate nohighlight">\(10^{-16}\)</span>.</p>
+<section id="numeri-subnormali">
+<h4>Numeri subnormali<a class="headerlink" href="#numeri-subnormali" title="Link to this heading">#</a></h4>
+<p>La forma normalizzata richiede una prima cifra uguale a <span class="math notranslate nohighlight">\(1\)</span> e produce quindi un più piccolo numero positivo normalizzato. Senza un accorgimento ulteriore rimarrebbe un intervallo vuoto fra questo valore e zero. IEEE 754 usa i <strong>numeri subnormali</strong> per riempire gradualmente parte di tale intervallo.</p>
+<p>In un numero subnormale l’esponente memorizzato è tutto zero e la prima cifra significativa non è più il bit implicito <span class="math notranslate nohighlight">\(1\)</span>: il numero ha una forma del tipo</p>
+<div class="math notranslate nohighlight">
+\[
+\pm(0.d_1d_2\cdots d_{t-1})_2\times 2^{e_{\min}}.
+\]</div>
+<p><em>I subnormali permettono quindi di rappresentare valori più piccoli del minimo normalizzato e rendono graduale il passaggio verso zero. Il prezzo è una precisione relativa via via minore, perché diminuendo il numero diminuiscono anche le cifre significative effettivamente disponibili.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">info32</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">info64</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;eps:&quot;</span><span class="p">,</span> <span class="n">info32</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;eta:&quot;</span><span class="p">,</span> <span class="n">info32</span><span class="o">.</span><span class="n">eps</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;max:&quot;</span><span class="p">,</span> <span class="n">info32</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tiny:&quot;</span><span class="p">,</span> <span class="n">info32</span><span class="o">.</span><span class="n">tiny</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">float64&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;eps:&quot;</span><span class="p">,</span> <span class="n">info64</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;eta:&quot;</span><span class="p">,</span> <span class="n">info64</span><span class="o">.</span><span class="n">eps</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;max:&quot;</span><span class="p">,</span> <span class="n">info64</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tiny:&quot;</span><span class="p">,</span> <span class="n">info64</span><span class="o">.</span><span class="n">tiny</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>float32
+eps: 1.1920929e-07
+eta: 5.9604645e-08
+max: 3.4028235e+38
+tiny: 1.1754944e-38
+
+float64
+eps: 2.220446049250313e-16
+eta: 1.1102230246251565e-16
+max: 1.7976931348623157e+308
+tiny: 2.2250738585072014e-308
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="come-leggere-finfo">
+<h4>Come leggere <code class="docutils literal notranslate"><span class="pre">finfo</span></code><a class="headerlink" href="#come-leggere-finfo" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">eps</span></code> descrive la risoluzione relativa vicino a <span class="math notranslate nohighlight">\(1\)</span>; <code class="docutils literal notranslate"><span class="pre">tiny</span></code> è il più piccolo numero <strong>normalizzato</strong> positivo; <code class="docutils literal notranslate"><span class="pre">max</span></code> è il più grande numero finito. Tra zero e <code class="docutils literal notranslate"><span class="pre">tiny</span></code> esistono i subnormali, che estendono l’intervallo rappresentabile ma hanno meno cifre significative. Il confronto mostra perché <code class="docutils literal notranslate"><span class="pre">float32</span></code> occupa meno memoria ma offre un margine molto più ridotto sia in precisione sia nell’intervallo degli esponenti.</p>
+</section>
+</section>
+<section id="errore-di-arrotondamento-apparentemente-casuale">
+<h3>6. Errore di arrotondamento apparentemente casuale<a class="headerlink" href="#errore-di-arrotondamento-apparentemente-casuale" title="Link to this heading">#</a></h3>
+<p>Gli errori di arrotondamento hanno spesso un aspetto irregolare.</p>
+<p>Consideriamo</p>
+<div class="math notranslate nohighlight">
+\[
+g(t)=e^{-t}(\sin(2\pi t)+2).
+\]</div>
+<p>Confrontiamo la valutazione in double precision con la stessa quantità memorizzata in single precision.</p>
+<p>L’aspetto “quasi casuale” nasce dal fatto che il segno e la dimensione dell’errore cambiano quando il valore esatto attraversa i confini fra numeri rappresentabili. Non bisogna però concludere che gli errori siano variabili casuali indipendenti: l’aritmetica floating-point è deterministica e può produrre pattern sistematici. La lettura corretta del grafico è che l’errore resta alla scala prevista dall’unità di arrotondamento, pur oscillando rapidamente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
+
+<span class="n">tt64</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">tt32</span> <span class="o">=</span> <span class="n">tt64</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+<span class="n">round_err</span> <span class="o">=</span> <span class="p">(</span><span class="n">tt64</span> <span class="o">-</span> <span class="n">tt32</span><span class="p">)</span> <span class="o">/</span> <span class="n">tt64</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">round_err</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Errore relativo: double precision vs single precision&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;errore relativo&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;max errore relativo / eta_single =&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">round_err</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0ecaca596aa0598c074129b8f8c99b28b322a4a3938245c284b0a91833f6b0e3.png" src="../_images/0ecaca596aa0598c074129b8f8c99b28b322a4a3938245c284b0a91833f6b0e3.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>max errore relativo / eta_single = 0.9737441196931675
+</pre></div>
+</div>
+</div>
+</div>
+<section id="lettura-dell-errore-relativo">
+<h4>Lettura dell’errore relativo<a class="headerlink" href="#lettura-dell-errore-relativo" title="Link to this heading">#</a></h4>
+<p>I valori in single precision vengono convertiti nuovamente in double soltanto per misurare la differenza: la conversione non recupera le cifre già perdute. L’ampiezza tipica dell’errore relativo è dell’ordine di <span class="math notranslate nohighlight">\(10^{-8}\)</span>, coerente con l’unità di arrotondamento della single precision. Le oscillazioni rapide non rappresentano rumore di misura, ma i diversi arrotondamenti deterministici lungo la funzione campionata.</p>
+</section>
+</section>
+<section id="distribuzione-dei-numeri-floating-point">
+<h3>7. Distribuzione dei numeri floating-point<a class="headerlink" href="#distribuzione-dei-numeri-floating-point" title="Link to this heading">#</a></h3>
+<p>I numeri floating-point non sono uniformemente distribuiti.</p>
+<p>La distanza assoluta fra due numeri consecutivi cresce con la grandezza del numero.</p>
+<p>Invece, la distanza relativa resta circa controllata dall’unità di arrotondamento.</p>
+<p>Tra <span class="math notranslate nohighlight">\(2^e\)</span> e <span class="math notranslate nohighlight">\(2^{e+1}\)</span>, cioè all’interno della stessa <strong>binade</strong>, la distanza fra numeri normalizzati consecutivi è costante e vale circa</p>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{ulp}(x)=2^{e-(t-1)}.
+\]</div>
+<p>Passando alla binade successiva, la distanza raddoppia. Per questo il sistema offre una precisione approssimativamente costante in senso relativo, non in senso assoluto. Il grafico di un sistema giocattolo rende visibile questa geometria.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">,</span> <span class="mf">1e16</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+    <span class="n">next_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nextafter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+    <span class="n">spacing</span> <span class="o">=</span> <span class="n">next_x</span> <span class="o">-</span> <span class="n">x</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x=</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">, spacing=</span><span class="si">{</span><span class="n">spacing</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">, spacing relativo=</span><span class="si">{</span><span class="n">spacing</span><span class="o">/</span><span class="n">x</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x=1.0e+00, spacing=2.220e-16, spacing relativo=2.220e-16
+x=1.0e+01, spacing=1.776e-15, spacing relativo=1.776e-16
+x=1.0e+06, spacing=1.164e-10, spacing relativo=1.164e-16
+x=1.0e+16, spacing=2.000e+00, spacing relativo=2.000e-16
+</pre></div>
+</div>
+</div>
+</div>
+<section id="distanza-assoluta-e-distanza-relativa">
+<h4>Distanza assoluta e distanza relativa<a class="headerlink" href="#distanza-assoluta-e-distanza-relativa" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">np.nextafter(x,</span> <span class="pre">np.inf)</span></code> restituisce il primo floating-point maggiore di <span class="math notranslate nohighlight">\(x\)</span>. La differenza <code class="docutils literal notranslate"><span class="pre">next_x</span> <span class="pre">-</span> <span class="pre">x</span></code> cresce con <span class="math notranslate nohighlight">\(x\)</span>, mentre il rapporto tra questa differenza e <span class="math notranslate nohighlight">\(x\)</span> resta vicino a <code class="docutils literal notranslate"><span class="pre">eps</span></code>. Attorno a <span class="math notranslate nohighlight">\(10^{16}\)</span> la spaziatura è già dell’ordine delle unità: aggiungere <span class="math notranslate nohighlight">\(1\)</span> può quindi non modificare affatto il valore memorizzato.</p>
+</section>
+</section>
+<section id="sistema-floating-point-giocattolo">
+<h3>8. Sistema floating-point giocattolo<a class="headerlink" href="#sistema-floating-point-giocattolo" title="Link to this heading">#</a></h3>
+<p>Costruiamo il sistema</p>
+<div class="math notranslate nohighlight">
+\[
+(\beta,t,L,U)=(2,3,-2,3).
+\]</div>
+<p>I numeri positivi normalizzati sono ottenuti da mantisse tra</p>
+<div class="math notranslate nohighlight">
+\[
+1.00_2
+\]</div>
+<p>e</p>
+<div class="math notranslate nohighlight">
+\[
+1.11_2
+\]</div>
+<p>e da esponenti da <span class="math notranslate nohighlight">\(-2\)</span> a <span class="math notranslate nohighlight">\(3\)</span>.</p>
+<p>Per ogni esponente ci sono quattro mantisse positive: <span class="math notranslate nohighlight">\(1.00_2\)</span>, <span class="math notranslate nohighlight">\(1.01_2\)</span>, <span class="math notranslate nohighlight">\(1.10_2\)</span> e <span class="math notranslate nohighlight">\(1.11_2\)</span>. I punti sono equidistanti all’interno di ciascuna binade, ma la distanza raddoppia quando l’esponente aumenta. Senza numeri subnormali rimane inoltre un intervallo vuoto fra <span class="math notranslate nohighlight">\(0\)</span> e il più piccolo numero normalizzato. Nei sistemi reali i subnormali riempiono gradualmente parte di questo intervallo e rendono l’underflow meno brusco.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">toy_floats</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">L</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">U</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">mantissas</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">frac</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">beta</span><span class="o">**</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">)):</span>
+        <span class="n">mantissas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">frac</span> <span class="o">/</span> <span class="n">beta</span><span class="o">**</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">nums</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mantissas</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">U</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">nums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">beta</span><span class="o">**</span><span class="n">e</span><span class="p">)</span>
+
+    <span class="n">nums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">nums</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="o">-</span><span class="n">nums</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span> <span class="n">nums</span><span class="p">])</span>
+
+<span class="n">nums</span> <span class="o">=</span> <span class="n">toy_floats</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">nums</span><span class="p">),</span> <span class="s2">&quot;+&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Sistema floating-point giocattolo (2,3,-2,3)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;valore&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b9942339a24725b3db090080be5778f2516aaf9058223f18907e84763accfb43.png" src="../_images/b9942339a24725b3db090080be5778f2516aaf9058223f18907e84763accfb43.png" />
+</div>
+</div>
+<section id="geometria-del-sistema-giocattolo">
+<h4>Geometria del sistema giocattolo<a class="headerlink" href="#geometria-del-sistema-giocattolo" title="Link to this heading">#</a></h4>
+<p>Il grafico non deve essere letto come una distribuzione statistica. Ogni gruppo di punti corrisponde a un esponente; all’interno del gruppo la spaziatura è uniforme, poi raddoppia passando alla scala successiva. L’addensamento vicino a zero esprime una precisione relativa quasi costante. Il vuoto centrale ricorda che, nel modello normalizzato privo di subnormali, nessun valore positivo è rappresentabile tra zero e <span class="math notranslate nohighlight">\(\beta^L\)</span>.</p>
+</section>
+</section>
+</section>
+<section id="parte-ii-lo-standard-ieee-754-e-i-valori-speciali">
+<h2>Parte II — Lo standard IEEE 754 e i valori speciali<a class="headerlink" href="#parte-ii-lo-standard-ieee-754-e-i-valori-speciali" title="Link to this heading">#</a></h2>
+<section id="struttura-di-un-numero-in-double-precision">
+<h3>9. Struttura di un numero in double precision<a class="headerlink" href="#struttura-di-un-numero-in-double-precision" title="Link to this heading">#</a></h3>
+<p>Un numero double occupa 64 bit, divisi nei tre campi già anticipati:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Campo</p></th>
+<th class="head text-right"><p>Numero di bit</p></th>
+<th class="head"><p>Funzione</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>segno</p></td>
+<td class="text-right"><p>1</p></td>
+<td><p>stabilisce se il numero è positivo o negativo</p></td>
+</tr>
+<tr class="row-odd"><td><p>esponente</p></td>
+<td class="text-right"><p>11</p></td>
+<td><p>determina l’ordine di grandezza</p></td>
+</tr>
+<tr class="row-even"><td><p>frazione</p></td>
+<td class="text-right"><p>52</p></td>
+<td><p>contiene le cifre binarie significative dopo il punto</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Consideriamo anzitutto un numero <strong>normalizzato</strong>.</p>
+<p><strong>1. Segno.</strong> Il bit di segno è indicato con <span class="math notranslate nohighlight">\(s\)</span>. Se <span class="math notranslate nohighlight">\(s=0\)</span> il numero è positivo; se <span class="math notranslate nohighlight">\(s=1\)</span> è negativo. Il fattore che descrive entrambi i casi è <span class="math notranslate nohighlight">\((-1)^s\)</span>.</p>
+<p><strong>2. Frazione e significando.</strong> Se i bit della frazione sono <span class="math notranslate nohighlight">\(d_1,d_2,\ldots,d_{52}\)</span>, essi rappresentano il numero</p>
+<div class="math notranslate nohighlight">
+\[
+f=d_1 2^{-1}+d_2 2^{-2}+\cdots+d_{52}2^{-52},
+\qquad 0\le f&lt;1.
+\]</div>
+<p>Poiché nei normalizzati la prima cifra binaria è sempre <span class="math notranslate nohighlight">\(1\)</span>, essa non viene memorizzata e si ricostruisce la parte significativa come <span class="math notranslate nohighlight">\(1+f\)</span>. Questa parte è chiamata <strong>significando</strong>; viene spesso detta anche mantissa.</p>
+<p><strong>3. Esponente e bias.</strong> Gli 11 bit dell’esponente vengono letti come un intero non negativo <span class="math notranslate nohighlight">\(b\)</span>. Gli esponenti reali devono però poter essere sia positivi sia negativi. Per evitare di dedicare un ulteriore bit al segno dell’esponente, si memorizza il valore traslato di una quantità fissa, detta <strong>bias</strong>. Nel formato double il bias vale <span class="math notranslate nohighlight">\(1023\)</span>, quindi</p>
+<div class="math notranslate nohighlight">
+\[
+e=b-1023.
+\]</div>
+<p>Per esempio, <span class="math notranslate nohighlight">\(b=1023\)</span> codifica <span class="math notranslate nohighlight">\(e=0\)</span>, <span class="math notranslate nohighlight">\(b=1022\)</span> codifica <span class="math notranslate nohighlight">\(e=-1\)</span> e <span class="math notranslate nohighlight">\(b=1024\)</span> codifica <span class="math notranslate nohighlight">\(e=1\)</span>. Il bias permette così di memorizzare esponenti di entrambi i segni usando un normale intero binario non negativo.</p>
+<p>Combinando i tre campi si ottiene</p>
+<div class="math notranslate nohighlight">
+\[
+x=(-1)^s(1+f)2^e.
+\]</div>
+<p>Questa formula non è una convenzione aggiunta dall’esterno: ricostruisce direttamente il segno, il significando binario normalizzato e la potenza di <span class="math notranslate nohighlight">\(2\)</span> codificati nei 64 bit.</p>
+<p>Non tutti i valori di <span class="math notranslate nohighlight">\(b\)</span> sono usati per i numeri normalizzati. Se il campo esponente è tutto zero, il bit iniziale del significando non è implicito e si rappresentano lo zero o i numeri subnormali. Se il campo esponente è tutto uno, si rappresentano <span class="math notranslate nohighlight">\(\pm\infty\)</span> o NaN. Restano così, per i numeri normalizzati double, gli esponenti reali da <span class="math notranslate nohighlight">\(-1022\)</span> a <span class="math notranslate nohighlight">\(1023\)</span>.</p>
+</section>
+<section id="overflow-underflow-infinito-e-nan">
+<h3>10. Overflow, underflow, infinito e NaN<a class="headerlink" href="#overflow-underflow-infinito-e-nan" title="Link to this heading">#</a></h3>
+<p><strong>Overflow:</strong> il risultato è troppo grande per essere rappresentato. Spesso produce <code class="docutils literal notranslate"><span class="pre">inf</span></code>.</p>
+<p><strong>Underflow:</strong> il risultato è troppo piccolo. Può produrre un numero subnormale o zero.</p>
+<p><strong>NaN:</strong> Not a Number, prodotto da operazioni indefinite come <span class="math notranslate nohighlight">\(0/0\)</span>.</p>
+<p>Questi valori speciali permettono ai programmi di proseguire o segnalare problemi in modo controllato.</p>
+<p>L’overflow è spesso più distruttivo dell’underflow: un valore finito diventa infinito e può contaminare molti passaggi successivi. L’underflow graduale, invece, può ancora produrre un piccolo numero subnormale e conservare parte dell’informazione. Se il valore scende ulteriormente, viene arrotondato a zero.</p>
+<p>I valori speciali seguono regole precise: per esempio un numero finito diviso per zero può produrre <span class="math notranslate nohighlight">\(\pm\infty\)</span>, mentre operazioni indeterminate come <span class="math notranslate nohighlight">\(0/0\)</span> o <span class="math notranslate nohighlight">\(\infty-\infty\)</span> producono NaN. Un confronto con NaN è falso anche quando lo si confronta con se stesso; per individuarlo si usano funzioni come <code class="docutils literal notranslate"><span class="pre">np.isnan</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">info64</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Massimo numero finito:&quot;</span><span class="p">,</span> <span class="n">info64</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Minimo numero finito:&quot;</span><span class="p">,</span> <span class="n">info64</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Minimo positivo normalizzato:&quot;</span><span class="p">,</span> <span class="n">info64</span><span class="o">.</span><span class="n">tiny</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Minimo positivo subnormale:&quot;</span><span class="p">,</span> <span class="n">info64</span><span class="o">.</span><span class="n">smallest_subnormal</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="mf">1e308</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;overflow:&quot;</span><span class="p">,</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">small</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="mf">1e-308</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;underflow verso zero:&quot;</span><span class="p">,</span> <span class="n">small</span> <span class="o">/</span> <span class="mf">1e20</span><span class="p">)</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;0/0:&quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">/</span><span class="n">a</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;inf - inf:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Massimo numero finito: 1.7976931348623157e+308
+Minimo numero finito: -1.7976931348623157e+308
+Minimo positivo normalizzato: 2.2250738585072014e-308
+Minimo positivo subnormale: 5e-324
+
+overflow: inf
+underflow verso zero: 0.0
+0/0: [nan]
+inf - inf: nan
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/fn/ldzxtqdx50q1q6160qq33gtm0000gn/T/ipykernel_76475/892903259.py:10: RuntimeWarning: overflow encountered in scalar multiply
+  print(&quot;overflow:&quot;, x * 10)
+/var/folders/fn/ldzxtqdx50q1q6160qq33gtm0000gn/T/ipykernel_76475/892903259.py:16: RuntimeWarning: invalid value encountered in divide
+  print(&quot;0/0:&quot;, a/a)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="perche-non-bisogna-ignorare-i-valori-speciali">
+<h4>Perché non bisogna ignorare i valori speciali<a class="headerlink" href="#perche-non-bisogna-ignorare-i-valori-speciali" title="Link to this heading">#</a></h4>
+<p>NumPy emette avvisi ma continua il calcolo secondo le regole IEEE 754. Questo comportamento è utile nei calcoli vettoriali, ma richiede controlli espliciti: un <code class="docutils literal notranslate"><span class="pre">inf</span></code> può propagarsi e un NaN può rendere falsi i confronti successivi. In un algoritmo robusto si stabilisce se intercettare subito questi valori, sostituirli oppure restituire un messaggio diagnostico.</p>
+</section>
+</section>
+</section>
+<section id="parte-iii-cancellazione-e-formule-stabili">
+<h2>Parte III — Cancellazione e formule stabili<a class="headerlink" href="#parte-iii-cancellazione-e-formule-stabili" title="Link to this heading">#</a></h2>
+<section id="cancellazione-numerica">
+<h3>11. Cancellazione numerica<a class="headerlink" href="#cancellazione-numerica" title="Link to this heading">#</a></h3>
+<p>La <strong>cancellazione numerica</strong> si manifesta quando si sottraggono due numeri quasi uguali. Se</p>
+<div class="math notranslate nohighlight">
+\[
+z=x-y
+\]</div>
+<p>e <span class="math notranslate nohighlight">\(x\approx y\)</span>, molte cifre iniziali di <span class="math notranslate nohighlight">\(x\)</span> e <span class="math notranslate nohighlight">\(y\)</span> coincidono e si eliminano nella sottrazione. Il risultato <span class="math notranslate nohighlight">\(z\)</span> è molto più piccolo dei due operandi e dipende soprattutto dalle loro ultime cifre, che sono anche quelle maggiormente influenzate dall’arrotondamento.</p>
+<p>Supponiamo che il computer non disponga dei valori esatti <span class="math notranslate nohighlight">\(x\)</span> e <span class="math notranslate nohighlight">\(y\)</span>, ma dei valori leggermente perturbati <span class="math notranslate nohighlight">\(\tilde{x}=x+e_x\)</span> e <span class="math notranslate nohighlight">\(\tilde{y}=y+e_y\)</span>. Il risultato calcolato, prima di considerare l’ulteriore arrotondamento della sottrazione, è</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{z}=\tilde{x}-\tilde{y}
+=(x-y)+(e_x-e_y).
+\]</div>
+<p>L’errore assoluto nel risultato è quindi</p>
+<div class="math notranslate nohighlight">
+\[
+|\tilde{z}-z|=|e_x-e_y|\le |e_x|+|e_y|.
+\]</div>
+<p>Questa quantità può essere piccola in valore assoluto. Per misurare però quante cifre significative restano in <span class="math notranslate nohighlight">\(z\)</span>, dobbiamo dividerla per la grandezza del risultato esatto:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{|\tilde{z}-z|}{|z|}
+\le
+\frac{|e_x|+|e_y|}{|x-y|}.
+\]</div>
+<p>Se <span class="math notranslate nohighlight">\(x-y\)</span> è molto piccolo, il denominatore è piccolo e il rapporto può diventare grande. Per esempio, errori assoluti dell’ordine di <span class="math notranslate nohighlight">\(10^{-16}\)</span> negli operandi possono essere trascurabili quando <span class="math notranslate nohighlight">\(x\)</span> e <span class="math notranslate nohighlight">\(y\)</span> sono dell’ordine di <span class="math notranslate nohighlight">\(1\)</span>, ma diventano rilevanti se la loro differenza è dell’ordine di <span class="math notranslate nohighlight">\(10^{-15}\)</span>. La sottrazione non crea necessariamente un grande errore assoluto: amplifica l’errore <strong>relativo</strong> e rende visibili le incertezze presenti nelle ultime cifre degli operandi.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mf">1.000000000000001</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mf">1.000000000000000</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x =&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;.17f&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y =&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;.17f&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;z =&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="s2">&quot;.17e&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x = 1.00000000000000111
+y = 1.00000000000000000
+z = 1.11022302462515654e-15
+</pre></div>
+</div>
+</div>
+</div>
+<section id="come-leggere-l-esempio-python">
+<h4>Come leggere l’esempio Python<a class="headerlink" href="#come-leggere-l-esempio-python" title="Link to this heading">#</a></h4>
+<p>Il codice sceglie due numeri dell’ordine di <span class="math notranslate nohighlight">\(1\)</span> che differiscono soltanto nelle ultime cifre disponibili in double precision:</p>
+<div class="math notranslate nohighlight">
+\[
+x=1.000000000000001,
+\qquad
+y=1.000000000000000.
+\]</div>
+<p>La stampa con 17 cifre mostra i valori realmente memorizzati, non soltanto quelli digitati nel codice. In aritmetica decimale ci aspetteremmo una differenza pari a <span class="math notranslate nohighlight">\(10^{-15}\)</span>; il computer restituisce invece un valore vicino a <span class="math notranslate nohighlight">\(1.110223\times10^{-15}\)</span>, legato alla spaziatura dei floating-point attorno a <span class="math notranslate nohighlight">\(1\)</span>.</p>
+<p>L’esempio vuole mostrare che, dopo la cancellazione delle molte cifre comuni, il risultato è formato quasi interamente dalle ultime cifre della rappresentazione. L’errore assoluto resta minuscolo, ma la differenza non conserva tutte le cifre relative che la scrittura decimale iniziale potrebbe far immaginare.</p>
+</section>
+</section>
+<section id="differenza-di-seni-in-forma-stabile">
+<h3>12. Differenza di seni in forma stabile<a class="headerlink" href="#differenza-di-seni-in-forma-stabile" title="Link to this heading">#</a></h3>
+<p>Una derivata può essere approssimata mediante la formula alle <strong>differenze finite in avanti</strong></p>
+<div class="math notranslate nohighlight">
+\[
+f'(x_0)\approx\frac{f(x_0+h)-f(x_0)}{h}.
+\]</div>
+<p>Se <span class="math notranslate nohighlight">\(f(x)=\sin(x)\)</span> e <span class="math notranslate nohighlight">\(h\)</span> è molto piccolo, il numeratore</p>
+<div class="math notranslate nohighlight">
+\[
+\sin(x_0+h)-\sin(x_0)
+\]</div>
+<p>sottrae due valori quasi uguali e può soffrire di cancellazione. Per riscriverlo usiamo l’identità</p>
+<div class="math notranslate nohighlight">
+\[
+\sin(\phi)-\sin(\psi)
+=
+2\cos\left(\frac{\phi+\psi}{2}\right)
+\sin\left(\frac{\phi-\psi}{2}\right).
+\]</div>
+<p>Ponendo <span class="math notranslate nohighlight">\(\phi=x_0+h\)</span> e <span class="math notranslate nohighlight">\(\psi=x_0\)</span> otteniamo</p>
+<div class="math notranslate nohighlight">
+\[
+\sin(x_0+h)-\sin(x_0)
+=
+2\cos\left(x_0+\frac{h}{2}\right)
+\sin\left(\frac{h}{2}\right).
+\]</div>
+<p>Dividendo per <span class="math notranslate nohighlight">\(h\)</span> si ricava la forma stabile della differenza finita:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\sin(x_0+h)-\sin(x_0)}{h}
+=
+\underbrace{\cos\left(x_0+\frac{h}{2}\right)}_{\text{primo fattore}}
+\underbrace{\frac{\sin(h/2)}{h/2}}_{\text{secondo fattore}}.
+\]</div>
+<p>Il <strong>secondo fattore</strong> è dunque il rapporto <span class="math notranslate nohighlight">\(\sin(h/2)/(h/2)\)</span> e tende a <span class="math notranslate nohighlight">\(1\)</span> quando <span class="math notranslate nohighlight">\(h\to0\)</span>. Il primo fattore tende invece a <span class="math notranslate nohighlight">\(\cos(x_0)\)</span>, che è proprio la derivata di <span class="math notranslate nohighlight">\(\sin(x)\)</span> in <span class="math notranslate nohighlight">\(x_0\)</span>. La forma riscritta evita di ottenere la piccola quantità al numeratore sottraendo due seni quasi uguali. Per argomenti estremamente piccoli, una funzione di libreria specializzata per <span class="math notranslate nohighlight">\(\sin z/z\)</span> può migliorare ulteriormente il calcolo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">derivative_sin_naive</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x0</span><span class="o">+</span><span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x0</span><span class="p">))</span> <span class="o">/</span> <span class="n">h</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">derivative_sin_stable</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">h</span>
+
+<span class="n">x0</span> <span class="o">=</span> <span class="mf">1.2</span>
+<span class="n">true_value</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+
+<span class="n">hs</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">err_naive</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="n">true_value</span> <span class="o">-</span> <span class="n">derivative_sin_naive</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">hh</span><span class="p">))</span> <span class="k">for</span> <span class="n">hh</span> <span class="ow">in</span> <span class="n">hs</span><span class="p">])</span>
+<span class="n">err_stable</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="n">true_value</span> <span class="o">-</span> <span class="n">derivative_sin_stable</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">hh</span><span class="p">))</span> <span class="k">for</span> <span class="n">hh</span> <span class="ow">in</span> <span class="n">hs</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">err_naive</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;formula diretta&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">err_stable</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;formula stabile&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Derivata di sin: formula diretta vs stabile&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;errore assoluto&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/50b73b715ddcca0f94783beeb721b60346a373cb67fe18094a0b5acb4dc8f792.png" src="../_images/50b73b715ddcca0f94783beeb721b60346a373cb67fe18094a0b5acb4dc8f792.png" />
+</div>
+</div>
+<section id="confronto-fra-forma-diretta-e-forma-stabile">
+<h4>Confronto fra forma diretta e forma stabile<a class="headerlink" href="#confronto-fra-forma-diretta-e-forma-stabile" title="Link to this heading">#</a></h4>
+<p>Per passi moderati le due formule coincidono entro l’errore di arrotondamento. Quando <span class="math notranslate nohighlight">\(h\)</span> diventa molto piccolo, la differenza diretta dei seni perde cifre significative; la forma trigonometrica conserva invece il fattore piccolo come <span class="math notranslate nohighlight">\(\sin(h/2)\)</span> senza ottenerlo per sottrazione. Il confronto con <span class="math notranslate nohighlight">\(\cos(x_0)\)</span> rende visibile il guadagno di accuratezza.</p>
+</section>
+</section>
+<section id="esempio-sqrt-x-1-sqrt-x">
+<h3>13. Esempio: <span class="math notranslate nohighlight">\(\sqrt{x+1}-\sqrt{x}\)</span><a class="headerlink" href="#esempio-sqrt-x-1-sqrt-x" title="Link to this heading">#</a></h3>
+<p>Per <span class="math notranslate nohighlight">\(x\)</span> grande, la formula diretta</p>
+<div class="math notranslate nohighlight">
+\[
+\sqrt{x+1}-\sqrt{x}
+\]</div>
+<p>sottrae due numeri quasi uguali.</p>
+<p>Moltiplicando e dividendo per il coniugato:</p>
+<div class="math notranslate nohighlight">
+\[
+\sqrt{x+1}-\sqrt{x}
+=
+\frac{1}{\sqrt{x+1}+\sqrt{x}}.
+\]</div>
+<p>La seconda formula è numericamente più stabile.</p>
+<p>Le due espressioni sono identiche in aritmetica esatta ma non sul computer. Nella prima forma, le cifre comuni delle due radici si cancellano. Nella seconda compaiono soltanto somme e divisioni fra quantità della stessa scala, e non si perde informazione significativa. Questa è una strategia generale: usare un’identità algebrica per eliminare una sottrazione pericolosa.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sqrt_diff_naive</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sqrt_diff_stable</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">1e5</span><span class="p">,</span> <span class="mf">1e10</span><span class="p">,</span> <span class="mf">1e15</span><span class="p">,</span> <span class="mf">1e20</span><span class="p">]:</span>
+    <span class="n">naive</span> <span class="o">=</span> <span class="n">sqrt_diff_naive</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">stable</span> <span class="o">=</span> <span class="n">sqrt_diff_stable</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x=</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  diretta =&quot;</span><span class="p">,</span> <span class="n">naive</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  stabile =&quot;</span><span class="p">,</span> <span class="n">stable</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  differenza =&quot;</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">naive</span> <span class="o">-</span> <span class="n">stable</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x=1.0e+05
+  diretta = 0.001581134877255863
+  stabile = 0.0015811348772568783
+  differenza = 1.0152469143154264e-15
+x=1.0e+10
+  diretta = 4.999994416721165e-06
+  stabile = 4.999999999875e-06
+  differenza = 5.583153835188651e-12
+x=1.0e+15
+  diretta = 1.862645149230957e-08
+  stabile = 1.5811388300841893e-08
+  differenza = 2.8150631914676777e-09
+x=1.0e+20
+  diretta = 0.0
+  stabile = 5e-11
+  differenza = 5e-11
+</pre></div>
+</div>
+</div>
+</div>
+<section id="che-cosa-mostra-l-esperimento">
+<h4>Che cosa mostra l’esperimento<a class="headerlink" href="#che-cosa-mostra-l-esperimento" title="Link to this heading">#</a></h4>
+<p>All’aumentare di <span class="math notranslate nohighlight">\(x\)</span>, le due radici quadrate diventano sempre più vicine. La formula diretta può infine restituire zero perché i due operandi vengono arrotondati allo stesso numero. La formula razionalizzata rimane positiva e conserva l’ordine di grandezza corretto, circa <span class="math notranslate nohighlight">\(1/(2\sqrt{x})\)</span>.</p>
+</section>
+</section>
+<section id="la-funzione-sinh-x-vicino-a-zero">
+<h3>14. La funzione <span class="math notranslate nohighlight">\(\sinh(x)\)</span> vicino a zero<a class="headerlink" href="#la-funzione-sinh-x-vicino-a-zero" title="Link to this heading">#</a></h3>
+<p>La formula</p>
+<div class="math notranslate nohighlight">
+\[
+\sinh(x)=\frac{e^x-e^{-x}}{2}
+\]</div>
+<p>può soffrire di cancellazione per <span class="math notranslate nohighlight">\(x\)</span> vicino a zero.</p>
+<p>Lo sviluppo di Taylor è</p>
+<div class="math notranslate nohighlight">
+\[
+\sinh(x)=x+\frac{x^3}{6}+\frac{x^5}{120}+\cdots.
+\]</div>
+<p>Per <span class="math notranslate nohighlight">\(|x|\)</span> piccolo, pochi termini possono essere più accurati.</p>
+<p>Non esiste una formula migliore per ogni valore di <span class="math notranslate nohighlight">\(x\)</span>. Per <span class="math notranslate nohighlight">\(x\)</span> moderato la definizione esponenziale è adeguata; vicino a zero una serie o una funzione di libreria come <code class="docutils literal notranslate"><span class="pre">expm1</span></code>, progettata per calcolare <span class="math notranslate nohighlight">\(e^x-1\)</span>, evita la cancellazione. Una libreria robusta sceglie internamente la rappresentazione più accurata in base alla regione del dominio e tronca la serie quando il termine successivo è inferiore alla tolleranza richiesta.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sinh_direct</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sinh_taylor3</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">6</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">1e-1</span><span class="p">,</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-15</span><span class="p">]:</span>
+    <span class="n">direct</span> <span class="o">=</span> <span class="n">sinh_direct</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">tay</span> <span class="o">=</span> <span class="n">sinh_taylor3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">exact</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x=</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  errore formula diretta =&quot;</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">direct</span> <span class="o">-</span> <span class="n">exact</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  errore Taylor =&quot;</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">tay</span> <span class="o">-</span> <span class="n">exact</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x=1.0e-01
+  errore formula diretta = 6.938893903907228e-17
+  errore Taylor = 8.335317736030134e-08
+x=1.0e-05
+  errore formula diretta = 4.5644911461639737e-17
+  errore Taylor = 0.0
+x=1.0e-10
+  errore formula diretta = 8.274037096265818e-18
+  errore Taylor = 0.0
+x=1.0e-15
+  errore formula diretta = 5.4711873393898636e-17
+  errore Taylor = 0.0
+</pre></div>
+</div>
+</div>
+</div>
+<section id="scelta-della-formula-in-base-alla-scala">
+<h4>Scelta della formula in base alla scala<a class="headerlink" href="#scelta-della-formula-in-base-alla-scala" title="Link to this heading">#</a></h4>
+<p>La serie cubica è accurata soltanto quando i termini trascurati, a partire da <span class="math notranslate nohighlight">\(x^5/120\)</span>, sono piccoli rispetto alla precisione richiesta. Per valori non piccoli deve essere preferita una formula di libreria. L’esempio non suggerisce di sostituire sempre <code class="docutils literal notranslate"><span class="pre">sinh</span></code> con tre termini di Taylor, ma di evitare una sottrazione instabile nella regione in cui esiste un’approssimazione locale controllata.</p>
+</section>
+</section>
+</section>
+<section id="parte-iv-calcolo-stabile-delle-radici-di-un-equazione-quadratica">
+<h2>Parte IV — Calcolo stabile delle radici di un’equazione quadratica<a class="headerlink" href="#parte-iv-calcolo-stabile-delle-radici-di-un-equazione-quadratica" title="Link to this heading">#</a></h2>
+<section id="formula-standard-e-problema-di-cancellazione">
+<h3>15. Formula standard e problema di cancellazione<a class="headerlink" href="#formula-standard-e-problema-di-cancellazione" title="Link to this heading">#</a></h3>
+<p>Per</p>
+<div class="math notranslate nohighlight">
+\[
+x^2-2bx+c=0
+\]</div>
+<p>le radici sono</p>
+<div class="math notranslate nohighlight">
+\[
+x_{1,2}=b\pm\sqrt{b^2-c}.
+\]</div>
+<p>Se <span class="math notranslate nohighlight">\(b^2\)</span> è molto più grande di <span class="math notranslate nohighlight">\(c\)</span>, una delle due formule contiene una sottrazione tra quantità quasi uguali.</p>
+<p>Si può usare la relazione</p>
+<div class="math notranslate nohighlight">
+\[
+x_1x_2=c
+\]</div>
+<p>per calcolare in modo stabile la radice piccola.</p>
+<p>Supponiamo per esempio <span class="math notranslate nohighlight">\(b&gt;0\)</span>. La radice <span class="math notranslate nohighlight">\(b+\sqrt{b^2-c}\)</span> è calcolata senza cancellazione, mentre <span class="math notranslate nohighlight">\(b-\sqrt{b^2-c}\)</span> è la differenza di due numeri quasi uguali. Si calcola quindi prima la radice grande</p>
+<div class="math notranslate nohighlight">
+\[
+x_1=b+\sqrt{b^2-c}
+\]</div>
+<p>e poi la radice piccola usando il prodotto delle radici:</p>
+<div class="math notranslate nohighlight">
+\[
+x_2=\frac{c}{x_1}.
+\]</div>
+<p>Per <span class="math notranslate nohighlight">\(b&lt;0\)</span> si sceglie il segno opposto. Il principio è sempre lo stesso: calcolare direttamente la combinazione che somma quantità concordi e ricavare l’altra radice da una relazione esatta.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">roots_standard_b</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="n">b</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">b</span> <span class="o">+</span> <span class="n">d</span><span class="p">,</span> <span class="n">b</span> <span class="o">-</span> <span class="n">d</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">roots_stable_b</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="n">b</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">b</span> <span class="o">+</span> <span class="n">d</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">c</span> <span class="o">/</span> <span class="n">x1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">d</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">c</span> <span class="o">/</span> <span class="n">x2</span>
+    <span class="k">return</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="mf">1e8</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="n">x1s</span><span class="p">,</span> <span class="n">x2s</span> <span class="o">=</span> <span class="n">roots_standard_b</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="n">x1r</span><span class="p">,</span> <span class="n">x2r</span> <span class="o">=</span> <span class="n">roots_stable_b</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;standard:&quot;</span><span class="p">,</span> <span class="n">x1s</span><span class="p">,</span> <span class="n">x2s</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;stabile :&quot;</span><span class="p">,</span> <span class="n">x1r</span><span class="p">,</span> <span class="n">x2r</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;prodotto standard:&quot;</span><span class="p">,</span> <span class="n">x1s</span><span class="o">*</span><span class="n">x2s</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;prodotto stabile :&quot;</span><span class="p">,</span> <span class="n">x1r</span><span class="o">*</span><span class="n">x2r</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>standard: 200000000.0 0.0
+stabile : 200000000.0 5e-09
+prodotto standard: 0.0
+prodotto stabile : 1.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="equazione-quadratica-generale">
+<h3>16. Equazione quadratica generale<a class="headerlink" href="#equazione-quadratica-generale" title="Link to this heading">#</a></h3>
+<p>Per</p>
+<div class="math notranslate nohighlight">
+\[
+ax^2+bx+c=0
+\]</div>
+<p>la formula standard è</p>
+<div class="math notranslate nohighlight">
+\[
+x_{1,2}
+=
+\frac{-b\pm\sqrt{b^2-4ac}}{2a}.
+\]</div>
+<p>Una forma più stabile usa</p>
+<div class="math notranslate nohighlight">
+\[
+q=-\frac{1}{2}\left(b+\mathrm{sign}(b)\sqrt{b^2-4ac}\right),
+\]</div>
+<p>poi</p>
+<div class="math notranslate nohighlight">
+\[
+x_1=\frac{q}{a},
+\qquad
+x_2=\frac{c}{q}.
+\]</div>
+<p>La scelta di <code class="docutils literal notranslate"><span class="pre">sign(b)</span></code> fa sì che in <span class="math notranslate nohighlight">\(q\)</span> i due termini abbiano lo stesso segno, evitando la cancellazione. La formula richiede comunque controlli per casi particolari: <span class="math notranslate nohighlight">\(a=0\)</span>, discriminante negativo, <span class="math notranslate nohighlight">\(q=0\)</span> e possibili overflow nel calcolo di <span class="math notranslate nohighlight">\(b^2-4ac\)</span>. Le implementazioni di produzione possono scalare i coefficienti o usare operazioni più robuste per il discriminante.</p>
+<p>La stabilità numerica non consiste quindi nel sostituire meccanicamente una formula con un’altra, ma nel gestire in modo coerente tutti i rami del problema.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">quadratic_standard</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="o">/</span><span class="n">b</span><span class="p">]</span> <span class="k">if</span> <span class="n">b</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">[]</span>
+    <span class="n">disc</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">b</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span>
+    <span class="k">if</span> <span class="n">disc</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">disc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="o">-</span><span class="n">b</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">quadratic_stable</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="o">/</span><span class="n">b</span><span class="p">]</span> <span class="k">if</span> <span class="n">b</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">[]</span>
+    <span class="n">disc</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">b</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span>
+    <span class="k">if</span> <span class="n">disc</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">disc</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span>
+
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">q</span> <span class="o">/</span> <span class="n">a</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">c</span> <span class="o">/</span> <span class="n">q</span> <span class="k">if</span> <span class="n">q</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">]</span>
+
+<span class="n">cases</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1e8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1e8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1e-12</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cases</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Caso:&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;standard:&quot;</span><span class="p">,</span> <span class="n">quadratic_standard</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;stabile :&quot;</span><span class="p">,</span> <span class="n">quadratic_stable</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Caso: 1.0 -100000000.0 1.0
+standard: [100000000.0, 7.450580596923828e-09]
+stabile : [100000000.0, 1e-08]
+
+Caso: 1.0 100000000.0 1.0
+standard: [-7.450580596923828e-09, -100000000.0]
+stabile : [-100000000.0, -1e-08]
+
+Caso: 1.0 -2.0 1e-12
+standard: [1.9999999999995, 5.000444502911705e-13]
+stabile : [1.9999999999995, 5.00000000000125e-13]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="verifica-delle-radici">
+<h4>Verifica delle radici<a class="headerlink" href="#verifica-delle-radici" title="Link to this heading">#</a></h4>
+<p>Oltre a confrontare le due implementazioni, si possono usare le identità di Viète</p>
+<div class="math notranslate nohighlight">
+\[
+x_1+x_2=-\frac{b}{a},
+\qquad
+x_1x_2=\frac{c}{a}.
+\]</div>
+<p>Quando una radice è molto più piccola dell’altra, il prodotto è spesso un controllo più sensibile della piccola radice rispetto alla semplice sostituzione nel polinomio. Anche i controlli numerici devono però essere interpretati tenendo conto della scala dei coefficienti.</p>
+</section>
+</section>
+</section>
+<section id="parte-v-progettazione-di-funzioni-di-libreria-robuste">
+<h2>Parte V — Progettazione di funzioni di libreria robuste<a class="headerlink" href="#parte-v-progettazione-di-funzioni-di-libreria-robuste" title="Link to this heading">#</a></h2>
+<section id="norma-euclidea-e-overflow">
+<h3>17. Norma euclidea e overflow<a class="headerlink" href="#norma-euclidea-e-overflow" title="Link to this heading">#</a></h3>
+<p>La norma euclidea è</p>
+<div class="math notranslate nohighlight">
+\[
+\|x\|_2=\sqrt{x_1^2+\cdots+x_n^2}.
+\]</div>
+<p>Una formula ingenua può generare overflow calcolando i quadrati, anche quando la norma finale è rappresentabile.</p>
+<p>Per evitare il problema, si scala il vettore con</p>
+<div class="math notranslate nohighlight">
+\[
+s=\max_i |x_i|.
+\]</div>
+<p>Allora</p>
+<div class="math notranslate nohighlight">
+\[
+\|x\|_2
+=
+s\sqrt{\sum_i\left(\frac{x_i}{s}\right)^2}.
+\]</div>
+<p>Poiché <span class="math notranslate nohighlight">\(|x_i/s|\le1\)</span>, i quadrati nella somma scalata non possono andare in overflow. La moltiplicazione finale per <span class="math notranslate nohighlight">\(s\)</span> ricostruisce la scala corretta. La stessa idea protegge anche dall’underflow quando le componenti sono molto piccole. Se <span class="math notranslate nohighlight">\(s=0\)</span>, il vettore è nullo e la norma deve essere restituita direttamente come zero.</p>
+<p>Una funzione di libreria può usare strategie ancora più raffinate per sommare i quadrati, ma il ridimensionamento mostra già perché una formula matematicamente ovvia non è sempre una buona implementazione.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">norm2_naive</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="c1">#Gli elementi vengono memorizzati come numeri floating-point anziché come interi</span>
+    <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">norm2_stable</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">s</span>
+    <span class="k">return</span> <span class="n">s</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="p">))</span>
+
+<span class="n">vectors</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1e200</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1e-200</span><span class="p">,</span> <span class="mf">1e-200</span><span class="p">]),</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vectors</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;v =&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  naive:&quot;</span><span class="p">,</span> <span class="n">norm2_naive</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  naive errore:&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  stabile:&quot;</span><span class="p">,</span> <span class="n">norm2_stable</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  numpy:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v = [3. 4.]
+  naive: 5.0
+  stabile: 5.0
+  numpy: 5.0
+v = [1.e+200 1.e+000]
+  naive: inf
+  stabile: 1e+200
+  numpy: inf
+v = [1.e-200 1.e-200]
+  naive: 0.0
+  stabile: 1.414213562373095e-200
+  numpy: 0.0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/fn/ldzxtqdx50q1q6160qq33gtm0000gn/T/ipykernel_76475/496547588.py:3: RuntimeWarning: overflow encountered in multiply
+  return math.sqrt(np.sum(x*x))
+/opt/anaconda3/envs/libro/lib/python3.14/site-packages/numpy/linalg/_linalg.py:2767: RuntimeWarning: overflow encountered in dot
+  sqnorm = x.dot(x)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="risultato-della-norma-scalata">
+<h4>Risultato della norma scalata<a class="headerlink" href="#risultato-della-norma-scalata" title="Link to this heading">#</a></h4>
+<p>Nel calcolo ingenuo i quadrati possono superare <code class="docutils literal notranslate"><span class="pre">float64.max</span></code> e produrre infinito, anche se la radice quadrata finale sarebbe rappresentabile. La versione scalata mantiene i rapporti <span class="math notranslate nohighlight">\(x_i/s\)</span> nell’intervallo <span class="math notranslate nohighlight">\([-1,1]\)</span> e restituisce una norma finita. L’esempio mostra che evitare risultati intermedi estremi è una parte essenziale della progettazione numerica.</p>
+</section>
+</section>
+<section id="varianza-e-cancellazione">
+<h3>18. Varianza e cancellazione<a class="headerlink" href="#varianza-e-cancellazione" title="Link to this heading">#</a></h3>
+<p>La varianza può essere calcolata come</p>
+<div class="math notranslate nohighlight">
+\[
+s^2=\frac{1}{n}\sum_{i=1}^{n}(x_i-\bar{x})^2
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\bar{x}\)</span> è la media, oppure come</p>
+<div class="math notranslate nohighlight">
+\[
+s^2=\frac{1}{n}\sum_{i=1}^{n}x_i^2-\bar{x}^2.
+\]</div>
+<p>La seconda formula può essere meno accurata se i dati sono grandi ma la varianza è piccola, perché sottrae due numeri quasi uguali.</p>
+<p>Nella seconda formula, sia <span class="math notranslate nohighlight">\(\frac{1}{n}\sum x_i^2\)</span> sia <span class="math notranslate nohighlight">\(\bar{x}^2\)</span> possono essere dell’ordine di <span class="math notranslate nohighlight">\(10^{16}\)</span>, mentre la loro differenza è dell’ordine di <span class="math notranslate nohighlight">\(1\)</span>. Quasi tutte le cifre significative devono quindi cancellarsi. Gli errori di arrotondamento presenti nei due termini possono diventare più grandi della varianza stessa e produrre perfino un valore negativo.</p>
+<p>La formula centrata in due passaggi è in genere molto più stabile. Quando i dati arrivano in streaming, si può usare l’algoritmo incrementale di Welford, che aggiorna media e somma degli scarti senza formare la differenza fra due quantità enormi.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Crea un generatore di numeri casuali.</span>
+<span class="c1"># Il valore 0 è il seme: usando sempre lo stesso seme si ottengono</span>
+<span class="c1"># gli stessi numeri casuali, rendendo l&#39;esperimento riproducibile.</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># rng.normal genera 100000 numeri estratti da una distribuzione normale:</span>
+<span class="c1"># - media predefinita uguale a 0;</span>
+<span class="c1"># - deviazione standard scale=1.0;</span>
+<span class="c1"># - numero di valori size=100000.</span>
+<span class="c1">#</span>
+<span class="c1"># Aggiungendo 1e8, i dati vengono concentrati attorno a 100000000,</span>
+<span class="c1"># pur mantenendo oscillazioni dell&#39;ordine di 1.</span>
+<span class="n">data</span> <span class="o">=</span> <span class="mf">1e8</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+
+<span class="c1"># np.mean calcola la media aritmetica degli elementi dell&#39;array.</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">var_stable</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">data</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">var_unstable</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">mean</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;varianza stabile:&quot;</span><span class="p">,</span> <span class="n">var_stable</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;formula alternativa:&quot;</span><span class="p">,</span> <span class="n">var_unstable</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;differenza:&quot;</span><span class="p">,</span> <span class="n">var_unstable</span> <span class="o">-</span> <span class="n">var_stable</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>varianza stabile: 1.000257024601711
+formula alternativa: 2.0
+differenza: 0.9997429753982889
+</pre></div>
+</div>
+</div>
+</div>
+<section id="risultato-della-varianza">
+<h4>Risultato della varianza<a class="headerlink" href="#risultato-della-varianza" title="Link to this heading">#</a></h4>
+<p>I dati sono concentrati attorno a <span class="math notranslate nohighlight">\(10^8\)</span>, ma le loro deviazioni dalla media sono dell’ordine di <span class="math notranslate nohighlight">\(1\)</span>. La formula a un passaggio sottrae due quantità dell’ordine di <span class="math notranslate nohighlight">\(10^{16}\)</span> per ricavare un risultato dell’ordine di <span class="math notranslate nohighlight">\(1\)</span>: è una configurazione ideale per la cancellazione. La formula centrata conserva molte più cifre significative.</p>
+</section>
+</section>
+</section>
+<section id="parte-vi-riepilogo-finale">
+<h2>Parte VI — Riepilogo finale<a class="headerlink" href="#parte-vi-riepilogo-finale" title="Link to this heading">#</a></h2>
+<section id="checklist-dei-concetti-principali">
+<h3>Checklist dei concetti principali<a class="headerlink" href="#checklist-dei-concetti-principali" title="Link to this heading">#</a></h3>
+<p>Al termine della lezione dovreste saper spiegare:</p>
+<ol class="arabic simple">
+<li><p>come funziona una rappresentazione posizionale in base <span class="math notranslate nohighlight">\(10\)</span> e in base <span class="math notranslate nohighlight">\(2\)</span>;</p></li>
+<li><p>che cosa significa normalizzare un numero binario e perché il primo bit può essere implicito;</p></li>
+<li><p>perché un computer deve rappresentare i numeri reali con un numero finito di cifre;</p></li>
+<li><p>il significato dei parametri <span class="math notranslate nohighlight">\((\beta,t,L,U)\)</span> di un sistema floating-point;</p></li>
+<li><p>la differenza fra troncamento e arrotondamento e la regola ties-to-even;</p></li>
+<li><p>che cosa sono le cifre di guardia e la notazione <span class="math notranslate nohighlight">\(\mathrm{fl}(x)\)</span>;</p></li>
+<li><p>che cosa misura l’unità di arrotondamento e come si distingue da <code class="docutils literal notranslate"><span class="pre">eps</span></code> di NumPy;</p></li>
+<li><p>la struttura dei formati single e double precision;</p></li>
+<li><p>la differenza fra numeri normalizzati e subnormali;</p></li>
+<li><p>che cosa sono overflow, underflow, infinito e NaN;</p></li>
+<li><p>perché la cancellazione può produrre un grande errore relativo;</p></li>
+<li><p>come identità algebriche equivalenti possano condurre a formule numericamente più stabili.</p></li>
+</ol>
+</section>
+<section id="glossario">
+<h3>Glossario<a class="headerlink" href="#glossario" title="Link to this heading">#</a></h3>
+<p><strong>Floating-point:</strong> rappresentazione a virgola mobile.</p>
+<p><strong>Mantissa o significando:</strong> parte significativa del numero floating-point; viene spesso chiamata anche mantissa.</p>
+<p><strong>Bias dell’esponente:</strong> costante sottratta all’esponente memorizzato per ottenere l’esponente reale.</p>
+<p><strong>Numero subnormale:</strong> numero molto vicino a zero rappresentato senza il bit iniziale implicito, con precisione relativa ridotta.</p>
+<p><strong><span class="math notranslate nohighlight">\(\mathrm{fl}(x)\)</span>:</strong> valore floating-point assegnato al numero reale <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p><strong>Esponente:</strong> parte che determina l’ordine di grandezza.</p>
+<p><strong>Unità di arrotondamento:</strong> limite superiore tipico dell’errore relativo di rappresentazione.</p>
+<p><strong>Cancellazione:</strong> perdita di cifre significative nella sottrazione di numeri quasi uguali.</p>
+<p><strong>Overflow:</strong> risultato troppo grande per essere rappresentato.</p>
+<p><strong>Underflow:</strong> risultato troppo piccolo per essere rappresentato come normalizzato.</p>
+<p><strong>NaN:</strong> Not a Number.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./miei_files"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="0_algoritmi_numerici.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Algoritmi numerici, errori e aritmetica floating-point</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="2_equazioni_non_lineari.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Equazioni non lineari</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-i-rappresentazione-floating-point">Parte I — Rappresentazione floating-point</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#richiamo-preliminare-sistemi-di-numerazione-in-base-10-e-in-base-2">Richiamo preliminare: sistemi di numerazione in base 10 e in base 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rappresentazione-binaria-normalizzata">1. Rappresentazione binaria normalizzata</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sistemi-floating-point">2. Sistemi floating-point</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#troncamento-e-arrotondamento">3. Troncamento e arrotondamento</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unita-di-arrotondamento">4. Unità di arrotondamento</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#unita-di-arrotondamento-ed-eps">Unità di arrotondamento ed <code class="docutils literal notranslate"><span class="pre">eps</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#eps-e-unita-di-arrotondamento"><code class="docutils literal notranslate"><span class="pre">eps</span></code> e unità di arrotondamento</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-precision-e-double-precision">5. Single precision e double precision</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#numeri-subnormali">Numeri subnormali</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#come-leggere-finfo">Come leggere <code class="docutils literal notranslate"><span class="pre">finfo</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#errore-di-arrotondamento-apparentemente-casuale">6. Errore di arrotondamento apparentemente casuale</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#lettura-dell-errore-relativo">Lettura dell’errore relativo</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribuzione-dei-numeri-floating-point">7. Distribuzione dei numeri floating-point</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#distanza-assoluta-e-distanza-relativa">Distanza assoluta e distanza relativa</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sistema-floating-point-giocattolo">8. Sistema floating-point giocattolo</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geometria-del-sistema-giocattolo">Geometria del sistema giocattolo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-ii-lo-standard-ieee-754-e-i-valori-speciali">Parte II — Lo standard IEEE 754 e i valori speciali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#struttura-di-un-numero-in-double-precision">9. Struttura di un numero in double precision</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overflow-underflow-infinito-e-nan">10. Overflow, underflow, infinito e NaN</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-non-bisogna-ignorare-i-valori-speciali">Perché non bisogna ignorare i valori speciali</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-iii-cancellazione-e-formule-stabili">Parte III — Cancellazione e formule stabili</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cancellazione-numerica">11. Cancellazione numerica</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#come-leggere-l-esempio-python">Come leggere l’esempio Python</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#differenza-di-seni-in-forma-stabile">12. Differenza di seni in forma stabile</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#confronto-fra-forma-diretta-e-forma-stabile">Confronto fra forma diretta e forma stabile</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-sqrt-x-1-sqrt-x">13. Esempio: <span class="math notranslate nohighlight">\(\sqrt{x+1}-\sqrt{x}\)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#che-cosa-mostra-l-esperimento">Che cosa mostra l’esperimento</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-funzione-sinh-x-vicino-a-zero">14. La funzione <span class="math notranslate nohighlight">\(\sinh(x)\)</span> vicino a zero</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#scelta-della-formula-in-base-alla-scala">Scelta della formula in base alla scala</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-iv-calcolo-stabile-delle-radici-di-un-equazione-quadratica">Parte IV — Calcolo stabile delle radici di un’equazione quadratica</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#formula-standard-e-problema-di-cancellazione">15. Formula standard e problema di cancellazione</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equazione-quadratica-generale">16. Equazione quadratica generale</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#verifica-delle-radici">Verifica delle radici</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-v-progettazione-di-funzioni-di-libreria-robuste">Parte V — Progettazione di funzioni di libreria robuste</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#norma-euclidea-e-overflow">17. Norma euclidea e overflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#risultato-della-norma-scalata">Risultato della norma scalata</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#varianza-e-cancellazione">18. Varianza e cancellazione</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#risultato-della-varianza">Risultato della varianza</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-vi-riepilogo-finale">Parte VI — Riepilogo finale</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checklist-dei-concetti-principali">Checklist dei concetti principali</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#glossario">Glossario</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
