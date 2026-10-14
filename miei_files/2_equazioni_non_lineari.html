@@ -67,7 +67,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Sistemi lineari, condizionamento e metodi diretti" href="3_sistemi_lineari_condizionamento.html" />
-    <link rel="prev" title="Errori di arrotondamento e aritmetica floating-point" href="1_Floating_point_roundoff_revisionato.html" />
+    <link rel="prev" title="Errori di arrotondamento e aritmetica floating-point" href="1_Floating_point_roundoff.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -233,7 +233,7 @@
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="1_Floating_point_roundoff_revisionato.html">Errori di arrotondamento e aritmetica floating-point</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_Floating_point_roundoff.html">Errori di arrotondamento e aritmetica floating-point</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Equazioni non lineari</a></li>
 
 
@@ -463,6 +463,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-servono-metodi-numerici">2. Perché servono metodi numerici</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bis-molteplicita-di-una-radice">2bis. Molteplicità di una radice</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#caratterizzazione-tramite-derivate">Caratterizzazione tramite derivate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-pratico"><em>Esempio pratico</em></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#osservazione-geometrica">Osservazione geometrica</a></li>
 </ul>
 </li>
@@ -476,7 +477,10 @@
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-iii-metodo-di-bisezione">Parte III — Metodo di bisezione</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-degli-zeri">6. Teorema degli zeri</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-di-bisezione">7. Algoritmo di bisezione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-di-bisezione">7. Algoritmo di bisezione</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergenza-globale-della-bisezione">Convergenza globale della bisezione</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabella-delle-iterazioni-di-bisezione">8. Tabella delle iterazioni di bisezione</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numero-di-iterazioni-richieste">9. Numero di iterazioni richieste</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-di-arresto-e-aritmetica-finita">10. Test di arresto e aritmetica finita</a></li>
@@ -490,6 +494,10 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizione-di-convergenza-locale">14. Condizione di convergenza locale</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-di-convergenza-locale">Teorema di convergenza locale</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dimostrazione">Dimostrazione</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-geometrica-dell-iterazione-di-punto-fisso">Interpretazione geometrica dell’iterazione di punto fisso</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione">Interpretazione</a></li>
 </ul>
@@ -498,8 +506,17 @@
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-v-ordine-di-convergenza">Parte V — Ordine di convergenza</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definizione-di-ordine-di-convergenza">15. Definizione di ordine di convergenza</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#significato-pratico">16. Significato pratico</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ordine-di-convergenza-per-iterazioni-funzionali">17. Ordine di convergenza per iterazioni funzionali</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#significato-pratico">16. Significato pratico</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stima-numerica-dell-ordine-di-convergenza">Stima numerica dell’ordine di convergenza</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ordine-di-convergenza-per-iterazioni-funzionali">17. Ordine di convergenza per iterazioni funzionali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-sull-ordine-di-convergenza">Teorema sull’ordine di convergenza</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Dimostrazione</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-vi-metodo-di-newton">Parte VI — Metodo di Newton</a><ul class="pst-show_toc_level nav section-nav flex-column">
@@ -508,9 +525,24 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grafico-della-tangente-di-newton">Grafico della tangente di Newton</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergenza-locale-del-metodo-di-newton">20. Convergenza locale del metodo di Newton</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ordine-quadratico-di-newton">21. Ordine quadratico di Newton</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#radici-multiple">22. Radici multiple</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergenza-locale-del-metodo-di-newton">20. Convergenza locale del metodo di Newton</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-di-convergenza-di-newton">Teorema di convergenza di Newton</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Dimostrazione</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ordine-quadratico-di-newton">21. Ordine quadratico di Newton</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-sull-ordine-di-convergenza-di-newton">Teorema sull’ordine di convergenza di Newton</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Dimostrazione</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#radici-multiple">22. Radici multiple</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-il-monomio-f-x-x-m">Esempio: il monomio <span class="math notranslate nohighlight">\(f(x)=x^m\)</span></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#newton-modificato-per-radici-multiple">23. Newton modificato per radici multiple</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problemi-pratici-del-metodo-di-newton">24. Problemi pratici del metodo di Newton</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tre-casi-in-cui-newton-puo-fallire-o-comportarsi-male">Tre casi in cui Newton può fallire o comportarsi male</a></li>
@@ -534,7 +566,7 @@
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-ix-metodo-delle-secanti">Parte IX — Metodo delle secanti</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivazione">31. Motivazione</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">32. Interpretazione geometrica</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">32. Interpretazione geometrica</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grafico-della-secante">Grafico della secante</a></li>
 </ul>
 </li>
@@ -836,6 +868,40 @@ f^{(m)}(\alpha)\neq 0.
 f(\alpha)=0,\qquad f'(\alpha)=0,\qquad f''(\alpha)\neq 0.
 \]</div>
 <p>Le radici multiple sono importanti perché rendono più difficile il problema numerico: molti metodi, incluso Newton standard, convergono più lentamente in presenza di radici multiple.</p>
+</section>
+<section id="esempio-pratico">
+<h3><em>Esempio pratico</em><a class="headerlink" href="#esempio-pratico" title="Link to this heading">#</a></h3>
+<p>Consideriamo la funzione</p>
+<div class="math notranslate nohighlight">
+\[
+f(x)=(x-1)^2.
+\]</div>
+<p>La funzione si annulla per <span class="math notranslate nohighlight">\(x=1\)</span> e può essere scritta nella forma</p>
+<div class="math notranslate nohighlight">
+\[
+f(x)=(x-1)^2q(x),
+\qquad q(x)=1.
+\]</div>
+<p>Poiché <span class="math notranslate nohighlight">\(q(1)=1\neq 0\)</span>, il punto <span class="math notranslate nohighlight">\(\alpha=1\)</span> è una radice di molteplicità 2.</p>
+<p>Calcoliamo le derivate:</p>
+<div class="math notranslate nohighlight">
+\[
+f'(x)=2(x-1),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f''(x)=2.
+\]</div>
+<p>Valutandole nella radice si ottiene</p>
+<div class="math notranslate nohighlight">
+\[
+f(1)=0,
+\qquad
+f'(1)=0,
+\qquad
+f''(1)=2\neq 0.
+\]</div>
+<p>Quindi la funzione e la sua derivata prima si annullano in <span class="math notranslate nohighlight">\(x=1\)</span>, mentre la derivata seconda non si annulla. Questo conferma che <span class="math notranslate nohighlight">\(x=1\)</span> è una radice di molteplicità <span class="math notranslate nohighlight">\(2\)</span>. Graficamente, la parabola tocca l’asse <span class="math notranslate nohighlight">\(x\)</span> nel punto <span class="math notranslate nohighlight">\((1,0)\)</span> senza attraversarlo.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Radici semplici, doppie e triple a confronto.</span>
@@ -918,25 +984,27 @@ E(x)=|\hat{f}(x)-f(x)|.
 </section>
 <section id="stima-dell-errore-sulla-radice">
 <h2>4. Stima dell’errore sulla radice<a class="headerlink" href="#stima-dell-errore-sulla-radice" title="Link to this heading">#</a></h2>
-<p>Per il <strong>teorema del valor medio</strong>,</p>
+<blockquote>
+<div><p><strong>📌 Richiamo — Teorema del valor medio</strong></p>
+<p>Richiamiamo il <strong>teorema del valor medio</strong>, che afferma che</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{f(\hat{x}^{*})-f(x^{*})}{\hat{x}^{*}-x^{*}}
-=
-f'(\omega),
-\]</div>
-<p>per un opportuno <span class="math notranslate nohighlight">\(\omega\)</span> compreso fra <span class="math notranslate nohighlight">\(x^{*}\)</span> e <span class="math notranslate nohighlight">\(\hat{x}^{*}\)</span>.</p>
-<p>Poiché</p>
-<div class="math notranslate nohighlight">
-\[
-f(x^{*})=0
-\]</div>
-<p>e, usando <span class="math notranslate nohighlight">\(\hat{f}(\hat{x}^{*})=0\)</span>,</p>
+&gt; \frac{f(\hat{x}^*)-f(x^*)}{\hat{x}^*-x^*}
+&gt; =
+&gt; f'(\omega),
+&gt; \]</div>
+<p>per un opportuno <span class="math notranslate nohighlight">\(\omega\)</span> compreso fra <span class="math notranslate nohighlight">\(x^*\)</span> e <span class="math notranslate nohighlight">\(\hat{x}^*\)</span>.</p>
+</div></blockquote>
+<p>Per l’errore sui dati, usando <span class="math notranslate nohighlight">\(\hat{f}(\hat{x}^{*})=0\)</span>, si ha:</p>
 <div class="math notranslate nohighlight">
 \[
 E(\hat{x}^{*})=|\hat{f}(\hat{x}^{*})-f(\hat{x}^{*})|=|f(\hat{x}^{*})|,
 \]</div>
-<p>si ottiene</p>
+<p>Ora usiamo il teorema del valor medio, ricordando che
+$<span class="math notranslate nohighlight">\(
+f(x^{*})=0
+\)</span>$</p>
+<p>da cui si ottiene</p>
 <div class="math notranslate nohighlight">
 \[
 |\hat{x}^{*}-x^{*}|
@@ -998,32 +1066,61 @@ E(\hat{x}^{*})=|\hat{f}(\hat{x}^{*})-f(\hat{x}^{*})|=|f(\hat{x}^{*})|,
 <h1>Parte III — Metodo di bisezione<a class="headerlink" href="#parte-iii-metodo-di-bisezione" title="Link to this heading">#</a></h1>
 <section id="teorema-degli-zeri">
 <h2>6. Teorema degli zeri<a class="headerlink" href="#teorema-degli-zeri" title="Link to this heading">#</a></h2>
-<p>Sia <span class="math notranslate nohighlight">\(f\)</span> continua in <span class="math notranslate nohighlight">\([a,b]\)</span>.<br />
-Se</p>
+<div style="display: flex; align-items: center; gap: 30px;">
+<div style="flex: 1;">
+<p>Sia <span class="math notranslate nohighlight">\(f\)</span> continua in <span class="math notranslate nohighlight">\([a,b]\)</span>. Se</p>
 <div class="math notranslate nohighlight">
 \[
 f(a)f(b)&lt;0,
 \]</div>
-<p>allora esiste almeno un punto <span class="math notranslate nohighlight">\(x^{*}\in(a,b)\)</span> tale che</p>
+<p>allora esiste almeno un punto <span class="math notranslate nohighlight">\(x^*\in(a,b)\)</span> tale che</p>
 <div class="math notranslate nohighlight">
 \[
-f(x^{*})=0.
+f(x^*)=0.
 \]</div>
+</div>
+<div style="flex: 1; text-align: center;">
+<figure class="align-center" id="id6">
+<a class="reference internal image-reference" href="../_images/teorema_degli_zeri.png"><img alt="Illustrazione del teorema degli zeri" src="../_images/teorema_degli_zeri.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Illustrazione del teorema degli zeri.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><img src="fig_eq_nonlin/teorema_degli_zeri.png"
+     alt="Illustrazione del teorema degli zeri"
+     style="width: 100%; max-width: 650px;"></p>
+</div>
+</div>
+<div style="display:flex; align-items:center; gap:30px;">
+<div style="flex:1;">
 <p>Il metodo di bisezione usa questa idea:</p>
-<ol class="arabic simple">
-<li><p>si parte da un intervallo <span class="math notranslate nohighlight">\([a,b]\)</span> in cui <span class="math notranslate nohighlight">\(f\)</span> cambia segno;</p></li>
-<li><p>si calcola il punto medio</p></li>
-</ol>
-<div class="math notranslate nohighlight">
-\[
-m=\frac{a+b}{2};
-\]</div>
-<ol class="arabic simple" start="3">
-<li><p>si valuta <span class="math notranslate nohighlight">\(f(m)\)</span>;</p></li>
-<li><p>si tiene il sottointervallo in cui continua a esserci un cambio di segno;</p></li>
-<li><p>si ripete.</p></li>
-</ol>
-</section>
+<p>1. Si parte da un intervallo [<i>a</i>, <i>b</i>] in cui <i>f</i> cambia segno.</p>
+<p>2. Si calcola il punto medio</p>
+<p style="text-align:center;">
+<i>m</i> =
+<span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; line-height:1.1;">
+<span style="border-bottom:1px solid; padding:0 6px;"><i>a</i> + <i>b</i></span>
+<span>2</span>
+</span>;
+</p>
+<p>3. Si valuta <i>f</i>(<i>m</i>).</p>
+<p>4. Si tiene il sottointervallo in cui continua a esserci un cambio di segno.</p>
+<p>5. Si ripete.</p>
+</div>
+<div style="flex:1.2; text-align:center; max-width:750px;">
+<figure class="align-center" id="id7">
+<a class="reference internal image-reference" href="../_images/metodo_di_bisezione_v2.png"><img alt="Illustrazione del metodo di bisezione" src="../_images/metodo_di_bisezione_v2.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Illustrazione del metodo di bisezione.</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><img src="fig_eq_nonlin/metodo_di_bisezione_v2.png"
+     alt="Illustrazione del metodo di bisezione"
+     style="width:100%; max-width:750px;"></p>
+</div>
+</div></section>
 <section id="algoritmo-di-bisezione">
 <h2>7. Algoritmo di bisezione<a class="headerlink" href="#algoritmo-di-bisezione" title="Link to this heading">#</a></h2>
 <p>Dato <span class="math notranslate nohighlight">\([a,b]\)</span> con <span class="math notranslate nohighlight">\(f(a)f(b)&lt;0\)</span>:</p>
@@ -1038,12 +1135,58 @@ m=\frac{a+b}{2};
 <p>Dopo <span class="math notranslate nohighlight">\(k\)</span> iterazioni,</p>
 <div class="math notranslate nohighlight">
 \[
-b_k-a_k=\frac{b_0-a_0}{2^k}.
+b_k-a_k=\frac{b_{k-1}-a_{k-1}}{2}=\frac{b_{k-2}-a_{k-2}}{2^2}=\dots=\frac{b_0-a_0}{2^k}.
 \]</div>
-<p>Quindi l’errore sull’approssimazione data dal punto medio è al più</p>
+<p>Siccome <span class="math notranslate nohighlight">\(x^*\)</span> si trova nell’intervallo <span class="math notranslate nohighlight">\([a_k,b_k]\)</span>, l’errore sull’approssimazione data dal punto medio è al più</p>
 <div class="math notranslate nohighlight">
 \[
 \frac{b_k-a_k}{2}=\frac{b_0-a_0}{2^{k+1}}.
+\]</div>
+<section id="convergenza-globale-della-bisezione">
+<h3>Convergenza globale della bisezione<a class="headerlink" href="#convergenza-globale-della-bisezione" title="Link to this heading">#</a></h3>
+<p>Sia <span class="math notranslate nohighlight">\(f\)</span> una funzione continua nell’intervallo iniziale <span class="math notranslate nohighlight">\([a_0,b_0]\)</span> e supponiamo che</p>
+<div class="math notranslate nohighlight">
+\[
+f(a_0)f(b_0)&lt;0.
+\]</div>
+<p>Il metodo di bisezione genera una successione di intervalli annidati</p>
+<div class="math notranslate nohighlight">
+\[
+[a_0,b_0]\supset [a_1,b_1]\supset [a_2,b_2]\supset \cdots,
+\]</div>
+<p>nei quali continua a essere verificato il cambio di segno:</p>
+<div class="math notranslate nohighlight">
+\[
+f(a_k)f(b_k)\leq 0.
+\]</div>
+<p>La lunghezza di questi intervalli soddisfa</p>
+<div class="math notranslate nohighlight">
+\[
+b_k-a_k=\frac{b_0-a_0}{2^k},
+\]</div>
+<p>e quindi</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{k\to\infty}(b_k-a_k)=0.
+\]</div>
+<p>Gli intervalli si restringono pertanto a un unico punto <span class="math notranslate nohighlight">\(x^*\)</span>. Per la continuità di <span class="math notranslate nohighlight">\(f\)</span> e per la permanenza del cambio di segno, tale punto soddisfa</p>
+<div class="math notranslate nohighlight">
+\[
+f(x^*)=0.
+\]</div>
+<p>I punti medi</p>
+<div class="math notranslate nohighlight">
+\[
+m_k=\frac{a_k+b_k}{2}
+\]</div>
+<p>convergono quindi a <span class="math notranslate nohighlight">\(x^*\)</span>.</p>
+<p>Per questo motivo il metodo di bisezione è detto <strong>globalmente convergente</strong>: la convergenza è garantita per qualunque intervallo iniziale <span class="math notranslate nohighlight">\([a_0,b_0]\)</span> nel quale <span class="math notranslate nohighlight">\(f\)</span> sia continua e presenti un cambio di segno.</p>
+<p>Il termine <em>globale</em> non significa che il metodo converga scegliendo arbitrariamente gli estremi iniziali, ma che non è necessario partire da un’approssimazione già vicina alla radice, purché siano soddisfatte le ipotesi</p>
+<div class="math notranslate nohighlight">
+\[
+f\in C([a_0,b_0])
+\qquad\text{e}\qquad
+f(a_0)f(b_0)&lt;0.
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1089,6 +1232,7 @@ b_k-a_k=\frac{b_0-a_0}{2^k}.
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Radice approssimata:&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iterazioni:&quot;</span><span class="p">,</span> <span class="n">niter</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Errore rispetto a sqrt(2):&quot;</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">root</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Residuo:&quot;</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">root</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1096,10 +1240,12 @@ b_k-a_k=\frac{b_0-a_0}{2^k}.
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Radice approssimata: 1.414213562372879
 Iterazioni: 41
 Errore rispetto a sqrt(2): 2.1604940059205546e-13
+Residuo: 6.108447081487611e-13
 </pre></div>
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="tabella-delle-iterazioni-di-bisezione">
 <h2>8. Tabella delle iterazioni di bisezione<a class="headerlink" href="#tabella-delle-iterazioni-di-bisezione" title="Link to this heading">#</a></h2>
@@ -1108,21 +1254,21 @@ Errore rispetto a sqrt(2): 2.1604940059205546e-13
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">hist</span><span class="p">[:</span><span class="mi">10</span><span class="p">]:</span>
     <span class="n">k</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">fm</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">row</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;k=</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">, a=</span><span class="si">{</span><span class="n">a</span><span class="si">:</span><span class="s2">.12f</span><span class="si">}</span><span class="s2">, b=</span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s2">.12f</span><span class="si">}</span><span class="s2">, m=</span><span class="si">{</span><span class="n">m</span><span class="si">:</span><span class="s2">.12f</span><span class="si">}</span><span class="s2">, f(m)=</span><span class="si">{</span><span class="n">fm</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">, ampiezza=</span><span class="si">{</span><span class="n">width</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;k=</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">, a=</span><span class="si">{</span><span class="n">a</span><span class="si">:</span><span class="s2">.12f</span><span class="si">}</span><span class="s2">, b=</span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s2">.12f</span><span class="si">}</span><span class="s2">, m=</span><span class="si">{</span><span class="n">m</span><span class="si">:</span><span class="s2">.12f</span><span class="si">}</span><span class="s2">, f(m)=</span><span class="si">{</span><span class="n">fm</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">, ampiezza=</span><span class="si">{</span><span class="n">width</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k= 1, a=1.000000000000, b=2.000000000000, m=1.500000000000, f(m)=2.500e-01, ampiezza=1.000e+00
-k= 2, a=1.000000000000, b=1.500000000000, m=1.250000000000, f(m)=-4.375e-01, ampiezza=5.000e-01
-k= 3, a=1.250000000000, b=1.500000000000, m=1.375000000000, f(m)=-1.094e-01, ampiezza=2.500e-01
-k= 4, a=1.375000000000, b=1.500000000000, m=1.437500000000, f(m)=6.641e-02, ampiezza=1.250e-01
-k= 5, a=1.375000000000, b=1.437500000000, m=1.406250000000, f(m)=-2.246e-02, ampiezza=6.250e-02
-k= 6, a=1.406250000000, b=1.437500000000, m=1.421875000000, f(m)=2.173e-02, ampiezza=3.125e-02
-k= 7, a=1.406250000000, b=1.421875000000, m=1.414062500000, f(m)=-4.272e-04, ampiezza=1.562e-02
-k= 8, a=1.414062500000, b=1.421875000000, m=1.417968750000, f(m)=1.064e-02, ampiezza=7.812e-03
-k= 9, a=1.414062500000, b=1.417968750000, m=1.416015625000, f(m)=5.100e-03, ampiezza=3.906e-03
-k=10, a=1.414062500000, b=1.416015625000, m=1.415039062500, f(m)=2.336e-03, ampiezza=1.953e-03
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k= 1, a=1.000000000000, b=2.000000000000, m=1.500000000000, f(m)=2.500e-01, ampiezza=1.0000
+k= 2, a=1.000000000000, b=1.500000000000, m=1.250000000000, f(m)=-4.375e-01, ampiezza=0.5000
+k= 3, a=1.250000000000, b=1.500000000000, m=1.375000000000, f(m)=-1.094e-01, ampiezza=0.2500
+k= 4, a=1.375000000000, b=1.500000000000, m=1.437500000000, f(m)=6.641e-02, ampiezza=0.1250
+k= 5, a=1.375000000000, b=1.437500000000, m=1.406250000000, f(m)=-2.246e-02, ampiezza=0.0625
+k= 6, a=1.406250000000, b=1.437500000000, m=1.421875000000, f(m)=2.173e-02, ampiezza=0.0312
+k= 7, a=1.406250000000, b=1.421875000000, m=1.414062500000, f(m)=-4.272e-04, ampiezza=0.0156
+k= 8, a=1.414062500000, b=1.421875000000, m=1.417968750000, f(m)=1.064e-02, ampiezza=0.0078
+k= 9, a=1.414062500000, b=1.417968750000, m=1.416015625000, f(m)=5.100e-03, ampiezza=0.0039
+k=10, a=1.414062500000, b=1.416015625000, m=1.415039062500, f(m)=2.336e-03, ampiezza=0.0020
 </pre></div>
 </div>
 </div>
@@ -1135,12 +1281,11 @@ k=10, a=1.414062500000, b=1.416015625000, m=1.415039062500, f(m)=2.336e-03, ampi
 \[
 \frac{b_0-a_0}{2^{k+1}}\le \mathrm{tol}.
 \]</div>
-<p>Da cui</p>
+<p>Da cui <span class="math notranslate nohighlight">\(2^{k+1}\ge \frac{b_0-a_0}{\mathrm{tol}}\)</span> <span class="math notranslate nohighlight">\(\Longrightarrow\)</span> <span class="math notranslate nohighlight">\(2^{k}\ge \frac{b_0-a_0}{2\ \mathrm{tol}}\)</span> <span class="math notranslate nohighlight">\(\Longrightarrow\)</span> <span class="math notranslate nohighlight">\(\log_2\left(2^{k}\right)\ge \log_2\left(\frac{b_0-a_0}{2\ \mathrm{tol}}\right)\)</span></p>
 <div class="math notranslate nohighlight">
 \[
 k\ge \log_2\left(\frac{b_0-a_0}{2 \mathrm{tol}}\right).
 \]</div>
-<p>Quindi il numero di iterazioni cresce solo logaritmicamente rispetto alla tolleranza, ma il metodo rimane relativamente lento perché a ogni passo guadagna circa una cifra binaria.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">bisection_iterations_needed</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tol</span><span class="p">):</span>
@@ -1440,20 +1585,133 @@ k= 9, x_k=0.731404042423
 x_{k+1}=g(x_k)
 \]</div>
 <p>converge localmente a <span class="math notranslate nohighlight">\(x^{*}\)</span>.</p>
-<p>La stima fondamentale è</p>
+<p>La stima fondamentale (usando il teorema del valor medio, ovvero <span class="math notranslate nohighlight">\(\frac{g(x_k)-g(x^{*})}{x_k-x^{*}}=g'(\eta_k)\)</span> per <span class="math notranslate nohighlight">\(\eta_k\)</span> tra <span class="math notranslate nohighlight">\(x_k\)</span> e <span class="math notranslate nohighlight">\(x^{*}\)</span> è</p>
 <div class="math notranslate nohighlight">
 \[
 |x_{k+1}-x^{*}|
 =
-|g(x_k)-g(x^{*})|
+|g(x_k)-g(x^{*})|=|g'(\eta_k)|\, |(x_k-x^{*})|
 \le
 \lambda |x_k-x^{*}|.
 \]</div>
 <p>Quindi</p>
 <div class="math notranslate nohighlight">
 \[
-|x_k-x^{*}|\le \lambda^k |x_0-x^{*}|.
+|x_k-x^{*}|\le \lambda |x_{k-1}-x^{*}|\le \lambda^2 |x_{k-2}-x^{*}|\dots \le\lambda^k |x_0-x^{*}|.
 \]</div>
+<p>e quindi per <span class="math notranslate nohighlight">\(k\)</span> tendente ad infinito <span class="math notranslate nohighlight">\(x_k\)</span> tende ad <span class="math notranslate nohighlight">\(x^{*}\)</span>.</p>
+<p>Vediamo ora, in termini più rigorosi, come può essere formalizzato questo risultato.</p>
+<section id="teorema-di-convergenza-locale">
+<h3>Teorema di convergenza locale<a class="headerlink" href="#teorema-di-convergenza-locale" title="Link to this heading">#</a></h3>
+<p>Sia <span class="math notranslate nohighlight">\(x^*\)</span> un punto fisso di <span class="math notranslate nohighlight">\(g\)</span> e sia</p>
+<div class="math notranslate nohighlight">
+\[
+I_\rho=[x^*-\rho,x^*+\rho],
+\qquad \rho&gt;0.
+\]</div>
+<p>Supponiamo che</p>
+<div class="math notranslate nohighlight">
+\[
+g\in C^1(I_\rho)
+\]</div>
+<p>e che esista una costante <span class="math notranslate nohighlight">\(\lambda\)</span> tale che</p>
+<div class="math notranslate nohighlight">
+\[
+|g'(x)|\leq\lambda&lt;1
+\qquad
+\text{per ogni }x\in I_\rho.
+\]</div>
+<p>Allora, per ogni punto iniziale <span class="math notranslate nohighlight">\(x_0\in I_\rho\)</span>, tutti gli iterati generati da</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=g(x_k)
+\]</div>
+<p>appartengono a <span class="math notranslate nohighlight">\(I_\rho\)</span> e la successione <span class="math notranslate nohighlight">\(\{x_k\}\)</span> converge a <span class="math notranslate nohighlight">\(x^*\)</span>. Inoltre, <span class="math notranslate nohighlight">\(x^*\)</span> è l’unico punto fisso di <span class="math notranslate nohighlight">\(g\)</span> nell’intervallo <span class="math notranslate nohighlight">\(I_\rho\)</span>.</p>
+<section id="dimostrazione">
+<h4>Dimostrazione<a class="headerlink" href="#dimostrazione" title="Link to this heading">#</a></h4>
+<p>Supponiamo che <span class="math notranslate nohighlight">\(x_k\in I_\rho\)</span>. Poiché <span class="math notranslate nohighlight">\(g(x^*)=x^*\)</span>, si ha</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}-x^*
+=
+g(x_k)-g(x^*).
+\]</div>
+<p>Per il teorema del valor medio esiste un punto <span class="math notranslate nohighlight">\(\xi_k\)</span> compreso tra <span class="math notranslate nohighlight">\(x_k\)</span> e <span class="math notranslate nohighlight">\(x^*\)</span> tale che</p>
+<div class="math notranslate nohighlight">
+\[
+g(x_k)-g(x^*)
+=
+g'(\xi_k)(x_k-x^*).
+\]</div>
+<p>Passando ai valori assoluti e usando l’ipotesi su <span class="math notranslate nohighlight">\(g'\)</span>, si ottiene</p>
+<div class="math notranslate nohighlight">
+\[
+|x_{k+1}-x^*|
+=
+|g'(\xi_k)|\,|x_k-x^*|
+\leq
+\lambda|x_k-x^*|.
+\]</div>
+<p>Poiché <span class="math notranslate nohighlight">\(x_k\in I_\rho\)</span>, vale</p>
+<div class="math notranslate nohighlight">
+\[
+|x_k-x^*|\leq\rho,
+\]</div>
+<p>e quindi</p>
+<div class="math notranslate nohighlight">
+\[
+|x_{k+1}-x^*|
+\leq
+\lambda\rho
+&lt;
+\rho.
+\]</div>
+<p>Pertanto anche <span class="math notranslate nohighlight">\(x_{k+1}\in I_\rho\)</span>. Essendo <span class="math notranslate nohighlight">\(x_0\in I_\rho\)</span>, per induzione tutti gli iterati appartengono a <span class="math notranslate nohighlight">\(I_\rho\)</span>.</p>
+<p>Applicando ripetutamente la stima precedente si ottiene</p>
+<div class="math notranslate nohighlight">
+\[
+|x_k-x^*|
+\leq 
+\lambda|x_{k-1}-x^*|\leq 
+\lambda^2|x_{k-2}-x^*|\leq\dots\leq
+\lambda^k|x_0-x^*|.
+\]</div>
+<p>Poiché <span class="math notranslate nohighlight">\(0\leq\lambda&lt;1\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{k\to\infty}\lambda^k=0,
+\]</div>
+<p>e dunque</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{k\to\infty}|x_k-x^*|=0.
+\]</div>
+<p>Ne segue che</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{k\to\infty}x_k=x^*.
+\]</div>
+<p>Resta da dimostrare l’unicità. Supponiamo, per assurdo, che esistano due punti fissi distinti <span class="math notranslate nohighlight">\(x_1^*\)</span> e <span class="math notranslate nohighlight">\(x_2^*\)</span> appartenenti a <span class="math notranslate nohighlight">\(I_\rho\)</span>. Per il teorema del valor medio esiste un punto <span class="math notranslate nohighlight">\(\xi\)</span> compreso tra <span class="math notranslate nohighlight">\(x_1^*\)</span> e <span class="math notranslate nohighlight">\(x_2^*\)</span> tale che</p>
+<div class="math notranslate nohighlight">
+\[
+|x_1^*-x_2^*|
+=
+|g(x_1^*)-g(x_2^*)|
+=
+|g'(\xi)|\,|x_1^*-x_2^*|.
+\]</div>
+<p>Dall’ipotesi <span class="math notranslate nohighlight">\(|g'(\xi)|\leq\lambda&lt;1\)</span> segue</p>
+<div class="math notranslate nohighlight">
+\[
+|x_1^*-x_2^*|
+\leq
+\lambda|x_1^*-x_2^*|
+&lt;
+|x_1^*-x_2^*|,
+\]</div>
+<p>che è una contraddizione. Pertanto <span class="math notranslate nohighlight">\(x^*\)</span> è l’unico punto fisso di <span class="math notranslate nohighlight">\(g\)</span> in <span class="math notranslate nohighlight">\(I_\rho\)</span>.  c.v.d. <span class="math notranslate nohighlight">\(\odot\)</span></p>
+</section>
+</section>
 <section id="interpretazione-geometrica-dell-iterazione-di-punto-fisso">
 <h3>Interpretazione geometrica dell’iterazione di punto fisso<a class="headerlink" href="#interpretazione-geometrica-dell-iterazione-di-punto-fisso" title="Link to this heading">#</a></h3>
 <p>L’iterazione</p>
@@ -1477,13 +1735,15 @@ x_{k+1}=g(x_k)
 <li><p>se <span class="math notranslate nohighlight">\(g'(\alpha)&gt;1\)</span>, si ha divergenza monotona;</p></li>
 <li><p>se <span class="math notranslate nohighlight">\(g'(\alpha)&lt;-1\)</span>, si ha divergenza oscillante.</p></li>
 </ul>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/figura1.png"><img alt="../_images/figura1.png" src="../_images/figura1.png" style="width: 100%;" />
+<figure class="align-center" id="id8">
+<a class="reference internal image-reference" href="../_images/figura1.png"><img alt="Iterazione di punto fisso" src="../_images/figura1.png" style="width: 900px;" />
 </a>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Interpretazione geometrica dell’iterazione di punto fisso.</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
+</figcaption>
 </figure>
 <p align="center">
-  <img src="fig_eq_nonlin\figura1.png"  width="900">
-  <p align="center">
+  <img src="fig_eq_nonlin/figura1.png" width="900">
 </p></section>
 <section id="interpretazione">
 <h3>Interpretazione<a class="headerlink" href="#interpretazione" title="Link to this heading">#</a></h3>
@@ -1575,12 +1835,12 @@ e_k=x_k-x^{*}.
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulazione di convergenza lineare e quadratica</span>
 
-<span class="n">errors_linear</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-1</span><span class="p">]</span>
+<span class="n">errors_linear</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-1</span><span class="p">]</span> <span class="c1">#valore iniziale dell&#39;errore</span>
 <span class="n">errors_quad</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-1</span><span class="p">]</span>
 
 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
-    <span class="n">errors_linear</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">errors_linear</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">errors_quad</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">errors_quad</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">errors_linear</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">errors_linear</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="c1">#l’errore viene dimezzato a ogni iterazione</span>
+    <span class="n">errors_quad</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">errors_quad</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1">#calcola il quadrato dell’ultimo errore. Il risultato viene moltiplicato per 2.0</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;k   lineare        quadratica&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="n">eq</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">errors_linear</span><span class="p">,</span> <span class="n">errors_quad</span><span class="p">)):</span>
@@ -1603,6 +1863,70 @@ e_k=x_k-x^{*}.
 </div>
 </div>
 </div>
+<section id="stima-numerica-dell-ordine-di-convergenza">
+<h3>Stima numerica dell’ordine di convergenza<a class="headerlink" href="#stima-numerica-dell-ordine-di-convergenza" title="Link to this heading">#</a></h3>
+<p>La definizione di ordine di convergenza permette anche di ricavare una formula per stimare numericamente <span class="math notranslate nohighlight">\(p\)</span> a partire dagli errori di tre iterazioni consecutive.</p>
+<p>Poniamo</p>
+<div class="math notranslate nohighlight">
+\[
+e_k=x_k-x^*.
+\]</div>
+<p>Dalla definizione di convergenza di ordine <span class="math notranslate nohighlight">\(p\)</span>, nella fase asintotica si ha</p>
+<div class="math notranslate nohighlight">
+\[
+|e_{k+1}|\approx\gamma|e_k|^p,
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\gamma&gt;0\)</span> è il fattore di convergenza.</p>
+<p>Applicando il logaritmo:</p>
+<div class="math notranslate nohighlight">
+\[
+\log|e_{k+1}|
+\approx
+\log\gamma+p\log|e_k|.
+\]</div>
+<p>La stessa relazione, un’iterazione prima, è</p>
+<div class="math notranslate nohighlight">
+\[
+\log|e_k|
+\approx
+\log\gamma+p\log|e_{k-1}|.
+\]</div>
+<p>Sottraendo la seconda relazione dalla prima, il termine incognito <span class="math notranslate nohighlight">\(\log\gamma\)</span> si elimina:</p>
+<div class="math notranslate nohighlight">
+\[
+\log|e_{k+1}|-\log|e_k|
+\approx
+p\left(\log|e_k|-\log|e_{k-1}|\right).
+\]</div>
+<p>Usando la proprietà</p>
+<div class="math notranslate nohighlight">
+\[
+\log a-\log b=\log\left(\frac{a}{b}\right),
+\qquad a,b&gt;0,
+\]</div>
+<p>si ottiene</p>
+<div class="math notranslate nohighlight">
+\[
+\log\left(\frac{|e_{k+1}|}{|e_k|}\right)
+\approx
+p\log\left(\frac{|e_k|}{|e_{k-1}|}\right).
+\]</div>
+<p>Da cui</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{
+p_k=
+\frac{
+\log\left(|e_{k+1}|/|e_k|\right)
+}{
+\log\left(|e_k|/|e_{k-1}|\right)
+}
+}
+\]</div>
+<p>è una stima numerica dell’ordine di convergenza <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<p>Per utilizzare questa formula occorre conoscere <span class="math notranslate nohighlight">\(x^*\)</span>, oppure disporre di un suo valore di riferimento sufficientemente accurato. I tre errori devono essere diversi da zero e il denominatore deve essere non nullo.</p>
+<p>La stima è significativa quando gli iterati sono nella fase asintotica della convergenza e gli errori non sono ancora dominati dagli effetti dell’aritmetica finita.</p>
+</section>
 </section>
 <section id="ordine-di-convergenza-per-iterazioni-funzionali">
 <h2>17. Ordine di convergenza per iterazioni funzionali<a class="headerlink" href="#ordine-di-convergenza-per-iterazioni-funzionali" title="Link to this heading">#</a></h2>
@@ -1632,6 +1956,127 @@ g'(x^{*})=g''(x^{*})=\cdots=g^{(p-1)}(x^{*})=0
 g^{(p)}(x^{*})\neq 0,
 \]</div>
 <p>allora l’ordine di convergenza è <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<p>Il risultato precedente può essere formulato in modo più rigoroso mediante il seguente teorema, che lega l’ordine di convergenza dell’iterazione alle derivate della funzione <span class="math notranslate nohighlight">\(g\)</span> nel punto fisso.</p>
+<section id="teorema-sull-ordine-di-convergenza">
+<h3>Teorema sull’ordine di convergenza<a class="headerlink" href="#teorema-sull-ordine-di-convergenza" title="Link to this heading">#</a></h3>
+<p>Sia <span class="math notranslate nohighlight">\(\{x_k\}\)</span> una successione generata dall’iterazione</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}=g(x_k)
+\]</div>
+<p>e convergente al punto fisso <span class="math notranslate nohighlight">\(x^*\)</span>. Sia inoltre <span class="math notranslate nohighlight">\(g\)</span> sufficientemente regolare in un intorno di <span class="math notranslate nohighlight">\(x^*\)</span>.</p>
+<p>La successione <span class="math notranslate nohighlight">\(\{x_k\}\)</span> ha ordine di convergenza <span class="math notranslate nohighlight">\(p\geq 1\)</span> se e solo se</p>
+<div class="math notranslate nohighlight">
+\[
+g'(x^*)=g''(x^*)=\cdots=g^{(p-1)}(x^*)=0,
+\qquad
+g^{(p)}(x^*)\neq 0.
+\]</div>
+<p>Nel caso <span class="math notranslate nohighlight">\(p=1\)</span>, la prima condizione è vuota e si richiede semplicemente</p>
+<div class="math notranslate nohighlight">
+\[
+g'(x^*)\neq 0.
+\]</div>
+<section id="id2">
+<h4>Dimostrazione<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<p>Poniamo</p>
+<div class="math notranslate nohighlight">
+\[
+e_k=x_k-x^*.
+\]</div>
+<p>Poiché <span class="math notranslate nohighlight">\(x^*\)</span> è un punto fisso di <span class="math notranslate nohighlight">\(g\)</span>, vale</p>
+<div class="math notranslate nohighlight">
+\[
+g(x^*)=x^*.
+\]</div>
+<p>Pertanto,</p>
+<div class="math notranslate nohighlight">
+\[
+e_{k+1}
+=
+x_{k+1}-x^*
+=
+g(x_k)-g(x^*).
+\]</div>
+<p>Sviluppando <span class="math notranslate nohighlight">\(g(x_k)\)</span> in serie di Taylor attorno a <span class="math notranslate nohighlight">\(x^*\)</span>, con resto di Lagrange, si ottiene</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+g(x_k)
+={}&amp;
+g(x^{*})+
+g'(x^*)(x_k-x^{*})
++
+\frac{g''(x^*)}{2!}(x_k-x^{*})^2
++
+\frac{g^{(p-1)}(x^*)}{(p-1)!}(x_k-x^{*})^{p-1}
++
+\frac{g^{(p)}(\xi_k)}{p!}(x_k-x^{*})^p,
+\end{aligned}.
+\]</div>
+<p>Portando <span class="math notranslate nohighlight">\(g(x^{*})\)</span> al membro sinistro e riscrivendo la relazione in termini di errori</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+e_{k+1}
+={}&amp;
+g'(x^*)e_k
++
+\frac{g''(x^*)}{2!}e_k^2
++
+\frac{g^{(p-1)}(x^*)}{(p-1)!}e_k^{p-1}
++
+\frac{g^{(p)}(\xi_k)}{p!}e_k^p,
+\end{aligned}
+\]</div>
+<p>dove <span class="math notranslate nohighlight">\(\xi_k\)</span> è compreso tra <span class="math notranslate nohighlight">\(x_k\)</span> e <span class="math notranslate nohighlight">\(x^*\)</span>.</p>
+<p>Per le ipotesi</p>
+<div class="math notranslate nohighlight">
+\[
+g'(x^*)=g''(x^*)=\cdots=g^{(p-1)}(x^*)=0,
+\]</div>
+<p>rimane</p>
+<div class="math notranslate nohighlight">
+\[
+e_{k+1}
+=
+\frac{g^{(p)}(\xi_k)}{p!}e_k^p.
+\]</div>
+<p>Passando ai valori assoluti,</p>
+<div class="math notranslate nohighlight">
+\[
+|e_{k+1}|
+=
+\frac{|g^{(p)}(\xi_k)|}{p!}|e_k|^p.
+\]</div>
+<p>Poiché <span class="math notranslate nohighlight">\(x_k\to x^*\)</span>, anche <span class="math notranslate nohighlight">\(\xi_k\to x^*\)</span>. Per la continuità di <span class="math notranslate nohighlight">\(g^{(p)}\)</span> segue che</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{k\to\infty}
+\frac{|e_{k+1}|}{|e_k|^p}
+=
+\frac{|g^{(p)}(x^*)|}{p!}.
+\]</div>
+<p>Essendo</p>
+<div class="math notranslate nohighlight">
+\[
+g^{(p)}(x^*)\neq 0,
+\]</div>
+<p>il limite è una costante positiva. La successione ha quindi ordine di convergenza <span class="math notranslate nohighlight">\(p\)</span>, con fattore asintotico</p>
+<div class="math notranslate nohighlight">
+\[
+\gamma
+=
+\frac{|g^{(p)}(x^*)|}{p!}.
+\]</div>
+<p>Viceversa, la prima derivata di <span class="math notranslate nohighlight">\(g\)</span> che non si annulla in <span class="math notranslate nohighlight">\(x^*\)</span> determina il primo termine non nullo dello sviluppo di Taylor e, quindi, l’ordine di convergenza. Affinché l’ordine sia esattamente <span class="math notranslate nohighlight">\(p\)</span>, devono dunque annullarsi tutte le derivate fino all’ordine <span class="math notranslate nohighlight">\(p-1\)</span>, mentre deve risultare</p>
+<div class="math notranslate nohighlight">
+\[
+g^{(p)}(x^*)\neq 0.
+\]</div>
+<p>c.v.d. <span class="math notranslate nohighlight">\(\odot\)</span></p>
+</section>
+</section>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="parte-vi-metodo-di-newton">
@@ -1825,12 +2270,14 @@ k= 5, x=1.414213562373095, f(x)=4.441e-16, step=1.5947243525715749e-12
 <div class="math notranslate nohighlight">
 \[
 g(x)=x-\frac{f(x)}{f'(x)}.
+\tag{20.1}
 \]</div>
 <p>Derivando,</p>
 <div class="math notranslate nohighlight">
 \[
 g'(x)=
 \frac{f(x)f''(x)}{[f'(x)]^2}.
+\tag{20.2}
 \]</div>
 <p>Se <span class="math notranslate nohighlight">\(x^{*}\)</span> è una radice semplice, cioè</p>
 <div class="math notranslate nohighlight">
@@ -1843,10 +2290,25 @@ f(x^{*})=0,\qquad f'(x^{*})\neq 0,
 g'(x^{*})=0.
 \]</div>
 <p>Questo spiega perché Newton ha convergenza almeno quadratica vicino a una radice semplice.</p>
+<p>Il risultato sulla convergenza locale del metodo di Newton può essere formalizzato nel seguente teorema.</p>
+<section id="teorema-di-convergenza-di-newton">
+<h3>Teorema di convergenza di Newton<a class="headerlink" href="#teorema-di-convergenza-di-newton" title="Link to this heading">#</a></h3>
+<p>Se <span class="math notranslate nohighlight">\(f(x)\in C^2_{[a,b]}\)</span>, <span class="math notranslate nohighlight">\(f(x^*)=0\)</span> e <span class="math notranslate nohighlight">\(f'(x^*)\neq 0\)</span>, allora esiste un intervallo <span class="math notranslate nohighlight">\([x^*-\rho,x^*+\rho]\)</span> tale che se <span class="math notranslate nohighlight">\(x_0\in[x^*-\rho,x^*+\rho]\)</span> il metodo di Newton converge ad <span class="math notranslate nohighlight">\(x^*\)</span>.</p>
+<section id="id3">
+<h4>Dimostrazione<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<p>Il Teorema in Sezione 14 regola la convergenza ad <span class="math notranslate nohighlight">\(x^*\)</span> della successione <span class="math notranslate nohighlight">\(x_{k+1}=g(x_k)\)</span> e dice che questo avviene se <span class="math notranslate nohighlight">\(|g'(x)|&lt;1\)</span> per <span class="math notranslate nohighlight">\(x\in[x^*-\rho,x^*+\rho]\)</span>; nel nostro caso per la (20.2) è:</p>
+<div class="math notranslate nohighlight">
+\[
+g'(x)=\frac{f(x)f''(x)}{[f'(x)]^2}
+\]</div>
+<p>ed è facile vedere che nelle ipotesi date sulla <span class="math notranslate nohighlight">\(f\)</span>, la <span class="math notranslate nohighlight">\(g'(x)\)</span> è continua e si annulla in <span class="math notranslate nohighlight">\(x^*\)</span>; allora esiste un intorno di <span class="math notranslate nohighlight">\(x^*\)</span> per cui <span class="math notranslate nohighlight">\(|g'(x)|&lt;1\)</span> c.v.d. <span class="math notranslate nohighlight">\(\odot\)</span></p>
+</section>
+</section>
 </section>
 <section id="ordine-quadratico-di-newton">
 <h2>21. Ordine quadratico di Newton<a class="headerlink" href="#ordine-quadratico-di-newton" title="Link to this heading">#</a></h2>
-<p>Se <span class="math notranslate nohighlight">\(f\)</span> è sufficientemente regolare e <span class="math notranslate nohighlight">\(x^{*}\)</span> è una radice semplice, allora Newton ha ordine di convergenza 2.</p>
+<p>Se <span class="math notranslate nohighlight">\(f\)</span> è sufficientemente regolare e <span class="math notranslate nohighlight">\(x^{*}\)</span> è una radice semplice, allora <span class="math notranslate nohighlight">\(g'(x^{*})=0\)</span> e
+Newton ha ordine di convergenza 2.</p>
 <p>Più precisamente,</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1872,10 +2334,11 @@ g'(x^{*})=0.
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;k  errore           rapporto |e_{k+1}|/|e_k|^2&quot;</span><span class="p">)</span>
 <span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">xk</span> <span class="o">-</span> <span class="n">xstar</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">xk</span><span class="p">,</span> <span class="n">fxk</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">hist</span><span class="p">]</span>
 
-<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">errors</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+   <span class="k">if</span> <span class="n">errors</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">ratio</span> <span class="o">=</span> <span class="n">errors</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">errors</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">1d</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">errors</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">      </span><span class="si">{</span><span class="n">ratio</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
 </pre></div>
 </div>
 </div>
@@ -1889,28 +2352,182 @@ g'(x^{*})=0.
 </div>
 </div>
 </div>
+<p>Il comportamento dell’ordine di convergenza del metodo di Newton è precisato dal seguente teorema.</p>
+<section id="teorema-sull-ordine-di-convergenza-di-newton">
+<h3>Teorema sull’ordine di convergenza di Newton<a class="headerlink" href="#teorema-sull-ordine-di-convergenza-di-newton" title="Link to this heading">#</a></h3>
+<p>Se <span class="math notranslate nohighlight">\(f(x)\in C^3_{[a,b]}\)</span>, <span class="math notranslate nohighlight">\(f(x^*)=0\)</span> e <span class="math notranslate nohighlight">\(f'(x^*)\neq 0\)</span>, allora esiste un intervallo <span class="math notranslate nohighlight">\([x^*-\rho,x^*+\rho]\)</span> tale che se <span class="math notranslate nohighlight">\(x_0\in[x^*-\rho,x^*+\rho]\)</span> il metodo di Newton ha ordine di convergenza 2.</p>
+<section id="id4">
+<h4>Dimostrazione<a class="headerlink" href="#id4" title="Link to this heading">#</a></h4>
+<p>Per il teorema in Sezione 17, essendo <span class="math notranslate nohighlight">\(g'(x^*)=0\)</span> si ha che l’ordine di convergenza è 2.</p>
+<p>Se poi calcoliamo la derivata seconda di <span class="math notranslate nohighlight">\(g(x)\)</span> troviamo:</p>
+<div class="math notranslate nohighlight">
+\[
+g''(x)
+=
+\frac{
+[f'(x)f''(x)+f(x)f'''(x)][f'(x)]^2
+-
+2f(x)f'(x)[f''(x)]^2
+}{
+[f'(x)]^4
+}.
+\]</div>
+<p>Valutandola in <span class="math notranslate nohighlight">\(x^*\)</span> si ha</p>
+<div class="math notranslate nohighlight">
+\[
+g''(x^*)
+=
+\frac{f''(x^*)}{f'(x^*)}.
+\tag{21.1}
+\]</div>
+<p>ne segue che se <span class="math notranslate nohighlight">\(f''(x^*)\neq 0\)</span> allora anche <span class="math notranslate nohighlight">\(g''(x^*)\neq 0\)</span> e quindi, per il teorema in Sezione 17, l’ordine <span class="math notranslate nohighlight">\(p\)</span> è esattamente 2. Dalla relazione (21.1) si ha che il fattore di convergenza vale</p>
+<div class="math notranslate nohighlight">
+\[
+c
+=
+\frac{1}{2}
+\left|
+\frac{f''(x^*)}{f'(x^*)}
+\right|.
+\]</div>
+<p>Se invece <span class="math notranslate nohighlight">\(f''(x^*)=0\)</span> allora l’ordine è almeno pari a 3.</p>
+<p><span class="math notranslate nohighlight">\(\odot\)</span></p>
+</section>
+</section>
 </section>
 <section id="radici-multiple">
 <h2>22. Radici multiple<a class="headerlink" href="#radici-multiple" title="Link to this heading">#</a></h2>
-<p>Se <span class="math notranslate nohighlight">\(x^{*}\)</span> è una radice di molteplicità <span class="math notranslate nohighlight">\(m&gt;1\)</span>, allora</p>
+<p>Se <span class="math notranslate nohighlight">\(x^*\)</span> è una radice di molteplicità <span class="math notranslate nohighlight">\(m&gt;1\)</span>, allora</p>
 <div class="math notranslate nohighlight">
 \[
-f(x)=(x-x^{*})^m q(x),
+f(x)=(x-x^*)^m q(x),
 \qquad
-q(x^{*})\neq 0.
+q(x^*)\neq 0.
 \]</div>
-<p>In questo caso Newton perde la convergenza quadratica e diventa in generale solo lineare.</p>
-<p>Si può mostrare che</p>
+<p>Derivando si ottiene</p>
 <div class="math notranslate nohighlight">
 \[
-g'(x^{*})=1-\frac{1}{m}.
+f'(x)
+=
+m(x-x^*)^{m-1}q(x)
++
+(x-x^*)^m q'(x).
 \]</div>
-<p>Quindi, se <span class="math notranslate nohighlight">\(m=2\)</span>,</p>
+<p>Pertanto, per <span class="math notranslate nohighlight">\(x\neq x^*\)</span> sufficientemente vicino alla radice,</p>
 <div class="math notranslate nohighlight">
 \[
-g'(x^{*})=\frac{1}{2}.
+\frac{f(x)}{f'(x)}
+=
+\frac{(x-x^*)q(x)}
+{mq(x)+(x-x^*)q'(x)}.
 \]</div>
-<p>Poichè la derivata ha valore assoluto minore di uno, ma è non nulla, la convergenza è solo lineare.</p>
+<p>Nel caso di Newton si ha <span class="math notranslate nohighlight">\(g(x)=x-\frac{f(x)}{f'(x)}\)</span> e quindi</p>
+<div class="math notranslate nohighlight">
+\[
+g(x)
+=
+x-
+\frac{(x-x^*)q(x)}
+{mq(x)+(x-x^*)q'(x)},
+\]</div>
+<p>da cui si può facilmente determinare che</p>
+<div class="math notranslate nohighlight">
+\[
+g'(x^*)=1-\frac{1}{m}.
+\tag{7.7}
+\]</div>
+<p>Allora, poiché <span class="math notranslate nohighlight">\(m&gt;1\)</span>, risulta <span class="math notranslate nohighlight">\(|g'(x)|&lt;1\)</span> in un intorno di <span class="math notranslate nohighlight">\(x^*\)</span> e per il teorema in Sezione 14 il metodo risulta ancora convergente ma, per il teorema in Sezione 17 l’ordine di convergenza è solo 1.</p>
+<p>Il fattore di convergenza è quindi</p>
+<div class="math notranslate nohighlight">
+\[
+\gamma
+=
+|g'(x^*)|
+=
+1-\frac{1}{m}.
+\]</div>
+<p>Per esempio, se <span class="math notranslate nohighlight">\(m=2\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+g'(x^*)=\frac{1}{2}.
+\]</div>
+<p>Poiché la derivata ha valore assoluto minore di uno, ma è non nulla, la convergenza è solo lineare.</p>
+<section id="esempio-il-monomio-f-x-x-m">
+<h3>Esempio: il monomio <span class="math notranslate nohighlight">\(f(x)=x^m\)</span><a class="headerlink" href="#esempio-il-monomio-f-x-x-m" title="Link to this heading">#</a></h3>
+<p>Consideriamo il monomio</p>
+<div class="math notranslate nohighlight">
+\[
+f(x)=x^m,
+\qquad m&gt;1.
+\]</div>
+<p>Il punto <span class="math notranslate nohighlight">\(x^*=0\)</span> è una radice di molteplicità <span class="math notranslate nohighlight">\(m\)</span>.</p>
+<p>La derivata è</p>
+<div class="math notranslate nohighlight">
+\[
+f'(x)=mx^{m-1}.
+\]</div>
+<p>Pertanto, per <span class="math notranslate nohighlight">\(x\neq 0\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{f(x)}{f'(x)}
+=
+\frac{x^m}{mx^{m-1}}
+=
+\frac{x}{m}.
+\]</div>
+<p>L’iterazione di Newton diventa</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}
+=
+x_k-\frac{f(x_k)}{f'(x_k)}.
+\]</div>
+<p>Sostituendo l’espressione precedente si ottiene</p>
+<div class="math notranslate nohighlight">
+\[
+x_{k+1}
+=
+x_k-\frac{x_k}{m}
+=
+\frac{m-1}{m}x_k.
+\]</div>
+<p>Poiché la radice è <span class="math notranslate nohighlight">\(x^*=0\)</span>, l’errore è</p>
+<div class="math notranslate nohighlight">
+\[
+e_k=|x_k-x^*|=|x_k|.
+\]</div>
+<p>Di conseguenza,</p>
+<div class="math notranslate nohighlight">
+\[
+e_{k+1}
+=
+|x_{k+1}|
+=
+\frac{m-1}{m}|x_k|
+=
+\frac{m-1}{m}e_k.
+\]</div>
+<p>A ogni iterazione l’errore viene quindi moltiplicato per la costante</p>
+<div class="math notranslate nohighlight">
+\[
+c=\frac{m-1}{m},
+\qquad 0&lt;c&lt;1.
+\]</div>
+<p>Il metodo converge dunque <strong>linearmente</strong> verso <span class="math notranslate nohighlight">\(x^*=0\)</span>, con fattore di convergenza</p>
+<div class="math notranslate nohighlight">
+\[
+c=\frac{m-1}{m}.
+\]</div>
+<p>La funzione di iterazione è</p>
+<div class="math notranslate nohighlight">
+\[
+g(x)=\frac{m-1}{m}x,
+\]</div>
+<p>e quindi</p>
+<div class="math notranslate nohighlight">
+\[
+g'(0)=\frac{m-1}{m}\neq 0.
+\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Esempio: radice doppia in x=1</span>
@@ -1959,6 +2576,7 @@ k  x_k              errore       rapporto e_{k+1}/e_k
 </div>
 </div>
 </section>
+</section>
 <section id="newton-modificato-per-radici-multiple">
 <h2>23. Newton modificato per radici multiple<a class="headerlink" href="#newton-modificato-per-radici-multiple" title="Link to this heading">#</a></h2>
 <p>Se la molteplicità <span class="math notranslate nohighlight">\(m\)</span> della radice è nota, si può usare</p>
@@ -1970,6 +2588,9 @@ x_{k+1}=x_k-m\frac{f(x_k)}{f'(x_k)}.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">newton_modified</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span> <span class="n">tol_f</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+    <span class="c1"># Radice esatta, nota in questo esempio didattico</span>
+    <span class="n">x_star</span> <span class="o">=</span> <span class="mf">1.0</span>
+
     <span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
     <span class="n">hist</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
 
@@ -1985,11 +2606,26 @@ x_{k+1}=x_k-m\frac{f(x_k)}{f'(x_k)}.
         <span class="c1"># Evita divisioni per zero o per numeri troppo piccoli</span>
         <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dfx</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span>
-                <span class="s2">&quot;Derivata nulla o troppo piccola: il metodo non può proseguire.&quot;</span>
+                <span class="s2">&quot;Derivata nulla o troppo piccola: &quot;</span>
+                <span class="s2">&quot;il metodo non può proseguire.&quot;</span>
             <span class="p">)</span>
 
         <span class="n">x_new</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">fx</span> <span class="o">/</span> <span class="n">dfx</span>
         <span class="n">hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_new</span><span class="p">)</span>
+
+        <span class="c1"># Errori rispetto alla radice esatta</span>
+        <span class="n">error_k</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_star</span><span class="p">)</span>
+        <span class="n">error_k1</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x_new</span> <span class="o">-</span> <span class="n">x_star</span><span class="p">)</span>
+
+        <span class="c1"># Rapporto per verificare la convergenza quadratica</span>
+        <span class="n">rapporto</span> <span class="o">=</span> <span class="n">error_k1</span> <span class="o">/</span> <span class="n">error_k</span><span class="o">**</span><span class="mi">2</span>
+
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;k=</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;|e_k|=</span><span class="si">{</span><span class="n">error_k</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;|e_(k+1)|=</span><span class="si">{</span><span class="n">error_k1</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;|e_(k+1)|/|e_k|^2=</span><span class="si">{</span><span class="n">rapporto</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x_new</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">tol</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">x_new</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">hist</span>
@@ -2002,23 +2638,36 @@ x_{k+1}=x_k-m\frac{f(x_k)}{f'(x_k)}.
 <span class="c1"># Esempio con radice doppia in x = 1</span>
 <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
 
-<span class="c1"># Derivata:</span>
-<span class="c1"># f(x) = (x - 1)^2 (x + 2)</span>
 <span class="c1"># f&#39;(x) = 2(x - 1)(x + 2) + (x - 1)^2</span>
 <span class="n">df</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
 
-<span class="n">root</span><span class="p">,</span> <span class="n">it</span><span class="p">,</span> <span class="n">hist_mod</span> <span class="o">=</span> <span class="n">newton_modified</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">root</span><span class="p">,</span> <span class="n">it</span><span class="p">,</span> <span class="n">hist_mod</span> <span class="o">=</span> <span class="n">newton_modified</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">,</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">x0</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span>
+    <span class="n">m</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Radice:&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Radice:&quot;</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iterazioni:&quot;</span><span class="p">,</span> <span class="n">it</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iterati:&quot;</span><span class="p">)</span>
+
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">xk</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hist_mod</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;k=</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">, x_k=</span><span class="si">{</span><span class="n">xk</span><span class="si">:</span><span class="s2">.15f</span><span class="si">}</span><span class="s2">, f(x_k)=</span><span class="si">{</span><span class="n">f</span><span class="p">(</span><span class="n">xk</span><span class="p">)</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;k=</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">, &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;x_k=</span><span class="si">{</span><span class="n">xk</span><span class="si">:</span><span class="s2">.15f</span><span class="si">}</span><span class="s2">, &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;f(x_k)=</span><span class="si">{</span><span class="n">f</span><span class="p">(</span><span class="n">xk</span><span class="p">)</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Radice: 1.0000000000000036
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k= 0, |e_k|=8.000e-01, |e_(k+1)|=7.619e-02, |e_(k+1)|/|e_k|^2=0.119048
+k= 1, |e_k|=7.619e-02, |e_(k+1)|=9.320e-04, |e_(k+1)|/|e_k|^2=0.160550
+k= 2, |e_k|=9.320e-04, |e_(k+1)|=1.447e-07, |e_(k+1)|/|e_k|^2=0.166589
+k= 3, |e_k|=1.447e-07, |e_(k+1)|=3.553e-15, |e_(k+1)|/|e_k|^2=0.169674
+
+Radice: 1.0000000000000036
 Iterazioni: 4
 Iterati:
 k= 0, x_k=1.800000000000000, f(x_k)=2.432e+00
@@ -2051,10 +2700,17 @@ k= 4, x_k=1.000000000000004, f(x_k)=3.787e-29
 <li><p>derivata molto piccola: la tangente è quasi orizzontale e il nuovo iterato può essere molto lontano;</p></li>
 <li><p>più radici: il metodo può convergere a una radice diversa da quella attesa.</p></li>
 </ol>
+<figure class="align-center" id="id9">
+<a class="reference internal image-reference" href="../_images/figura2.png"><img alt="Fallimento Newton" src="../_images/figura2.png" style="width: 1000px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Esempi di fallimento del metodo di Newton.</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <p align="center">
-  <img src="fig_eq_nonlin\figura2.png"  width="700">
-  <p align="center">
-</p><p>Per questo motivo, spesso si usa una strategia ibrida:</p>
+  <img src="fig_eq_nonlin\figura2.png"  width="1000">
+</p>
+<p>Per questo motivo, spesso si usa una strategia ibrida:</p>
 <ol class="arabic simple">
 <li><p>bisezione per localizzare una radice in modo robusto;</p></li>
 <li><p>Newton per accelerare la convergenza quando si è vicini.</p></li>
@@ -2142,7 +2798,6 @@ k&gt;\mathrm{maxIter}.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Perché usare sia il test sul passo sia il test sul residuo.</span>
-<span class="c1"># Due esempi schematici robusti per VS Code.</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
@@ -2620,8 +3275,8 @@ f(x_k)
 \frac{x_k-x_{k-1}}{f(x_k)-f(x_{k-1})}.
 \]</div>
 </section>
-<section id="id2">
-<h2>32. Interpretazione geometrica<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<section id="id5">
+<h2>32. Interpretazione geometrica<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
 <p>Newton usa la tangente alla curva nel punto <span class="math notranslate nohighlight">\(x_k\)</span>.</p>
 <p>Il metodo delle secanti usa invece la retta secante passante per i due punti</p>
 <div class="math notranslate nohighlight">
@@ -3117,48 +3772,65 @@ s_2(x)=\frac{2443}{729}.
 <p>Nel nostro esempio, dopo Sturm possiamo applicare la bisezione su <span class="math notranslate nohighlight">\((-1,0)\)</span> e su <span class="math notranslate nohighlight">\((1,2)\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Raffinamento numerico delle radici isolate usando la bisezione.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Polinomio con una radice in (-1, 0)</span>
+<span class="c1"># e una radice in (1, 2)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">p</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span>
 
+
+<span class="c1"># Raffinamento numerico delle radici isolate usando la bisezione</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">bisection_basic</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
     <span class="n">fa</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
     <span class="n">fb</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">fa</span><span class="o">*</span><span class="n">fb</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;La funzione non cambia segno nell&#39;intervallo.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Controllo degli estremi</span>
+    <span class="k">if</span> <span class="n">fa</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">fb</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">b</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="c1"># La funzione deve cambiare segno nell&#39;intervallo</span>
+    <span class="k">if</span> <span class="n">fa</span> <span class="o">*</span> <span class="n">fb</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;La funzione non cambia segno nell&#39;intervallo.&quot;</span>
+        <span class="p">)</span>
 
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iter</span><span class="p">):</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
         <span class="n">fm</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">tol</span> <span class="ow">or</span> <span class="n">fm</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">m</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span>
+        <span class="c1"># Criterio di arresto</span>
+        <span class="k">if</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">tol</span> <span class="ow">or</span> <span class="n">fm</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">m</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
 
-        <span class="k">if</span> <span class="n">fa</span><span class="o">*</span><span class="n">fm</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Scelta del sottointervallo</span>
+        <span class="k">if</span> <span class="n">fa</span> <span class="o">*</span> <span class="n">fm</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">b</span> <span class="o">=</span> <span class="n">m</span>
             <span class="n">fb</span> <span class="o">=</span> <span class="n">fm</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">a</span> <span class="o">=</span> <span class="n">m</span>
             <span class="n">fa</span> <span class="o">=</span> <span class="n">fm</span>
 
-    <span class="k">return</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">),</span> <span class="n">max_iter</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">),</span> <span class="n">max_iter</span>
 
+
+<span class="c1"># Raffinamento delle due radici</span>
 <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]:</span>
     <span class="n">r</span><span class="p">,</span> <span class="n">it</span> <span class="o">=</span> <span class="n">bisection_basic</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Intervallo (</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">) -&gt; radice = </span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="s2">.15f</span><span class="si">}</span><span class="s2">, p(r) = </span><span class="si">{</span><span class="n">p</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">, iterazioni = </span><span class="si">{</span><span class="n">it</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Intervallo (</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">) -&gt; &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;radice = </span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="s2">.15f</span><span class="si">}</span><span class="s2">, &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;p(r) = </span><span class="si">{</span><span class="n">p</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">, &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;iterazioni = </span><span class="si">{</span><span class="n">it</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">40</span><span class="p">],</span> <span class="n">line</span> <span class="mi">26</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span> 
-<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="k">return</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">),</span> <span class="n">max_iter</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span> 
-<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]:</span>
-<span class="ne">---&gt; </span><span class="mi">26</span>     <span class="n">r</span><span class="p">,</span> <span class="n">it</span> <span class="o">=</span> <span class="n">bisection_basic</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">27</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Intervallo (</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">) -&gt; radice = </span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="s2">.15f</span><span class="si">}</span><span class="s2">, p(r) = </span><span class="si">{</span><span class="n">p</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">, iterazioni = </span><span class="si">{</span><span class="n">it</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;p&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Intervallo (-1, 0) -&gt; radice = -0.618033988749630, p(r) = -5.917e-13, iterazioni = 40
+Intervallo (1, 2) -&gt; radice = 1.618033988749630, p(r) = -5.915e-13, iterazioni = 40
 </pre></div>
 </div>
 </div>
@@ -3270,7 +3942,8 @@ f(x)=(x-2)^3.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Newton standard: 2.0000176009457964 it: 27
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k= 0, |e_k|=2.000e+00, |e_(k+1)|=1.000e+00, |e_(k+1)|/|e_k|^2=0.250000
+Newton standard: 2.0000176009457964 it: 27
 Newton modificato: 2.0 it: 1
 </pre></div>
 </div>
@@ -3435,19 +4108,15 @@ p(x)=x^3-x
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sequenza di Sturm:
-x**3 - x
-3*x**2 - 1
-2*x/3
-1
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">45</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">x_sym</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> 
 
-Conteggio delle radici con Sturm:
-(-2,-0.5): 1 radici
-  radice: -0.9999999999998863
-(-0.5,0.5): 1 radici
-  radice: 0.0
-(0.5,2): 1 radici
-  radice: 0.9999999999998863
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;sympy&#39;
 </pre></div>
 </div>
 </div>
@@ -3545,7 +4214,7 @@ Conteggio delle radici con Sturm:
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="1_Floating_point_roundoff_revisionato.html"
+       href="1_Floating_point_roundoff.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
@@ -3590,6 +4259,7 @@ Conteggio delle radici con Sturm:
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perche-servono-metodi-numerici">2. Perché servono metodi numerici</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bis-molteplicita-di-una-radice">2bis. Molteplicità di una radice</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#caratterizzazione-tramite-derivate">Caratterizzazione tramite derivate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-pratico"><em>Esempio pratico</em></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#osservazione-geometrica">Osservazione geometrica</a></li>
 </ul>
 </li>
@@ -3603,7 +4273,10 @@ Conteggio delle radici con Sturm:
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-iii-metodo-di-bisezione">Parte III — Metodo di bisezione</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-degli-zeri">6. Teorema degli zeri</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-di-bisezione">7. Algoritmo di bisezione</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritmo-di-bisezione">7. Algoritmo di bisezione</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergenza-globale-della-bisezione">Convergenza globale della bisezione</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabella-delle-iterazioni-di-bisezione">8. Tabella delle iterazioni di bisezione</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numero-di-iterazioni-richieste">9. Numero di iterazioni richieste</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-di-arresto-e-aritmetica-finita">10. Test di arresto e aritmetica finita</a></li>
@@ -3617,6 +4290,10 @@ Conteggio delle radici con Sturm:
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condizione-di-convergenza-locale">14. Condizione di convergenza locale</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-di-convergenza-locale">Teorema di convergenza locale</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dimostrazione">Dimostrazione</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione-geometrica-dell-iterazione-di-punto-fisso">Interpretazione geometrica dell’iterazione di punto fisso</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretazione">Interpretazione</a></li>
 </ul>
@@ -3625,8 +4302,17 @@ Conteggio delle radici con Sturm:
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-v-ordine-di-convergenza">Parte V — Ordine di convergenza</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definizione-di-ordine-di-convergenza">15. Definizione di ordine di convergenza</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#significato-pratico">16. Significato pratico</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ordine-di-convergenza-per-iterazioni-funzionali">17. Ordine di convergenza per iterazioni funzionali</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#significato-pratico">16. Significato pratico</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stima-numerica-dell-ordine-di-convergenza">Stima numerica dell’ordine di convergenza</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ordine-di-convergenza-per-iterazioni-funzionali">17. Ordine di convergenza per iterazioni funzionali</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-sull-ordine-di-convergenza">Teorema sull’ordine di convergenza</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Dimostrazione</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-vi-metodo-di-newton">Parte VI — Metodo di Newton</a><ul class="pst-show_toc_level nav section-nav flex-column">
@@ -3635,9 +4321,24 @@ Conteggio delle radici con Sturm:
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grafico-della-tangente-di-newton">Grafico della tangente di Newton</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergenza-locale-del-metodo-di-newton">20. Convergenza locale del metodo di Newton</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ordine-quadratico-di-newton">21. Ordine quadratico di Newton</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#radici-multiple">22. Radici multiple</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergenza-locale-del-metodo-di-newton">20. Convergenza locale del metodo di Newton</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-di-convergenza-di-newton">Teorema di convergenza di Newton</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Dimostrazione</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ordine-quadratico-di-newton">21. Ordine quadratico di Newton</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-sull-ordine-di-convergenza-di-newton">Teorema sull’ordine di convergenza di Newton</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Dimostrazione</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#radici-multiple">22. Radici multiple</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esempio-il-monomio-f-x-x-m">Esempio: il monomio <span class="math notranslate nohighlight">\(f(x)=x^m\)</span></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#newton-modificato-per-radici-multiple">23. Newton modificato per radici multiple</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problemi-pratici-del-metodo-di-newton">24. Problemi pratici del metodo di Newton</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tre-casi-in-cui-newton-puo-fallire-o-comportarsi-male">Tre casi in cui Newton può fallire o comportarsi male</a></li>
@@ -3661,7 +4362,7 @@ Conteggio delle radici con Sturm:
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#parte-ix-metodo-delle-secanti">Parte IX — Metodo delle secanti</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivazione">31. Motivazione</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">32. Interpretazione geometrica</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">32. Interpretazione geometrica</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grafico-della-secante">Grafico della secante</a></li>
 </ul>
 </li>
